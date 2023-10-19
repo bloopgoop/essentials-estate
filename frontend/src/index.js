@@ -8,8 +8,8 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import Dashboard from './pages/Dashboard';
 import ErrorPage from './pages/Error';
-import Login from './pages/Login';
-import Register from './pages/Register/Register';
+import Login from './pages/Authenticate/Login';
+import Register from './pages/Authenticate/Register';
 import Contact from './pages/Contact';
 
 

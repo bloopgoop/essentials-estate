@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import './Register.css';
+import './Authenticate.css';
 import img from './register-background.jpg';
 
 
 /*
 not finished
 change <form> to router dom's form.
-change <input type='submit'> to <button type='submit'>.
 add client side checking
+also style error messages
 */
 
 const Register = () => {
@@ -35,19 +35,20 @@ const Register = () => {
     };
 
     return (
-        <div id='register'>
+        <div id='authenticate'>
 
             <div id='image-container'>
                 <img id='img' src={img} alt='background' />
             </div>
 
-            <div id='register-container'>
+            <div className='auth-container'>
                 <h1>Sign Up</h1>
                 <p>Create Your Account</p>
                 <form 
                 onSubmit={e => onSubmit(e)}
                 name='register-form'
                 id='register-form'
+                className='auth-form'
                 >
                     <label htmlFor='name'>Full Name</label>
                     <input
@@ -60,18 +61,7 @@ const Register = () => {
                         required
                     />
 
-                    <label htmlFor='email'>Email</label>
-                    <input
-                        type='email'
-                        placeholder='Email Address'
-                        name='email'
-                        id='email'
-                        value={email}
-                        onChange={e => onChange(e)}
-                        required
-                    />
-                    
-                    <label htmlFor='username'>Create a password</label>
+                    <label htmlFor='username'>Username</label>
                     <input
                         type='text'
                         placeholder='Username'
@@ -80,6 +70,17 @@ const Register = () => {
                         value={username}
                         onChange={e => onChange(e)}
                         minLength='6'
+                        required
+                    />
+
+                    <label htmlFor='email'>Email</label>
+                    <input
+                        type='email'
+                        placeholder='Email Address'
+                        name='email'
+                        id='email'
+                        value={email}
+                        onChange={e => onChange(e)}
                         required
                     />
 
@@ -108,9 +109,14 @@ const Register = () => {
                         />
                     <input type='submit' value='Register' />
                 </form>
-                <p>
-                    Already have an account? <Link to='/login'>Sign In</Link>
-                </p>
+                <div className='footer'>
+                    <p>
+                        Already have an account? <Link to='/login'>Sign In</Link>
+                    </p>
+                    <p>
+                        Just browsing?  <Link to='/'>Continue as guest</Link>
+                    </p>
+                </div>
             </div>
         </div>
     );

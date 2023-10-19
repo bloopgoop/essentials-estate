@@ -37,6 +37,12 @@ export default function Root() {
               <li>
                 <Link to={`/contacts/2`}>Your Friend</Link>
               </li>
+              <li>
+                <Link to={`/login`}>Login</Link>
+              </li>
+              <li>
+                <Link to={`/register`}>Register</Link>
+              </li>
             </ul>
           </nav>
         </div>

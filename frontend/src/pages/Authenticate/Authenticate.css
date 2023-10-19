@@ -1,4 +1,4 @@
-#register {
+#authenticate {
     display: flex;
     overflow: hidden;
 }
@@ -15,7 +15,7 @@
 }
 
 
-#register-container {
+.auth-container {
     position: absolute;
     right: 0;
     height: 100vh;
@@ -27,20 +27,30 @@
     align-items: center;
     overflow-y: auto;
 }
-#register-form {
+.auth-form {
+    padding-top: 30px;
+    flex-grow: 3;
     width: 80%;
 }
-#register-form label{
+.auth-form label{
     display: block;
     margin-top: 10px;
 }
-#register-form input {
+.auth-form input {
     display: block;
     width: 100%;
     margin-bottom: 20px;
 }
-#register-form input[type="submit"] {
-    float: right;
+.auth-form input[type="submit"] {
     background-color: var(--primary-color);
     color: white;
+}
+
+
+.footer {
+    display: flex;
+    justify-content: center;
+}
+.footer p {
+    padding: 0 20px;
 }
