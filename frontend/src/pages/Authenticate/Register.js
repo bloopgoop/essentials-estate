@@ -9,6 +9,7 @@ not finished
 change <form> to router dom's form.
 add client side checking
 also style error messages
+add check box saying 'agree to terms and conditions'
 */
 
 const Register = () => {
