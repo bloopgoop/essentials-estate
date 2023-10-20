@@ -1,27 +1,20 @@
 #navbar {
-    height: 3rem;
+    height: 5rem;
     width: 100%;
     display: flex;
     justify-content: space-between;
     flex-direction: row;
-    line-height: 3rem;
-}
-
-/* Direct child padding */
-#navbar > * {
-    padding-left: 2rem;
-    padding-right: 2rem;
-    display: flex;
     align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--secondary-text-color);
 }
-#navbar > * > input, button {
+#navbar > input {
     height: 2rem;
     line-height: 2;
+    flex: 1;
 }
 
-#navbar img {
-    margin: 0 10px
-}
 
 #search-btn {
     font-size: .8rem;
@@ -34,15 +27,17 @@
 #profile {
     border: 2px solid var(--text-color);
     border-radius: 50%;
-    height: 2.4rem;
-    width: 2.4rem;
+    height: 2.3rem;
+    width: 2.3rem;
     object-fit: cover;
     overflow: hidden;
     background-color: white;
+    margin-left: 1.5rem;
 }
 
 .nav-icons {
-    height: 1.5rem;
-    width: 1.5rem;
+    height: 1.3rem;
+    width: 1.3rem;
     object-fit: cover;
+    margin: 0 1.5rem;
 }
