@@ -11,7 +11,12 @@ import ErrorPage from './pages/Error';
 import Login from './pages/Authenticate/Login';
 import Register from './pages/Authenticate/Register';
 import Contact from './pages/Contact';
+
 import Test from './testcss'
+import Profile from './pages/Profile/Profile';
+
+import Profilemain from "./pages/Profile/Profilemain";
+import Assets from './pages/Profile/Assets';
 
 
 const router = createBrowserRouter([
@@ -41,6 +46,36 @@ const router = createBrowserRouter([
     element: <Test />,
     errorElement: <ErrorPage />,
   },
+    {
+    path: "profile",
+    element: <Profile />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "/profile",
+        element: <Profilemain />
+      },
+      {
+        path: "/profile/assets",
+        element: <Assets />
+      }
+    ]
+  }
+  //   children: [
+  //     {
+  //       path: "/payment"
+  //     },
+  //     {
+  //       path: "/assets"
+  //     },
+  //     {
+  //       path: "/status"
+  //     },
+  //     {
+  //       path: "/watchlist"
+  //     }
+  //   ]
+  // }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

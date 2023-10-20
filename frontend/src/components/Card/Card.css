@@ -1,0 +1,16 @@
+#card-container {
+    display: inline;
+}
+
+.card--image {
+    border-radius: 9px;
+}
+
+.card--stats {
+    display: flex;
+    align-items: center;
+}
+
+.card--star {
+    height: 14px;
+}
