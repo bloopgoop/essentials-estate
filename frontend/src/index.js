@@ -13,6 +13,9 @@ import Register from './pages/Authenticate/Register';
 import Contact from './pages/Contact';
 import Profile from './pages/Profile/Profile';
 
+import Profilemain from "./pages/Profile/Profilemain";
+import Assets from './pages/Profile/Assets';
+
 
 const router = createBrowserRouter([
   {
@@ -40,6 +43,16 @@ const router = createBrowserRouter([
     path: "profile",
     element: <Profile />,
     errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "/profile",
+        element: <Profilemain />
+      },
+      {
+        path: "/profile/assets",
+        element: <Assets />
+      }
+    ]
   }
   //   children: [
   //     {

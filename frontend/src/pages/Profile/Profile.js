@@ -1,7 +1,6 @@
 import Sidebar from "../../components/Sidebar/Sidebar";
 import Navbar from "../../components/Navbar/Navbar";
 import "./Profile.css"
-import Person from "../../assets/person.jpg"
 import { Outlet } from "react-router-dom";
 
 
@@ -14,25 +13,8 @@ export default function Profile() {
           <Sidebar />
           <div style={{ width: '100%', marginLeft: '2rem', marginRight: '3rem' }}>
             <Navbar />
-            {console.log(<Outlet/>)}
-            {<Outlet /> ? <Outlet />: <Index />}
-            {console.log(<Outlet/>)}
+            <Outlet></Outlet>
           </div>
       </>
     );
-  }
-
-function Index(){
-  return(
-  <div id="profile-box">
-    <img src={Person} height={260} width={260}/>
-    <div className="items">
-      <h1>First Last</h1>
-      <p>Username:</p>
-      <p>Email:</p>
-      <p>Phone:</p>
-      <p>DOB:</p>
-    </div>
-  </div>
-  )
 }

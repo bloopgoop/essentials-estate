@@ -15,8 +15,8 @@ function Sidebar() {
             <nav>
                 <ul>
                     <div>
-                        <li><Link to="/login">Login</Link></li>
-                        <li><Link to="/">Home</Link></li>
+                        <li><Link to="/profile">Profile</Link></li>
+                        <li><Link to="assets">Assets</Link></li>
                         <li><Link to="/search">Search</Link></li>
                         <li><Link to="/watching">Watching</Link></li>
                         <li><Link to="/create">Create</Link></li>
