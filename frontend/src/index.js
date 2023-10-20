@@ -17,6 +17,8 @@ import Profile from './pages/Profile/Profile';
 
 import Profilemain from "./pages/Profile/Profilemain";
 import Assets from './pages/Profile/Assets';
+import Status from './pages/Profile/Status';
+import Watchlist from './pages/Profile/Watchlist';
 
 
 const router = createBrowserRouter([
@@ -58,24 +60,17 @@ const router = createBrowserRouter([
       {
         path: "/profile/assets",
         element: <Assets />
+      },
+      {
+        path: "/profile/status",
+        element: <Status />
+      },
+      {
+        path: "/profile/watchlist",
+        element: <Watchlist />
       }
     ]
   }
-  //   children: [
-  //     {
-  //       path: "/payment"
-  //     },
-  //     {
-  //       path: "/assets"
-  //     },
-  //     {
-  //       path: "/status"
-  //     },
-  //     {
-  //       path: "/watchlist"
-  //     }
-  //   ]
-  // }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
