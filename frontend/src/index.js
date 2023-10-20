@@ -6,11 +6,13 @@ import {
 } from "react-router-dom";
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import Dashboard from './pages/Dashboard';
+import Dashboard from './pages/Dashboard/Dashboard';
 import ErrorPage from './pages/Error';
 import Login from './pages/Authenticate/Login';
 import Register from './pages/Authenticate/Register';
 import Contact from './pages/Contact';
+
+import Test from './testcss'
 import Profile from './pages/Profile/Profile';
 
 import Profilemain from "./pages/Profile/Profilemain";
@@ -40,6 +42,11 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
+    path: "test",
+    element: <Test />,
+    errorElement: <ErrorPage />,
+  },
+    {
     path: "profile",
     element: <Profile />,
     errorElement: <ErrorPage />,

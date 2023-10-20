@@ -120,6 +120,7 @@ i {
 }
 
 #sidebar nav a:hover {
+    border-radius: 3px;
     background: var(--accent-color);
 }
 

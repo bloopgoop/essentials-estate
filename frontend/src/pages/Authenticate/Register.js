@@ -10,6 +10,7 @@ change <form> to router dom's form.
 add client side checking
 also style error messages
 add check box saying 'agree to terms and conditions'
+add icons to the input bars to the right
 */
 
 const Register = () => {
