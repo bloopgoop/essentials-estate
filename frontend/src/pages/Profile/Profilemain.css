@@ -1,0 +1,16 @@
+#profile-box {
+    display: flex;
+    align-items:center;
+    flex-wrap: wrap;
+    padding-bottom: 3rem;
+    /* background-color: var(--accent-color); */
+}
+
+.profile-items p {
+    font-weight:500;
+}
+
+#profile-box > img {
+    margin: 2rem;
+    border-radius: 10%;
+}

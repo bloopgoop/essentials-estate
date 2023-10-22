@@ -1,5 +1,5 @@
 import Couch from "../../assets/couch.jpg"
-import Card from "../../components/Card/Card"
+import Card from "../../components/AssetCard/AssetCard"
 import "./Assets.css"
 
 export default function Assets(){

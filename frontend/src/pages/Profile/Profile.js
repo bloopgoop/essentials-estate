@@ -9,12 +9,12 @@ import { Outlet } from "react-router-dom";
 
 export default function Profile() {
     return (
-      <>
-          <Sidebar />
-          <div style={{ width: '100%', marginLeft: '2rem', marginRight: '3rem' }}>
-            <Navbar />
-            <Outlet></Outlet>
-          </div>
-      </>
+      <div style={{ display: 'flex',  height: '100%'}}>
+        <Sidebar />
+        <div id="profile-content" style={{ width: '100%', marginLeft: '2rem', marginRight: '3rem' }}>
+          <Navbar />
+          <Outlet></Outlet>
+        </div>
+      </div>
     );
 }
