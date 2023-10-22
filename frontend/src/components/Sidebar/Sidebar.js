@@ -16,10 +16,9 @@ function Sidebar() {
                 <ul>
                     <div>
                         <li><Link to="/profile">Profile</Link></li>
-                        <li><Link to="assets">Assets</Link></li>
-                        <li><Link to="/search">Search</Link></li>
-                        <li><Link to="/watching">Watching</Link></li>
-                        <li><Link to="/create">Create</Link></li>
+                        <li><Link to="/profile/assets">Assets</Link></li>
+                        <li><Link to="/profile/watchlist">Watchlist</Link></li>
+                        <li><Link to="/profile/status">Status</Link></li>
                     </div>
 
                     <div>
