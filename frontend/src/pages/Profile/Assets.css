@@ -1,0 +1,4 @@
+.asset-item {
+    display: flex;
+    justify-content: space-evenly;
+}
