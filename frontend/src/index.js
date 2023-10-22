@@ -12,7 +12,7 @@ import Login from './pages/Authenticate/Login';
 import Register from './pages/Authenticate/Register';
 import Contact from './pages/Contact';
 
-import Test from './testcss'
+import Test from './temp/testcss'
 import Profile from './pages/Profile/Profile';
 
 import Profilemain from "./pages/Profile/Profilemain";

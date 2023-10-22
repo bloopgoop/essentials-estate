@@ -14,3 +14,8 @@
     margin: 2rem;
     border-radius: 10%;
 }
+
+.description {
+    background-color: var(--secondary-color);
+    padding: 100%;
+}
