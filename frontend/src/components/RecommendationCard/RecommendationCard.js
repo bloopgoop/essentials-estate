@@ -20,7 +20,7 @@ export default function RecommendationCard({ property }) {
                 <div id="gallery">
                     <ul>
                         {property.photos && property.photos.map((photo, index) => (
-                            <li><img src={photo} alt={`img${index}`} /></li>
+                            <li key={index}><img src={photo} alt={`img${index}`} /></li>
                         ))}
                     </ul>
                 </div>

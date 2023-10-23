@@ -4,7 +4,6 @@ import './SimilarItems.css'
 export default function SimilarItems({ properties }) {
 
     const firstFour = properties.slice(0, 4);
-    console.log(firstFour);
 
     return (
         <section id="similar-items-section" >
@@ -13,7 +12,7 @@ export default function SimilarItems({ properties }) {
             <div className="dir-btn dir-left">&lt;</div>
             <div className="dir-btn dir-right">&gt;</div>
             {firstFour.map((property, index) => (
-                <li className="similar-item-card">
+                <li className="similar-item-card" key={index}>
                 <img src={property.photos && property.photos[0]} alt={`card${index}`}></img>
                 <div className="similar-card-description">
                   <h3>{property.title}</h3>

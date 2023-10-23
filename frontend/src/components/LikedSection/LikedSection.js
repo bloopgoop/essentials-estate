@@ -22,7 +22,7 @@ export default function LikedSection({ properties }) {
 
           <ul>
             {rest.map((property, index) => (
-                <li>
+                <li key={index}>
                     <img src={property.photos[0]} alt={`card${index}`}></img>
                     <div className="similar-card-description hor-description">
                         <h3>{property.title}</h3>
