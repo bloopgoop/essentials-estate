@@ -1,4 +1,4 @@
-import './RecommendationCard.css';
+import './styles.css';
 
 export default function RecommendationCard({ property }) {
     // Working buttons to get the next property?

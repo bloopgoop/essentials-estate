@@ -1,5 +1,5 @@
-import './LikedSection.css';
-import lock from '../../assets/lock.svg'
+import './styles.css';
+import lock from 'assets/lock.svg'
 
 export default function LikedSection({ properties }) {
 

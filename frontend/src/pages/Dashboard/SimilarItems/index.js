@@ -1,5 +1,5 @@
-import lock from '../../assets/lock.svg'
-import './SimilarItems.css'
+import lock from 'assets/lock.svg'
+import './styles.css'
 
 export default function SimilarItems({ properties }) {
 
