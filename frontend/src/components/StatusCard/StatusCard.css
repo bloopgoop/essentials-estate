@@ -1,0 +1,35 @@
+#Statuscard--container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 40rem;
+    background-color: var(--secondary-color);
+    padding: 30px;
+    align-items: center;
+    margin: 1rem;
+    width: 90%;
+    position: relative;
+}
+
+.Statuscard--image {
+    border-radius: 9px;
+}
+
+#Statuscard--info {
+    display: flex;
+    flex-direction: column;
+
+}
+
+#Statuscard--info > h2, #Statuscard--info > p {
+    margin: .5rem 0;
+}
+
+#Statuscard--infocontainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0 3%;
+    gap: 6rem;
+}
+

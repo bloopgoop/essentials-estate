@@ -12,5 +12,8 @@ export default function Profilemain(){
         <p>Phone:</p>
         <p>DOB:</p>
       </div>
+      <div className="description">
+        
+      </div>
     </div>
 )}
