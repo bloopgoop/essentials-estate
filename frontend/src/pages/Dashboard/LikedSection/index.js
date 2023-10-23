@@ -1,36 +1,34 @@
 import './styles.css';
+import 'components/PreviewCard/styles.css'
 import lock from 'assets/lock.svg'
+import PreviewCard from 'components/PreviewCard';
 
 export default function LikedSection({ properties }) {
 
     const first = properties[0];
     const rest = properties.slice(1);
 
+    if (!properties) return (
+        <h1>Loading...</h1>
+    )
+
     return (
         <section id="liked-section">
           <div id="main-liked-card">
-            <div className="similar-item-card">
-              <img src={first.photos[0]} alt="main-liked"></img>
-              <div className="similar-card-description">
-                <h3>{first.title}</h3>
-                <img src={lock} alt="star"></img>
-                <p>{first.description}</p>
-                <i>Monthly rent: {first.rent}</i>
-              </div>
-            </div>
+            <PreviewCard property={first} />
           </div>
 
           <ul>
             {rest.map((property, index) => (
                 <li key={index}>
                     <img src={property.photos[0]} alt={`card${index}`}></img>
-                    <div className="similar-card-description hor-description">
+                    <div className="preview-card-description hor-description">
                         <h3>{property.title}</h3>
                         <img src={lock} alt="star"></img>
                         <p>{property.description}</p>
                         <i>Monthly rent: {property.rent}</i>
                     </div>
-              </li>
+                </li>
             ))}
           </ul>
         </section>

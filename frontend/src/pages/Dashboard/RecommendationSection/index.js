@@ -8,6 +8,10 @@ export default function RecommendationCard({ property }) {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
 
+    if (!property) return (
+        <h1>Loading...</h1>
+    );
+
     return (
         <>
             <p>Property type: {capitalize(property.type)}  &nbsp;

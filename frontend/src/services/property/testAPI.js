@@ -34,9 +34,5 @@ const shuffle = (array) => {
     return array;
 }
 
-const propertyService = {
-  getAll: getAll,
-  create: create,
-  update: update,
-};
+const propertyService = { getAll, create, update };
 export default propertyService;

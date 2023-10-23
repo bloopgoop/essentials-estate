@@ -53,7 +53,7 @@
             "garage": 3,
             "sqft": 5000,
             "lotsize": 1.5,
-            "photos": ["https://images.pexels.com/photos/259602/pexels-photo-259602.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"],
+            "photos": ["https://ca-times.brightspotcdn.com/dims4/default/9b0cc00/2147483647/strip/false/crop/8192x4886+0+0/resize/1486x886!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2F50%2F68%2Fcb39543d430aa3cdca1525ff3765%2Fimage-3.jpg"],
             "stars": 2.8,
             "type": "house"
         },
@@ -91,7 +91,7 @@
             "garage": 1,
             "sqft": 800,
             "lotsize": 0,
-            "photos": ["https://images.pexels.com/photos/259602/pexels-photo-259602.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"],
+            "photos": ["https://images.dwell.com/photos-6133487957277564928/6491456201491996672-large/inserting-a-mix-of-texture-raw-materials-and-functional-elements-shed-architecture-and-design-was-able-to-artfully-marry-the-new-additions-with-the-original-industrial-construction-in-capitol-hill-loft-by-using-a-palette-of-concrete-brick-stainless-steel-.jpg"],
             "stars": 3.1,
             "type": "apartment"
         },
@@ -110,7 +110,7 @@
             "garage": 1,
             "sqft": 1500,
             "lotsize": 0.3,
-            "photos": ["https://images.pexels.com/photos/271816/pexels-photo-271816.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"],
+            "photos": ["https://res.cloudinary.com/brickandbatten/image/upload/c_scale,w_464,h_301,dpr_2/f_auto,q_auto/v1640998396/wordpress_assets/32022-James-Hardie-White_Bungalow-Roof-Line-FR.jpg?_i=AA"],
             "stars": 2.9,
             "type": "house"
         },
@@ -129,7 +129,7 @@
             "garage": 2,
             "sqft": 2000,
             "lotsize": 0.75,
-            "photos": ["https://images.pexels.com/photos/259602/pexels-photo-259602.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"],
+            "photos": ["https://www.fourseasons.com/alt/img-opt/~70.1530/publish/content/dam/fourseasons/images/web/NMH/NMH_142_aspect16x9.jpg"],
             "stars": 4.3,
             "type": "house"
         },
@@ -148,7 +148,7 @@
             "garage": 1,
             "sqft": 1000,
             "lotsize": 0,
-            "photos": ["https://images.pexels.com/photos/271816/pexels-photo-271816.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"],
+            "photos": ["https://symphony.cdn.tambourine.com/the-dominick/media/cache/Dominick-Hotel-Accommodations-King-Guest-Room-2-5c005bac0bcf0-650x520.jpg"],
             "stars": 1.8,
             "type": "apartment"
         },
@@ -167,7 +167,7 @@
             "garage": 1,
             "sqft": 1200,
             "lotsize": 0,
-            "photos": ["https://images.pexels.com/photos/259602/pexels-photo-259602.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"],
+            "photos": ["https://static01.nyt.com/images/2019/07/19/realestate/19VIEWS-slide-E5RH/19VIEWS-slide-E5RH-videoSixteenByNineJumbo1600.jpg"],
             "stars": 3.7,
             "type": "apartment"
         },
@@ -186,7 +186,7 @@
             "garage": 0,
             "sqft": 500,
             "lotsize": 0.1,
-            "photos": ["https://images.pexels.com/photos/164516/pexels-photo-164516.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"],
+            "photos": ["https://cdn.apartmenttherapy.info/image/upload/f_jpg,q_auto:eco,c_fill,g_auto,w_1500,ar_4:3/at%2Fhouse%20tours%2F2021-08%2FHouse%20calls%2Fsu_pang_cabin_1"],
             "stars": 4.5,
             "type": "house"
         }        

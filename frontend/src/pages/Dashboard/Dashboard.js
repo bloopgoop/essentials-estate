@@ -1,11 +1,12 @@
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import Navbar from "components/Navbar/Navbar";
 import Footer from 'components/Footer/Footer';
 
-import RecommendationCard from './RecommendationCard';
-import SimilarItems from "./SimilarItems";
-import LikedSection from "./LikedSection";
+import Recommendation from './RecommendationSection';
+import SimilarItems from "./SimilarItemsSection";
+import Liked from "./LikedSection";
+import Search from "./SearchSection";
 
 import propertyService from "services/property/testAPI";
 
@@ -38,29 +39,16 @@ export default function Root() {
 
   return (
     <>
-      {properties.length > 0 && 
-        <>
-          <button >get more data</button>
+        <button >get more data</button>
 
-          <div style={{ width: '100%', paddingLeft: '3rem', paddingRight: '3rem', minWidth: '60rem'}}>
-            <Navbar />
-            <RecommendationCard property={properties[Math.floor(Math.random() * 10)]} />
-            {/* wrapper is background color change */}
-            <div id="similar-items-wrapper">
-              <SimilarItems properties={properties} />
-            </div>
-            <LikedSection properties={properties} />
-            <section id="search-section">
-              <h3>
-                Not what you're looking for? <a href="#">Click here</a> to view more properties.
-              </h3>
-              <button>Search</button>
-            </section>
-
-          </div>
-          <Footer />
-        </>
-      }
+        <div id="dashboard">
+          <Navbar />
+          <Recommendation property={properties[0]} />
+          <SimilarItems properties={properties} />
+          <Liked properties={properties} />
+          <Search />
+        </div>
+        <Footer />
     </>
   );
 }
