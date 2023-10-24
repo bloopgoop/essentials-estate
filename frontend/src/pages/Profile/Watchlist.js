@@ -1,10 +1,20 @@
-import Couch from "../../assets/couch.jpg"
 import Card from "../../components/WatchlistCard/WatchlistCard"
 import "./Watchlist.css"
-
-//import data from '../../property-data.json';
+import { useState, useEffect } from "react"
+import propertyService from "services/property/testAPI";
 
 export default function Watchlist(){
+    const [properties, setProperties] = useState([])
+
+    useEffect(() => {
+      propertyService
+      .getAll()
+      .then((properties) => {
+        setProperties(properties);
+        console.log(propertyService);
+      })
+    }, [])
+
     return(
         <>
             <h1>Watchlist</h1>
@@ -20,7 +30,11 @@ export default function Watchlist(){
                         </select>
                 </div>
             </div>
-            < Card img={Couch}/>
+            < Card props={properties[0]}/>
+            {properties && properties.map((property, index) => {
+                console.log(property)
+                return < Card props={property}/>
+            })}
         </>
     )
 }
