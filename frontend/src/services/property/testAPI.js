@@ -1,10 +1,17 @@
 import axios from "services/axiosConfigs";
 const baseURL = "/properties";
 
+// Turn all these into async functions and return the data directly instead of promises
+
 const getAll = () => {
   const request = axios.get(baseURL);
   return request.then((response) => shuffle(response.data));
 };
+
+const getOne = (id) => {
+  const request = axios.get(`${baseURL}/${id}`);
+  return request.then((response) => response.data);
+}
 
 const create = (newObject) => {
   const request = axios.post(baseURL, newObject);
@@ -34,5 +41,5 @@ const shuffle = (array) => {
     return array;
 }
 
-const propertyService = { getAll, create, update };
+const propertyService = { getAll, getOne, create, update };
 export default propertyService;

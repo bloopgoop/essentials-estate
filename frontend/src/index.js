@@ -11,6 +11,8 @@ import ErrorPage from './pages/Error';
 import Login from './pages/Authenticate/Login';
 import Register from './pages/Authenticate/Register';
 import Contact from './pages/Contact';
+import Search from './pages/Search/Search';
+import Property from './pages/Property/Property';
 
 import Profile from './pages/Profile/Profile';
 
@@ -18,7 +20,6 @@ import Profilemain from "./pages/Profile/Profilemain";
 import Assets from './pages/Profile/Assets';
 import Status from './pages/Profile/Status';
 import Watchlist from './pages/Profile/Watchlist';
-
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,16 @@ const router = createBrowserRouter([
   {
     path: "register",
     element: <Register />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "search",
+    element: <Search />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "property/:id",
+    element: <Property />,
     errorElement: <ErrorPage />,
   },
 

@@ -13,7 +13,6 @@
 #main-liked-card {
     flex: 3;
     width: 100%;
-    background-color: red;
 }
 #liked-section > ul {
     flex: 4;
