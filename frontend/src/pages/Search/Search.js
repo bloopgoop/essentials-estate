@@ -27,7 +27,7 @@ function Search() {
       .catch((error) => {
         alert(`Error fetching properties: ${error}`);
       });
-  }
+  };
 
   // call api on first render
   useEffect(() => {
@@ -57,7 +57,7 @@ function Search() {
             ))}
           </div>
         </InfiniteScroll>
-        </div>
+      </div>
       <Footer />
     </>
   );

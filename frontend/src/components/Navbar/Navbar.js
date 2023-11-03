@@ -23,7 +23,7 @@ function Navbar() {
   }, []);
 
   return (
-    <div id="navbar" ref={navbar}>
+    <nav id="navbar" ref={navbar}>
       <Link to="/" className="nav-btn">
         Home
       </Link>
@@ -50,7 +50,7 @@ function Navbar() {
           Login
         </Link>
       )}
-    </div>
+    </nav>
   );
 }
 
