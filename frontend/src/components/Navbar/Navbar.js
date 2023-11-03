@@ -11,7 +11,7 @@ import envelope from '../../assets/envelope.svg';
 // change profile image to background so it is customizable
 
 function Navbar() {
-    let {user, loginUser, logoutUser} = useContext(AuthContext)
+    let {user, logoutUser} = useContext(AuthContext)
     return (
         <nav id='navbar'>
             <input type="text" placeholder="Search" />
@@ -23,7 +23,7 @@ function Navbar() {
 
             <img src={bell} className='nav-icons' id='bell' name='bell' alt='bell' />
             <img src={envelope} className='nav-icons' id='envelope' name='envelope' alt='envelope' />
-            {user ? <p onClick={logoutUser}>Logout</p> : <p>Login</p>}
+            {user ? <p onClick={logoutUser}>Logout</p> : <p><Link to={"/login"}>Login</Link></p>}
             <img src={person} id='profile' name='profile' alt='profile' />
         </nav>
     );

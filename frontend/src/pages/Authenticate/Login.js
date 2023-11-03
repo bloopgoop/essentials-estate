@@ -1,5 +1,5 @@
-import { Form, Link } from "react-router-dom";
-import React, { useState, useContext } from "react";
+import { Link } from "react-router-dom";
+import React, { useContext } from "react";
 import AuthContext from "context/AuthContext";
 import './Authenticate.css';
 import img from './login-background.jpg';
@@ -8,19 +8,6 @@ import img from './login-background.jpg';
 
 const Login = () => {
     let {loginUser} = useContext(AuthContext)
-    const [formData, setFormData] = useState({
-        username: '',
-        password: ''
-    });
-
-    const { username, password } = formData;
-
-    const onChange = e =>
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-
-    const onSubmit = e => {
-        e.preventDefault();
-    };
 
     return (
         <div id='authenticate'>

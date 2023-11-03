@@ -1,9 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "context/AuthContext";
 import LoggedInRoutes from "./utils/LoggedInRoutes";
 
 import Dashboard from "./pages/Dashboard/Dashboard";
-import ErrorPage from "./pages/Error";
+import ErrorPage from "./pages/Error/Error";
 import Login from "./pages/Authenticate/Login";
 import Register from "./pages/Authenticate/Register";
 import Search from "./pages/Search/Search";
@@ -25,6 +25,9 @@ function App() {
             <Route element={<Register />} path="/register" />
             <Route element={<Search />} path="/search" />
             <Route element={<Property />} path="/property/:id" />
+            <Route element={<ErrorPage />} path="/error" />
+
+            <Route element={<Navigate to={"/error"} replace />} path="*" />
           </Routes>
         </AuthProvider>
       </Router>

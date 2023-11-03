@@ -54,9 +54,10 @@ export function AuthProvider({ children }) {
     setUser(null);
     localStorage.removeItem("authTokens");
     navigate("/login");
-  }
+  };
 
   const updateToken = async () => {
+    console.log("Updating token")
     let body = {
       refresh: authTokens?.refresh,
     };
@@ -74,14 +75,15 @@ export function AuthProvider({ children }) {
       })
       .catch((error) => {
         console.log(error);
-        logoutUser();
+        setAuthTokens(null);
+        setUser(null);
+        localStorage.removeItem("authTokens");
       });
 
-      if (loading) {
-        setLoading(false);
-      }
+    if (loading) {
+      setLoading(false);
+    }
   }
-  
 
   const contextData = {
     loginUser: loginUser,
@@ -92,7 +94,6 @@ export function AuthProvider({ children }) {
 
   // Eventually make axios calls refresh tokens instead of having timer
   useEffect(() => {
-
     if (loading) {
       updateToken();
     }
@@ -101,11 +102,13 @@ export function AuthProvider({ children }) {
       if (authTokens) {
         updateToken();
       }
-    }, 1000 * 60 * 14)
+    }, 1000 * 60 * 14);
     return () => clearInterval(interval);
   }, [authTokens, loading]);
 
   return (
-    <AuthContext.Provider value={contextData}>{loading ? null : children}</AuthContext.Provider>
+    <AuthContext.Provider value={contextData}>
+      {loading ? null : children}
+    </AuthContext.Provider>
   );
 }
