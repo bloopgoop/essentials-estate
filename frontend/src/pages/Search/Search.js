@@ -36,8 +36,8 @@ function Search() {
 
   return (
     <>
+      <Navbar />
       <div id="search">
-        <Navbar />
         <InfiniteScroll
           dataLength={properties.length}
           next={fetchData}

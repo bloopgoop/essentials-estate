@@ -53,7 +53,6 @@ export function AuthProvider({ children }) {
     setAuthTokens(null);
     setUser(null);
     localStorage.removeItem("authTokens");
-    navigate("/login");
   };
 
   const updateToken = async () => {
@@ -75,9 +74,7 @@ export function AuthProvider({ children }) {
       })
       .catch((error) => {
         console.log(error);
-        setAuthTokens(null);
-        setUser(null);
-        localStorage.removeItem("authTokens");
+        logoutUser();
       });
 
     if (loading) {
