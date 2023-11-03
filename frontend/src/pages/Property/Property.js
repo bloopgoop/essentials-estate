@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import propertyService from "services/property/testAPI";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import Navbar from "components/Navbar/Navbar";
 
 const Property = () => {
   const [property, setProperty] = useState(null);
@@ -26,6 +27,7 @@ const Property = () => {
 
   return (
     <>
+      <Navbar />
       {property ? (
         <div>
           <button>

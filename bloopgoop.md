@@ -43,3 +43,4 @@ npm<br>
 react<br>
 react-router-dom<br>
 axios<br>
+react-infinite-scroll-component<br>

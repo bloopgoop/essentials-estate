@@ -31,14 +31,13 @@ function Search() {
 
   // call api on first render
   useEffect(() => {
-    console.log("useEffect called");
     fetchData();
   }, []);
 
   return (
     <>
+      <Navbar />
       <div id="search">
-        <Navbar />
         <InfiniteScroll
           dataLength={properties.length}
           next={fetchData}
