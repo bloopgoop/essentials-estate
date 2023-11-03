@@ -20,10 +20,9 @@ function App() {
               <Route element={<Profile />} path="/profile/" />
             </Route>
 
-            <Route element={<Dashboard />} path="/" exact />
+            <Route element={<Search />} path="/" exact />
             <Route element={<Login />} path="/login" />
             <Route element={<Register />} path="/register" />
-            <Route element={<Search />} path="/search" />
             <Route element={<Property />} path="/property/:id" />
             <Route element={<ErrorPage />} path="/error" />
 

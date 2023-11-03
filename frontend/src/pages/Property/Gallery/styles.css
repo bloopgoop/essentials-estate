@@ -1,0 +1,65 @@
+/* Recommendation section  */
+#recommendation-container {
+    margin: 2rem 3rem;
+}
+
+#reco-card {
+    border-radius: 5px;
+    position: relative;
+    min-height: 30rem;
+    max-height: 35rem;
+    height: 50vw;
+    width: 100%;
+    background-color: var(--secondary-color);
+    padding: 30px;
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+}
+#gallery > ul {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+#gallery > ul > li {
+    height: 6rem;
+    width: 6rem;
+    background-color: white;
+    border: 2px solid var(--primary-color);
+}
+#gallery img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.split-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.main-image {
+    flex: 1;
+}
+.main-image > img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.card-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin: 3%;
+}
+.card-info > p {
+    flex: 1;
+}
+.card-info button {
+    width: 6rem;
+}

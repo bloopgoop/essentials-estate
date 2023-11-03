@@ -3,12 +3,18 @@ import propertyService from "services/property/testAPI";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Navbar from "components/Navbar/Navbar";
+import Gallery from "components/Gallery"
+import "./Property.css";
 
 const Property = () => {
   const [property, setProperty] = useState(null);
-  const {id} = useParams();
+  const { id } = useParams();
 
   console.log(id);
+
+  const capitalize = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
 
   useEffect(() => {
     propertyService
@@ -19,9 +25,7 @@ const Property = () => {
       })
       .catch((error) => {
         alert(`Error fetching property: ${error}`);
-        return (
-          <h1>404 property not found</h1>
-        )
+        return <h1>404 property not found</h1>;
       });
   }, []);
 
@@ -30,9 +34,27 @@ const Property = () => {
       <Navbar />
       {property ? (
         <div>
-          <button>
-            <Link to={`/search`}>Back to Search</Link>
-          </button>
+
+          <main id="main-content">
+            <h1>{property.title}</h1>
+            <div className="split-container">
+              <p>
+                Property type: {capitalize(property.type)} &nbsp;
+                <strong>{`City: ${property.city}`}</strong>
+              </p>
+              <i>{property.stars}</i>
+            </div>
+            <Gallery photos={property.photos} />
+
+            <div className="split-container">
+              <p>{property.description}</p>
+              <button>Rent</button>
+            </div>
+
+            
+
+          </main>
+
           <h1>{property.title}</h1>
           <p>{property.description}</p>
           <p>
