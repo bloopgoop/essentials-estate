@@ -53,7 +53,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
     "ROTATE_REFRESH_TOKENS": True, # every time access token is refreshed, refresh duration of refresh token
     "BLACKLIST_AFTER_ROTATION": True, # blacklist old token after rotation
@@ -91,12 +91,11 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
 
+# https://github.com/adamchainz/django-cors-headers
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-
-    # https://github.com/adamchainz/django-cors-headers
     'corsheaders.middleware.CorsMiddleware',
-
+    
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',

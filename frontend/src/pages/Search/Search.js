@@ -31,7 +31,6 @@ function Search() {
 
   // call api on first render
   useEffect(() => {
-    console.log("useEffect called");
     fetchData();
   }, []);
 

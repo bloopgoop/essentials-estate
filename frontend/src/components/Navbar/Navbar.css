@@ -9,6 +9,9 @@
     padding-bottom: 1rem;
     border-bottom: 1px solid var(--secondary-text-color);
 }
+#navbar > * {
+    margin: 0 1rem;
+}
 #navbar > input {
     height: 2rem;
     line-height: 2;
@@ -39,5 +42,4 @@
     height: 1.3rem;
     width: 1.3rem;
     object-fit: cover;
-    margin: 0 1.5rem;
 }

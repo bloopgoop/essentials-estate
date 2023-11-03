@@ -1,11 +1,13 @@
 import { Form, Link } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import AuthContext from "context/AuthContext";
 import './Authenticate.css';
 import img from './login-background.jpg';
 
 
 
 const Login = () => {
+    let {loginUser} = useContext(AuthContext)
     const [formData, setFormData] = useState({
         username: '',
         password: ''
@@ -31,21 +33,19 @@ const Login = () => {
                 <h1>Sign In</h1>
                 <p>Welcome back!</p>
                 <form 
-                onSubmit={e => onSubmit(e)}
+                onSubmit={loginUser}
                 name='login-form'
                 id='login-form'
                 className='auth-form'
                 >
                     
-                    <label htmlFor='flex'>Username or email</label>
+                    <label htmlFor='flex'>Username</label>
                     <input
                         type='text'
-                        placeholder='Username or email'
-                        name='flex'
+                        placeholder='Username'
+                        name='username'
                         id='flex'
-                        value={username}
-                        onChange={e => onChange(e)}
-                        minLength='6'
+                        minLength='5'
                         required
                     />
 
@@ -55,8 +55,6 @@ const Login = () => {
                         placeholder='Password'
                         name='password'
                         id='password'
-                        value={password}
-                        onChange={e => onChange(e)}
                         minLength='6'
                         required
                     />
