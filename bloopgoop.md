@@ -38,9 +38,11 @@ This is a web application based on a business scenario provided to me in my Syst
 django<br>
 django-cors-headers<br>
 djangorestframework<br>
+djangorestframework-simplejwt<br>
 node.js<br>
 npm<br>
 react<br>
-react-router-dom<br>
+react-router-dom v6<br>
 axios<br>
 react-infinite-scroll-component<br>
+jwt-decode<br>
