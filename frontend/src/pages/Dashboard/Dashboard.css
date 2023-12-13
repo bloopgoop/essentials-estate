@@ -1,0 +1,46 @@
+/* Global styling for dashboard*/
+ul {
+    list-style: none;
+    padding-inline-start: 0;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    overflow-y: auto;
+}
+section {
+    margin-top: 5rem;
+}
+
+.dir-btn {
+    position: absolute;
+    align-self: center;
+    padding: none;
+    border: none;
+    color: var(--primary-color);
+    font-size: 3rem;
+    font-weight: 900;
+}
+.dir-left {
+    left: 0px;
+}
+.dir-right {
+    right: 0px;
+}
+.offset-left {
+    left: -10px;
+}
+.offset-right {
+    right: -10px;
+}
+.dir-btn:hover {
+    box-sizing:content-box;
+    cursor: pointer;
+    transform: translateY(-1px);
+    text-shadow: 0 0px 1px hsla(0, 0%, 0%, 0.6), 0 1px 2px hsla(0, 0%, 0%, 0.2);
+}
+
+#dashboard {
+    width: 100%;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    min-width: 60rem;
+}

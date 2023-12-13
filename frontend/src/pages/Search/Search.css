@@ -1,0 +1,23 @@
+#search {
+  width: 100%;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  min-width: 60rem;
+  margin-top: 2rem;
+}
+
+.grid {
+  display: grid;
+  grid-gap: 2rem;
+
+  /* define the number of grid columns */
+  /* minmax is the min width and max width of each column */
+  /* auto-fit will fit as many columns as possible */
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+}
+
+.grid-item {
+  min-height: 500px;
+  border: 1px solid #ccc;
+  box-shadow: #ccc 0px 0px 15px;
+}
