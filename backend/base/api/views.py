@@ -20,6 +20,10 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
+@api_view(['POST'])
+def addPayment(request):
+    return JsonResponse('Payment was added!', safe=False)
+
 
 @api_view(['GET'])
 def getRoutes(request):

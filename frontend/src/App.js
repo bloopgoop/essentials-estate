@@ -9,6 +9,7 @@ import Register from "./pages/Authenticate/Register";
 import Search from "./pages/Search/Search";
 import Property from "./pages/Property/Property";
 import Profile from "./pages/Profile/Profile";
+import Payment from "./pages/Payment/Payment";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Routes>
             <Route element={<LoggedInRoutes />}>
               <Route element={<Profile />} path="/profile/" />
+              <Route element={<Payment />} path="/payment" />
             </Route>
 
             <Route element={<Search />} path="/" exact />

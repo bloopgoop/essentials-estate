@@ -27,7 +27,7 @@ function Navbar() {
       <Link to="/" className="nav-btn">
         Home
       </Link>
-      <Link to="/search" className="nav-btn">
+      <Link to="/payment" className="nav-btn">
         List your property!
       </Link>
 

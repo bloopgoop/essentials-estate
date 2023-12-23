@@ -1,0 +1,60 @@
+#payment-view {
+    width: 100%;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    min-width: 60rem;
+}
+
+.payment-box {
+    position: relative;
+    border-radius: 20px;
+    margin: auto;
+    margin-top: 5rem;
+    min-width: fit-content;
+    max-width: 60vw;
+    height: 30rem;
+    padding: 30px;
+    background-color: var(--secondary-color);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+}
+
+.payment-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.payment-inputs > div {
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    gap: 1rem;
+}
+#cardNumber {
+    flex: 1;
+    max-width: 30rem;
+}
+#expiryDate {
+    max-width: 10rem;
+}
+#cvv {
+    max-width: 10rem;
+}
+#submit-method {
+    position: absolute;
+    bottom: 2rem;
+    right: 4rem;
+}
+#skip-method {
+    position: absolute;
+    bottom: 2rem;
+    left: 4rem;
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+}
+#skip-method:hover {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+}
+
