@@ -16,7 +16,6 @@ class Property(models.Model):
     garage = models.IntegerField()
     sqft = models.IntegerField()
     lotsize = models.DecimalField(max_digits=5, decimal_places=2)
-    photos = models.JSONField()  # Storing URLs of photos in a JSON field
     stars = models.DecimalField(max_digits=2, decimal_places=1)
     type = models.CharField(max_length=50)
 
@@ -38,7 +37,14 @@ class Property(models.Model):
             'garage': self.garage,
             'sqft': self.sqft,
             'lotsize': self.lotsize,
-            'photos': self.photos,
             'stars': self.stars,
             'type': self.type,
         }
+    
+class PropertyPhoto(models.Model):
+    property = models.ForeignKey(Property, on_delete=models.CASCADE)
+    photo = models.ImageField(upload_to='photos/%Y/%m/%d/')
+    description = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return self.property.title

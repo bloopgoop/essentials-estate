@@ -10,6 +10,7 @@ import Search from "./pages/Search/Search";
 import Property from "./pages/Property/Property";
 import Profile from "./pages/Profile/Profile";
 import Payment from "./pages/Payment/Payment";
+import AddProperty from "./pages/AddProperty/AddProperty";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route element={<LoggedInRoutes />}>
               <Route element={<Profile />} path="/profile/" />
               <Route element={<Payment />} path="/payment" />
+              <Route element={<AddProperty />} path="/add-property" />
             </Route>
 
             <Route element={<Search />} path="/" exact />

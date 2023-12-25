@@ -1,10 +1,10 @@
 import axios from "services/axiosConfigs";
-const baseURL = "/properties";
+const baseURL = "/property";
 
 // Turn all these into async functions and return the data directly instead of promises
 
 const getAll = () => {
-  const request = axios.get(baseURL);
+  const request = axios.get(`${baseURL}/`);
   return request.then((response) => shuffle(response.data));
 };
 
@@ -14,9 +14,14 @@ const getOne = (id) => {
 }
 
 const create = (newObject) => {
-  const request = axios.post(baseURL, newObject);
+  const request = axios.post(`${baseURL}/`, newObject);
   return request.then((response) => response.data);
 };
+
+// const addPhoto = (newObject) => {
+//   const request = axios.post(`${baseURL}/photo/`, newObject);
+//   return request.then((response) => response.data);
+// }
 
 const update = (id, newObject) => { 
   const request = axios.put(`${baseURL}/${id}`, newObject);

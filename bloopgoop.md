@@ -46,4 +46,5 @@ react-router-dom v6<br>
 axios<br>
 react-infinite-scroll-component<br>
 jwt-decode<br>
-python-dotenv
+python-dotenv<br>
+Pillow<br>
