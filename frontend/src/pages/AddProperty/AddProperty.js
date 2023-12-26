@@ -3,8 +3,10 @@ import Navbar from 'components/Navbar/Navbar';
 import Footer from 'components/Footer/Footer';
 import './AddProperty.css';
 import propertyService from 'services/property/testAPI';
+import { useNavigate } from 'react-router-dom';
 
 const AddProperty = () => {
+    const navigate = useNavigate();
     const [owner, setOwner] = useState("");
     const [address, setAddress] = useState("");
     const [city, setCity] = useState("");
@@ -56,6 +58,8 @@ const AddProperty = () => {
             .create(property)
             .then((response) => {
                 console.log(response);
+                alert("Property added successfully");
+                navigate("/");
 
                 // console.log("here is the photos");
                 // console.log(photos);

@@ -24,6 +24,7 @@ class Property(models.Model):
     
     def serialize(self):
         return {
+            'id': self.id,
             'owner': self.owner,
             'address': self.address,
             'city': self.city,

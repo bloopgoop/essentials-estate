@@ -27,6 +27,8 @@ function PaymentForm() {
       .upload({ cardNumber, expiryDate, cvv })
       .then((response) => {
         console.log(response);
+        alert("Payment method saved");
+        navigate("/add-property");
       })
       .catch((error) => {
         console.log(error);

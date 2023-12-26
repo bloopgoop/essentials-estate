@@ -69,7 +69,7 @@ const Property = () => {
           <p>Lot Size: {property.lotsize} acres</p>
           <p>Type: {property.type}</p>
           <p>Stars: {property.stars}</p>
-          <img src={property.photos[0]} alt="Property" />
+          {/* <img src={property.photos[0]} alt="Property" /> */}
         </div>
       ) : (
         <h1>Loading...</h1>
