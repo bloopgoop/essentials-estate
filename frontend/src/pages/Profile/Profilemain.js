@@ -1,5 +1,6 @@
 import Person from "../../assets/person.jpg"
 import "./Profilemain.css"
+import NotificationBox from "../../components/NotificationBox/NotificationBox"
 
 export default function Profilemain(){
     return(
@@ -13,9 +14,10 @@ export default function Profilemain(){
           <p>Lives In New York</p>
         </div>
       </div>
+      
       <div>
-        <h1>Description:</h1>
         <div className="description-box">
+          <h1>Description:</h1>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. In blandit risus nisi, 
             non viverra odio gravida ac. Vivamus malesuada at nulla eget varius. Sed congue
@@ -26,18 +28,13 @@ export default function Profilemain(){
           </p>
         </div>
       </div>
-      <div>
-        <h1>Notification:</h1>
-        <div className="description-box">
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In blandit risus nisi, 
-            non viverra odio gravida ac. Vivamus malesuada at nulla eget varius. Sed congue
-            nisl ut viverra blandit. Sed imperdiet sit amet eros elementum lacinia. Donec 
-            at justo nec elit viverra efficitur. Sed lacinia, mi in commodo commodo, velit 
-            neque porta massa, at fermentum erat ligula eu dolor. Aenean sit amet condimentum 
-            dolor, sit amet accumsan lorem.
-          </p>
-        </div>
-      </div>
+
+      <div className="notification-box">
+        <h1 className="notification-title">Notification:</h1>
+        <NotificationBox/>
+        <NotificationBox/>
+        <NotificationBox/>
+      </div> 
     </>
 )}
+

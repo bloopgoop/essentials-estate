@@ -26,8 +26,37 @@
 }
 
 .description-box {
-    padding: 3rem;
-    margin: 0 2rem;
-    border-radius: 5%;
     background-color: rgb(240,240,240);
+    outline: 3px  solid gray;
+}
+
+.description-box h1 {
+    background-color: rgb(230,230,230);
+    padding-left: 10px;
+}
+
+.description-box p {
+    padding-left: 10px;
+    height: 100%;
+}
+
+.notification-box {
+    background-color: rgb(240,240,240);
+}
+
+.notification-box h1 {
+    background-color: rgb(230,230,230);
+    padding-left: 10px;
+}
+
+.notification-box {
+    display: flex;  
+    flex-wrap: wrap;
+    outline: 3px  solid gray;
+}
+
+.notification-title {
+    flex-basis: 100%;
+    align-self: stretch;
+    margin: 0;
 }
