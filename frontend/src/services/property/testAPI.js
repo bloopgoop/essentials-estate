@@ -18,10 +18,10 @@ const create = (newObject) => {
   return request.then((response) => response.data);
 };
 
-// const addPhoto = (newObject) => {
-//   const request = axios.post(`${baseURL}/photo/`, newObject);
-//   return request.then((response) => response.data);
-// }
+const addPhoto = (newObject) => {
+  const request = axios.post(`${baseURL}/photo/`, newObject);
+  return request.then((response) => response.data);
+}
 
 const update = (id, newObject) => { 
   const request = axios.put(`${baseURL}/${id}`, newObject);
@@ -46,5 +46,5 @@ const shuffle = (array) => {
     return array;
 }
 
-const propertyService = { getAll, getOne, create, update };
+const propertyService = { getAll, getOne, create, update, addPhoto };
 export default propertyService;

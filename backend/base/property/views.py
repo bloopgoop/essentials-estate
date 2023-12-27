@@ -1,29 +1,39 @@
 import json
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import JsonResponse, FileResponse
 from rest_framework.decorators import api_view
+import base64
 
 from .models import Property, PropertyPhoto
 
-# @api_view(['GET', 'POST'])
-# def addPhoto(request):
-#     if request.method == 'GET':
-#         return JsonResponse({'message': 'GET request received'})
-#     if request.method == 'POST':
-#         print(request.body)
-#         print("request.files: ", request.FILES)
-#         data = json.loads(request.body)
-#         property = Property.objects.get(id=data['id'])
-#         photo = PropertyPhoto.objects.create(
-#             property=property,
-#             photo=data['photo'],
-#             description=data['description']
-#         )
-#         try:
-#             photo.save()
-#             return JsonResponse({'message': 'Photo added successfully'}, status=200)
-#         except:
-#             return JsonResponse({'message': 'Error adding photo'}, status=400)
+@api_view(['GET', 'POST'])
+def addPhoto(request):
+    if request.method == 'GET':
+        photos = PropertyPhoto.objects.filter(property=Property.objects.get(id=77))
+        paths = []
+        for photo in photos:
+            paths.append(photo.photo.path)
+
+        return JsonResponse(paths, safe=False)
+
+    if request.method == 'POST':
+        data = request.POST
+        files = request.FILES
+
+        print(files["file0"])
+
+        for file in files:
+            photo = PropertyPhoto.objects.create(
+                property=Property.objects.get(id=77),
+                photo=files[file],
+                description="test"
+            )
+            try:
+                photo.save()
+            except:
+                return JsonResponse({'message': 'Error adding photo'}, status=400)
+            
+        return JsonResponse({'message': 'Photo(s) added successfully'}, status=200)
 
 @api_view(['GET', 'POST'])
 def getProperties(request):

@@ -4,6 +4,7 @@ import Footer from 'components/Footer/Footer';
 import './AddProperty.css';
 import propertyService from 'services/property/testAPI';
 import { useNavigate } from 'react-router-dom';
+import Dropbox from 'components/Dropbox/Dropbox';
 
 const AddProperty = () => {
     const navigate = useNavigate();
@@ -244,6 +245,8 @@ const AddProperty = () => {
                 </form>
             </div>
             <Footer />
+
+            <Dropbox />
         </div>
     );
 }

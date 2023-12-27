@@ -44,7 +44,7 @@ class Property(models.Model):
     
 class PropertyPhoto(models.Model):
     property = models.ForeignKey(Property, on_delete=models.CASCADE)
-    photo = models.ImageField(upload_to='photos/%Y/%m/%d/')
+    photo = models.ImageField(upload_to='images/')
     description = models.CharField(max_length=255, blank=True)
 
     def __str__(self):
