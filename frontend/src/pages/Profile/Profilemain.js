@@ -14,7 +14,7 @@ export default function Profilemain(){
           <p>Lives In New York</p>
         </div>
       </div>
-      
+
       <div>
         <div className="description-box">
           <h1>Description:</h1>
