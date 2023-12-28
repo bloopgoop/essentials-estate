@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 # Create your models here.
 
@@ -40,6 +41,7 @@ class Property(models.Model):
             'lotsize': self.lotsize,
             'stars': self.stars,
             'type': self.type,
+            'photos': [photo.getPath() for photo in PropertyPhoto.objects.filter(property=self.id)],
         }
     
 class PropertyPhoto(models.Model):
@@ -49,3 +51,14 @@ class PropertyPhoto(models.Model):
 
     def __str__(self):
         return self.property.title
+    
+    def serialize(self):
+        return {
+            'id': self.id,
+            'property': self.property.id,
+            'photo': self.photo.name,
+            'description': self.description,
+        }
+    
+    def getPath(self):
+        return "http://localhost:8000" + settings.MEDIA_URL + self.photo.name

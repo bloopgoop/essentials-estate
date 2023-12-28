@@ -10,10 +10,10 @@ export default function PreviewCard({ property }) {
     return (
         <div className="preview-item-card">
             <Link to={`/property/${property.id}`} className="preview-image">
-                {/* <img
+                <img
                 src={property.photos[0]}
                 alt="preview"
-                /> */}
+                />
             </Link>
             <div className="preview-card-description">
                 <Link to={`/property/${property.id}`}>

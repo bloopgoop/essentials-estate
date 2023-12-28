@@ -5,7 +5,7 @@ import axios from "axios";
 
 const Dropbox = () => {
     const [images, setImages] = useState([]);
-    const [selectedImage, setSelectedImage] = useState(null);
+    const [imageURLs, setImageURLs] = useState([]);
 
     const onChange = (e) => {
         console.log(e.target.files);
@@ -31,13 +31,10 @@ const Dropbox = () => {
     };
 
     useEffect(() => {
-        axios.get('http://localhost:8000/property/photo')
+        axios.get('http://localhost:8000/property/photo/')
           .then(res => {
-            // Create a blob from the array buffer
-            console.log(res.data[0]);
-            const base64Url = 'data:image/jpeg;base64' + res.data[0];
-            // Set the image URL state
-            setSelectedImage(base64Url);
+            console.log(res.data);
+            setImageURLs(res.data);
           });
       }, []);
 
@@ -48,7 +45,11 @@ const Dropbox = () => {
                 <input type="file" name="file" multiple onChange={onChange} />
                 <button type="submit">Submit</button>
             </form>
-            <img src={selectedImage} alt="img"/>
+            {
+                imageURLs.map((url, idx) => (
+                    <img src={url} alt={`img${idx}`} />
+                ))
+            }
         </>
     );
 }
