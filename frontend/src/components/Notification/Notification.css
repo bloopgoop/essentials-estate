@@ -3,6 +3,7 @@
     flex-direction: row;
     align-items: center;
     outline: 1px  solid  rgb(220,220,220);
+    padding: 1rem;
 }
 
 .notification > div {
@@ -15,5 +16,6 @@
 }
 
 .notification > div > h3 {
-    text-decoration: none;
+    font-size: medium;
+    font-weight: normal;
 }

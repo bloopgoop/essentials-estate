@@ -1,6 +1,6 @@
 import Person from "../../assets/person.jpg"
 import "./Profilemain.css"
-import NotificationBox from "../../components/NotificationBox/NotificationBox"
+import Notification from "../../components/Notification/Notification"
 
 export default function Profilemain(){
     return(
@@ -31,9 +31,9 @@ export default function Profilemain(){
 
       <div className="notification-box">
         <h1 className="notification-title">Notification:</h1>
-        <NotificationBox/>
-        <NotificationBox/>
-        <NotificationBox/>
+        <Notification/>
+        <Notification/>
+        <Notification/>
       </div> 
     </>
 )}

@@ -1,8 +1,8 @@
 import React from 'react'
-import "./NotificationBox.css"
+import "./Notification.css"
 import Person from "../../assets/person.jpg"
 
-function NotificationBox() {
+function Notification() {
   return (
     <div style={{ width: '100%' }}>        
         <div className="notification">
@@ -11,13 +11,13 @@ function NotificationBox() {
             <h3>
                 Sam rated your property 
             </h3>
-            <h3>
-                10 mins
-            </h3>
+            <p>
+                10 mins ago
+            </p>
             </div>
         </div>
     </div>
   )
 }
 
-export default NotificationBox
+export default Notification
