@@ -1,63 +1,63 @@
 #profile-box {
-    display: flex;
-    align-items:center;
-    flex-wrap: wrap;
-    position: relative;
+  display: flex;
+  align-items: center;
+  /* flex-wrap: wrap; */
+  position: relative;
 }
 
 .profile-items p {
-    font-weight: 500;
+  font-weight: 500;
 }
 
 .profile-items {
-    font-size: x-large;
-    top: 0;
-    left: 0;
-    
-    align-content: space-between;
+  font-size: x-large;
+  top: 0;
+  left: 0;
+
+  align-content: space-between;
 }
 
 #profile-box > img {
-    margin: 2rem;
-    border-radius: 10%;
+  margin: 2rem;
+  border-radius: 10%;
 }
 
 .description-box {
-    background-color: rgb(240,240,240);
-    outline: 3px  solid gray;
-    margin: 2rem 0;
+  background-color: rgb(240, 240, 240);
+  outline: 3px solid gray;
+  margin: 2rem 0;
 }
 
 .description-box h1 {
-    background-color: rgb(230,230,230);
-    padding: 1rem;
-    margin: 0;
+  background-color: rgb(230, 230, 230);
+  padding: 1rem;
+  margin: 0;
 }
 
 .description-box p {
-    padding: 1rem;
-    margin: 0;
+  padding: 1rem;
+  margin: 0;
 }
 
 .notification-box {
-    background-color: rgb(240,240,240);
-    margin: 2rem 0;
+  background-color: rgb(240, 240, 240);
+  margin: 2rem 0;
 }
 
 .notification-box h1 {
-    background-color: rgb(230,230,230);
-    padding-left: 10px;
+  background-color: rgb(230, 230, 230);
+  padding-left: 10px;
 }
 
 .notification-box {
-    display: flex;  
-    flex-wrap: wrap;
-    outline: 3px  solid gray;
+  display: flex;
+  flex-wrap: wrap;
+  outline: 3px solid gray;
 }
 
 .notification-title {
-    flex-basis: 100%;
-    align-self: stretch;
-    margin: 0;
-    padding: 1rem;
+  flex-basis: 100%;
+  align-self: stretch;
+  margin: 0;
+  padding: 1rem;
 }
