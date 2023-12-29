@@ -11,7 +11,7 @@ import { Outlet } from "react-router-dom";
 export default function Profile() {
     return (
       <>
-        <div style={{ display: 'flex',  height: '100%'}}>
+        <div style={{ display: 'flex', height: '100%'}}>
           <Sidebar />
           <div id="profile-content" style={{ height: '100%', width: '100%', marginLeft: '2rem', marginRight: '3rem' }}>
             <Navbar />
