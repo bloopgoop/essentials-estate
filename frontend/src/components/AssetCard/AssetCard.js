@@ -4,7 +4,7 @@ export default function Card(props) {
     return(
         <div id="Assetcard--container">
             <div>
-                <img src={props.img} height={250}  className="Assetcard--image" />
+                <img src={props.img} height={250}  className="Assetcard--image" alt={props.title}/>
             </div>
             <div id="Assetcard--info">
                 <h2>Property Name</h2>

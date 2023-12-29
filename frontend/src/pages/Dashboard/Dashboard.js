@@ -1,59 +1,54 @@
-import { useRef, useState, useEffect } from "react";
-import Navbar from "../../components/Navbar/Navbar";
-import Footer from '../../components/Footer/Footer';
+import { useState, useEffect } from "react";
+
+import Navbar from "components/Navbar/Navbar";
+import Footer from 'components/Footer/Footer';
+
+import Recommendation from './RecommendationSection';
+import SimilarItems from "./SimilarItemsSection";
+import Liked from "./LikedSection";
+import Search from "./SearchSection";
+
+import propertyService from "services/property/testAPI";
+
 import './Dashboard.css';
-import img1 from '../../assets/couch.jpg';
-import img2 from '../../assets/whitecouch.jpg';
 
 
-// Dashboard should show recommended property listings, recent activities,
-// watching properties, ratings
+// Dashboard should show recommended property listings, liked properties, 
+// Normally you'll have two components: ThingThatLoadsData and ChildThatShowsData.
+
 
 export default function Root() {
-    const gallery = useRef();
+  // state that holds the list of properties
+  const [properties, setProperties] = useState([]);
 
-    return (
-      <>
-        <div style={{ width: '100%', paddingLeft: '2rem', paddingRight: '3rem', minWidth: '60rem'}}>
+  // call api on first render
+  useEffect(() => {
+    console.log("useEffect called");
+    propertyService
+      .getAll()
+      .then((properties) => {
+        setProperties(properties);
+        console.log(properties);
+      })
+      .catch((error) => {
+        alert(`Error fetching properties: ${error}`);
+      });
+  }, []);
+
+
+
+  return (
+    <>
+        <button >get more data</button>
+
+        <div id="dashboard">
           <Navbar />
-
-
-          <label htmlFor="recommendation-card">
-            <p>Property type: house   <strong>Location: New York</strong></p>
-          </label>
-          <section id="recommendation-card">
-            <div className="dir-btn dir-left">&lt;</div>
-            <div className="dir-btn dir-right">&gt;</div>
-
-            <div ref={gallery} id="gallery">
-              <ul>
-                <li><img src={img1} alt="img1" /></li>
-                <li><img src={img2} alt="img2" /></li>
-              </ul>
-            </div>
-
-            <div className="main-image">
-              <img src={img1} alt="img3" />
-            </div>
-
-            <div className="card-info">
-              <h1>Property Name</h1>
-              <i>stars</i>
-              <p>
-                Property description lorem ipsum blah blah
-                Property description lorem ipsum blah blah  
-              </p>
-              <button>Rent</button>
-            </div>
-          </section>
-
-
-          <label htmlFor="recommendation-card">sdf</label>
-
-
-
+          <Recommendation property={properties[0]} />
+          <SimilarItems properties={properties} />
+          <Liked properties={properties} />
+          <Search />
         </div>
         <Footer />
-      </>
-    );
-  }
+    </>
+  );
+}

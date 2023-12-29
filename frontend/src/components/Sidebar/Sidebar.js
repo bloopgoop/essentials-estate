@@ -7,7 +7,7 @@ function Sidebar() {
     return (
         <div id="sidebar">
             <h1>
-                sdfsd
+                Profile
             </h1>
             <h2 id="logo">
                 <Link to="/" style={{textDecoration: 'none'}}>ʕ•́ᴥ•̀ʔっ♡</Link>

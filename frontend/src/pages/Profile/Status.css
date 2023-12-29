@@ -1,0 +1,17 @@
+#searchsort {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 0 10rem;
+}
+
+
+
+#sortitem {
+    margin-left: 2rem;
+}
+
+#sortitem > label {
+    margin-right: 1rem;
+}
+

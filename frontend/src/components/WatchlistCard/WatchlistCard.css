@@ -13,6 +13,7 @@
 
 .Watchlistcard--image {
     border-radius: 9px;
+    object-fit: cover;
 }
 
 #Watchlistcard--info {

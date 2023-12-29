@@ -22,12 +22,11 @@ code {
 
 :root {
   --primary-color: #845444;
-  --secondary-color: #F0F0F0;
+  --secondary-color: #f0f0f0;
   --accent-color: #f2d4cd;
   --text-color: #191919;
   --secondary-text-color: #96969a;
 }
-
 
 html,
 body {
@@ -44,7 +43,7 @@ button {
   border: 1px solid #8a8a91;
   border-radius: 3px;
   padding: 0.5rem 0.75rem;
-  background-color:white;
+  background-color: white;
   line-height: 1.5;
   margin: 0;
 }
@@ -253,4 +252,3 @@ form[action$="destroy"] button {
   justify-content: center;
   width: 100%;
 }
-
