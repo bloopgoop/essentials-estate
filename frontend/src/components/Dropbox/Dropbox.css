@@ -1,0 +1,43 @@
+#dropbox {
+    position: relative;
+
+    width: 600px;
+    height: 600px;
+    margin: 100px auto;
+    border: 1px dotted black;
+    background-color: rgb(189, 189, 189);
+}
+
+.bin {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    padding: 10px;
+    width: 80%;
+    height: 80%;
+    background-color: white;
+}
+
+.file-upload {
+    display: block;
+    margin: auto;
+    width: 500px;
+    border: 1px solid #ccc;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+
+#file-input-button {
+    color: transparent;
+    width: 110px;
+    overflow: none;
+    padding: 10px 10px;
+}
+
+.dropbox-image {
+    height: 100%;
+    width: 100%;
+}
