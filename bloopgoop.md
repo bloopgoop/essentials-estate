@@ -48,3 +48,4 @@ react-infinite-scroll-component<br>
 jwt-decode<br>
 python-dotenv<br>
 Pillow<br>
+psycopg2

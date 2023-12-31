@@ -2,87 +2,136 @@ import React, { useEffect, useRef, useState } from 'react';
 import './Dropbox.css';
 
 
-function Dropbox() {
-    const fileInputRef = useRef(null);
-    const dropboxRef = useRef(null);
-    const [fileObject, setFileObject] = useState(null);
+function Dropbox(id) {
+
+    const MAX_FILES = 20;
+
+    const [index, setIndex] = useState(0);
+    const [files, setFiles] = useState([]);
     const [image, setImage] = useState(null);
-    const [fileName, setFileName] = useState(null);
+    const [imageName, setImageName] = useState(null);
+    const [descriptions, setDescriptions] = useState(Array(MAX_FILES).fill(''));
+    const dropboxRef = useRef();
+    const fileInputRef = useRef();
+    const descriptionInputRef = useRef();
+    
 
     useEffect(() => {
-        if (fileObject) {
-            // set image as dropbox and name for button
-            setFileName(fileObject.name);
-            console.log(fileObject.name);
+        console.log(files);
+        console.log(index);
 
-            // extract image data from fileObject
+        // set the image state to the url of file to display preview
+        if (files.length > 0) {
             const reader = new FileReader();
-            reader.readAsDataURL(fileObject);
             reader.onload = () => {
-                setImage(reader.result);
-                dropboxRef.current.style.backgroundColor = 'lightgray';
-                dropboxRef.current.style.boxShadow = 'none';
+                if (reader.readyState === 2) {
+                    setImage(reader.result);
+                    setImageName(files[index].name);
+                }
             };
+            reader.readAsDataURL(files[index]);
         }
-    }, [fileObject]);
 
-    const handleFileChange = (event) => {
-        const file = event.target.files[0];
-        setFileObject(file);
+     }, [files, index]);
+
+    const handleFileChange = (e) => {
+        e.preventDefault();
+        console.log(e.target.files);
+        // combine existing files and new files
+        setFiles([...files, ...e.target.files]); // asynchronous
+    };
+
+    const handleDrop = (e) => {
+        e.preventDefault();
+        console.log(e.dataTransfer.files);
+        setFiles([...files, ...e.dataTransfer.files]); // asynchronous
+     };
+
+    const handleDescriptionChange = (e) => {
+        e.preventDefault();
+        // shallow copy of descriptions
+        let newDescriptions = [...descriptions];
+        // shallow copy of item at index
+        let item = newDescriptions[index];
+        // update item's value
+        item = e.target.value;
+        // put item back into newDescriptions
+        newDescriptions[index] = item;
+        // update state
+        setDescriptions(newDescriptions);
     };
 
     const handleDragOver = (e) => {
         e.preventDefault();
         dropboxRef.current.style.backgroundColor = 'white';
         dropboxRef.current.style.boxShadow = 'inset 0px 0px 10px 5px rgba(0, 0, 0, 0.2)';
-      };
-      
-      const handleDragLeave = (e) => {
+    };
+
+    const handleDragLeave = (e) => {
         e.preventDefault();
         dropboxRef.current.style.backgroundColor = 'lightgray';
         dropboxRef.current.style.boxShadow = 'none';
+    };
 
-      };
-      
-      const handleDrop = (e) => {
-        e.preventDefault();
-        let files = Array.from(e.dataTransfer.files);
-        const first = files[0];
-        setFileObject(first);
-      };
-      
-
-      
-    
     return (
         <>
+            {files.length > 0 ? ( <h1>{imageName}</h1> ) : null}
+
             <div id='dropbox'>
                 <div
-                className='bin'
-                ref={dropboxRef}
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
-                onDrop={handleDrop}
+                    className='bin'
+                    ref={dropboxRef}
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    onDrop={handleDrop}
                 >
-                {!image ? `Drop files here` : <img className="dropbox-image" src={image} alt="upload-preview" />}
+                    {!image ? `Drop files here` : <img className="dropbox-image" src={image} alt="upload-preview" />}
                 </div> 
             </div>
 
             <label htmlFor='file-input-button' className='file-upload'>
                 <span>Upload file:</span>
                 <input
-                id='file-input-button'
-                type="file"
-                multiple
-                ref={fileInputRef}
-                onChange={handleFileChange}
+                    id='file-input-button'
+                    type="file"
+                    multiple
+                    ref={fileInputRef}
+                    onChange={handleFileChange}
                 />
-                {fileName || 'No file selected'}
+                <div>{files.length} images selected</div>
             </label>
 
+
+
+            { files.length > 0 ? (
+                <label htmlFor='description-input' className='description'>
+                    <span>Description:</span>
+                    <input
+
+                        id='description-input'
+                        type="textarea"
+                        ref={descriptionInputRef}
+                        value={descriptions[index]}
+                        onChange={handleDescriptionChange}
+                    />
+                </label>
+            ) : null}
+
+
+
+            {index > 0 ? (
+                <button type="button" onClick={() => setIndex(index - 1)}>
+                    Previous
+                </button>
+
+            ) : null}
+            {index < files.length - 1 ? (
+                <button type="button" onClick={() => setIndex(index + 1)}>
+                    Next
+                </button>
+            ): null}
+
         </>
-
-
     );
 }
 
