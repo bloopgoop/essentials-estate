@@ -1,16 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import propertyService from "services/property/testAPI";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Navbar from "components/Navbar/Navbar";
-import Gallery from "components/Gallery"
+import Gallery from "components/Gallery";
 import "./Property.css";
+import axios from "services/axiosConfigs";
+import AuthContext from "context/AuthContext";
 
 const Property = () => {
   const [property, setProperty] = useState(null);
-  const { id } = useParams();
+  const [stars, setStars] = useState(0);
+  const [rating, setRating] = useState(0);
 
-  console.log(id);
+  const { id } = useParams();
+  const auth = useContext(AuthContext);
 
   const capitalize = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -29,12 +33,36 @@ const Property = () => {
       });
   }, []);
 
+  const handleGet = (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+
+    const request = axios.get(`property/rating/${id}`, formData);
+    request.then((response) => setRating(response.data.average_value));
+  };
+
+  const handlePost = (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append("stars", stars);
+    formData.append("propertyID", id);
+    formData.append("token", auth.authTokens.access)
+
+    const request = axios.post(`property/rating/${id}`, formData);
+    request
+      .then((response) => {
+        console.log("Success:", response.data);
+      })
+      .catch((error) => {
+        console.error("Error making POST request:", error);
+      });
+  };
+
   return (
     <>
       <Navbar />
       {property ? (
         <div>
-
           <main id="main-content">
             <h1>{property.title}</h1>
             <div className="split-container">
@@ -50,9 +78,6 @@ const Property = () => {
               <p>{property.description}</p>
               <button>Rent</button>
             </div>
-
-            
-
           </main>
 
           <h1>{property.title}</h1>
@@ -68,8 +93,19 @@ const Property = () => {
           <p>Square Footage: {property.sqft} sqft</p>
           <p>Lot Size: {property.lotsize} acres</p>
           <p>Type: {property.type}</p>
-          <p>Stars: {property.stars}</p>
-          <img src={property.photos[0]} alt="Property" />
+          <p>Stars: {Math.round(rating * 10) / 10}</p>
+          {/* <p>Stars: {property.stars}</p> */}
+          {/* <img src={property.photos[0]} alt="Property" /> */}
+
+          <input
+            type="number"
+            min={0}
+            max={5}
+            onChange={(e) => setStars(e.target.value)}
+          ></input>
+          <button onClick={handleGet}>Get</button>
+          <button onClick={handlePost}>Post</button>
+          <textarea></textarea>
         </div>
       ) : (
         <h1>Loading...</h1>

@@ -99,7 +99,7 @@ export function AuthProvider({ children }) {
       if (authTokens) {
         updateToken();
       }
-    }, 1000 * 60 * 14);
+    }, 1000 * 60 * 59);
     return () => clearInterval(interval);
   }, [authTokens, loading]);
 
