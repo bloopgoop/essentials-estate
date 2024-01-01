@@ -53,7 +53,11 @@ const AddProperty = () => {
       .create(formData)
       .then((response) => {
         alert("Property added successfully");
-        navigate("/");
+        
+        console.log(response);
+        // redirect to add photos page with property id
+        console.log(response.id);
+        navigate("/add-photo", { props: response.id });
       })
       .catch((error) => {
         alert(`Error adding property: ${error}`);
@@ -228,7 +232,7 @@ const AddProperty = () => {
       </div>
       <Footer />
 
-      <Dropbox />
+      <Dropbox id={77} />
     </div>
   );
 };

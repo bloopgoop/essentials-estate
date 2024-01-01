@@ -43,7 +43,6 @@ def getProperties(request):
     
     elif request.method == 'POST':
         data = request.POST
-        files = request.FILES
 
         property = Property.objects.create(
             owner=data['owner'],
@@ -64,17 +63,17 @@ def getProperties(request):
         try:
             property.save()
             id = property.id
-            for file in files:
-                print("line 75", files[file])
-                photo = PropertyPhoto.objects.create(
-                    property=Property.objects.get(id=id),
-                    photo=files[file],
-                    description="test"
-                )
-                try:
-                    photo.save()
-                except:
-                    return JsonResponse({'message': 'Error adding photo'}, status=400)
+            # for file in files:
+            #     print("line 75", files[file])
+            #     photo = PropertyPhoto.objects.create(
+            #         property=Property.objects.get(id=id),
+            #         photo=files[file],
+            #         description="test"
+            #     )
+            #     try:
+            #         photo.save()
+            #     except:
+            #         return JsonResponse({'message': 'Error adding photo'}, status=400)
                 
             return JsonResponse({'id': property.id, 'message': 'Property added successfully'}, status=200)
         

@@ -1,8 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useContext } from 'react';
 import './Dropbox.css';
+import AuthContext from 'context/AuthContext';
+import propertyService from 'services/property/testAPI';
 
 
 function Dropbox(id) {
+    const auth = useContext(AuthContext);
 
     const MAX_FILES = 20;
 
@@ -59,6 +62,34 @@ function Dropbox(id) {
         newDescriptions[index] = item;
         // update state
         setDescriptions(newDescriptions);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log('submitting');
+        console.log(files);
+        // use auth context to send auth token to backend
+        const formData = new FormData();
+        for (let i = 0; i < files.length; i++) {
+            // append files to formData files
+            formData.append(`file${i}`, files[i]);
+        }
+        // append descriptions to formData data
+        formData.append('descriptions', descriptions);
+        formData.append('token', auth.authTokens.access) // JWT token
+        formData.append('propertyID', id) // property id
+
+        // send formData to backend
+        propertyService
+            .addPhoto(formData)
+            .then((response) => {
+                alert('Photos added successfully');
+                // navigate('/');
+            })
+            .catch((error) => {
+                alert(`Error adding photos: ${error}`);
+            }); 
+
     };
 
     const handleDragOver = (e) => {
@@ -130,6 +161,13 @@ function Dropbox(id) {
                     Next
                 </button>
             ): null}
+
+            {files.length > 0 ? (
+                <button type='button' onClick={handleSubmit}>
+                    Upload
+                </button>
+            ) : null
+            }
 
         </>
     );

@@ -11,6 +11,7 @@ import Property from "./pages/Property/Property";
 import Profile from "./pages/Profile/Profile";
 import Payment from "./pages/Payment/Payment";
 import AddProperty from "./pages/AddProperty/AddProperty";
+import AddPhotos from "pages/AddPhotos/AddPhotos";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
               <Route element={<Profile />} path="/profile/" />
               <Route element={<Payment />} path="/payment" />
               <Route element={<AddProperty />} path="/add-property" />
+              <Route element={<AddPhotos props />} path="/add-photo" />
             </Route>
 
             <Route element={<Search />} path="/" exact />
