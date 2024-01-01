@@ -4,7 +4,6 @@ import Footer from "components/Footer/Footer";
 import "./AddProperty.css";
 import propertyService from "services/property/testAPI";
 import { useNavigate } from "react-router-dom";
-import Dropbox from "components/Dropbox/Dropbox";
 
 const AddProperty = () => {
   const navigate = useNavigate();
@@ -20,12 +19,7 @@ const AddProperty = () => {
   const [garages, setGarages] = useState(0);
   const [sqft, setSqft] = useState(0);
   const [lotsize, setLotsize] = useState(0);
-  const [photos, setPhotos] = useState([]);
   const [type, setType] = useState("");
-
-  const handleFileChange = (event) => {
-    setPhotos(event.target.files);
-  };
 
   const handleSubmit = (event) => {
     // TODO: Add property to the backend or perform any other necessary actions
@@ -45,19 +39,15 @@ const AddProperty = () => {
     formData.append("sqft", sqft);
     formData.append("lotsize", lotsize);
     formData.append("type", type);
-    for (let i = 0; i < photos.length; i++) {
-      formData.append(`file${i}`, photos[i]);
-    }
-
     propertyService
       .create(formData)
       .then((response) => {
         alert("Property added successfully");
-        
+
         console.log(response);
         // redirect to add photos page with property id
         console.log(response.id);
-        navigate("/add-photo", { props: response.id });
+        navigate("/add-photo", { state: { id: response.id } });
       })
       .catch((error) => {
         alert(`Error adding property: ${error}`);
@@ -203,18 +193,6 @@ const AddProperty = () => {
           </div>
 
           <div>
-            <label htmlFor="photos">Photos:</label>
-            <input
-              type="file"
-              id="photos"
-              name="photos"
-              multiple
-              accept="image/png, image/jpeg"
-              onChange={handleFileChange}
-            />
-          </div>
-
-          <div>
             <label htmlFor="type">Type of property:</label>
             <input
               type="text"
@@ -232,7 +210,6 @@ const AddProperty = () => {
       </div>
       <Footer />
 
-      <Dropbox id={77} />
     </div>
   );
 };

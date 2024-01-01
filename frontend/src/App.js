@@ -21,9 +21,10 @@ function App() {
           <Routes>
             <Route element={<LoggedInRoutes />}>
               <Route element={<Profile />} path="/profile/" />
+              
               <Route element={<Payment />} path="/payment" />
               <Route element={<AddProperty />} path="/add-property" />
-              <Route element={<AddPhotos props />} path="/add-photo" />
+              <Route element={<AddPhotos />} path="/add-photo" />
             </Route>
 
             <Route element={<Search />} path="/" exact />

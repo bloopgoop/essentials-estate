@@ -21,13 +21,20 @@ def addPhoto(request):
         data = request.POST
         files = request.FILES
 
-        print(files["file0"])
+        descriptions = json.loads(data['descriptions'])
 
-        for file in files:
+        # decode JWT and compare the user to the owner of the property
+        # if not the same, return 403
+        # data['token'] <-decode this
+        # if *user* != Property.objects.get(id=data['propertyID']).owner:
+        #    return JsonResponse({'message': 'Unauthorized'}, status=403)
+
+
+        for index, file in enumerate(files):
             photo = PropertyPhoto.objects.create(
-                property=Property.objects.get(id=77),
+                property=Property.objects.get(id=data['propertyID']),
                 photo=files[file],
-                description="test"
+                description=descriptions[index]
             )
             try:
                 photo.save()
