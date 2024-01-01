@@ -2,9 +2,10 @@ import json
 from django.shortcuts import render
 from django.http import JsonResponse, FileResponse
 from rest_framework.decorators import api_view
+from django.db.models import Avg
 import base64
 
-from .models import Property, PropertyPhoto
+from .models import Property, PropertyPhoto, Rating
 
 @api_view(['GET', 'POST'])
 def addPhoto(request):
@@ -92,3 +93,26 @@ def getProperties(request):
 @api_view(['GET'])
 def getProperty(request, pk):
     return JsonResponse(Property.objects.get(id=pk).serialize())
+
+@api_view(['GET', 'POST'])
+def addRating(request):
+    if request.method == 'GET':
+        try:
+            average_value = Rating.objects.aggregate(Avg('stars'))['stars__avg']
+            return JsonResponse({'average_value': average_value})
+        except ValueError:
+            return JsonResponse({'error': 'Invalid propertyID'}, status=400)
+    elif request.method == 'POST':
+        data = request.POST
+        
+        rating = Rating.objects.create(
+            property=Property.objects.get(id=data['propertyID']),
+            stars=data['stars'],
+        )
+
+        try:
+            rating.save()
+            id = rating.id
+            return JsonResponse({'id': rating.id, 'message': 'Rating has been posted'}, status=200)
+        except:
+            return JsonResponse({'message': 'Error adding property'}, status=400)
