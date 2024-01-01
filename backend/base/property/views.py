@@ -101,28 +101,28 @@ def getProperty(request, pk):
 @api_view(['GET', 'POST'])
 def addRating(request, property_id):
     if request.method == 'GET':
-        data = request.GET
-        print(data)
         try:
             average_value = Rating.objects.filter(property=Property.objects.get(id=property_id)).aggregate(Avg('stars'))['stars__avg']
-            return JsonResponse({'average_value': average_value})
+            rating = [rating.serialize() for rating in Rating.objects.filter(property=Property.objects.get(id=property_id))]
+            return JsonResponse({'average_value': average_value,
+                                 'ratings': rating})
         except ValueError:
             return JsonResponse({'error': 'Invalid propertyID'}, status=400)
+        
     elif request.method == 'POST':
         data = request.POST
-        print(data['token'])
         payload = jwt.decode(data['token'], settings.SECRET_KEY, algorithms=['HS256'])
-        print(payload)
 
         rating = Rating.objects.create(
             property=Property.objects.get(id=property_id),
             stars=data['stars'],
+            comment=data['comment'],
             user=User.objects.get(id=payload['user_id'])
         )
 
         try:
             rating.save()
             id = rating.id
-            return JsonResponse({'id': rating.id, 'message': 'Rating has been posted'}, status=200)
+            return JsonResponse({'id': id, 'message': 'Rating has been posted'}, status=200)
         except:
             return JsonResponse({'message': 'Error adding property'}, status=400)

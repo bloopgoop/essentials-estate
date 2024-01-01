@@ -11,7 +11,9 @@ import AuthContext from "context/AuthContext";
 const Property = () => {
   const [property, setProperty] = useState(null);
   const [stars, setStars] = useState(0);
-  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState('');
+  const [avgRating, setAvgRating] = useState(0);
+  const [Ratings, setRatings] = useState([]);
 
   const { id } = useParams();
   const auth = useContext(AuthContext);
@@ -21,10 +23,13 @@ const Property = () => {
   };
 
   useEffect(() => {
+    const request = axios.get(`property/rating/${id}`);
+    request.then((response) => setAvgRating(response.data.average_value));
+    request.then((response) => setRatings(response.data.ratings.reverse()));
+
     propertyService
       .getOne(id)
       .then((response) => {
-        console.log(response);
         setProperty(response);
       })
       .catch((error) => {
@@ -35,10 +40,9 @@ const Property = () => {
 
   const handleGet = (event) => {
     event.preventDefault();
-    const formData = new FormData();
-
-    const request = axios.get(`property/rating/${id}`, formData);
-    request.then((response) => setRating(response.data.average_value));
+    const request = axios.get(`property/rating/${id}`);
+    request.then((response) => setAvgRating(response.data.average_value));
+    request.then((response) => setRatings(response.data.ratings.reverse()));
   };
 
   const handlePost = (event) => {
@@ -46,12 +50,15 @@ const Property = () => {
     const formData = new FormData();
     formData.append("stars", stars);
     formData.append("propertyID", id);
-    formData.append("token", auth.authTokens.access)
+    formData.append("comment", comment);
+    formData.append("token", auth.authTokens.access);
 
     const request = axios.post(`property/rating/${id}`, formData);
     request
       .then((response) => {
         console.log("Success:", response.data);
+        // Updates comments and rating every post
+        handleGet(event);
       })
       .catch((error) => {
         console.error("Error making POST request:", error);
@@ -93,7 +100,7 @@ const Property = () => {
           <p>Square Footage: {property.sqft} sqft</p>
           <p>Lot Size: {property.lotsize} acres</p>
           <p>Type: {property.type}</p>
-          <p>Stars: {Math.round(rating * 10) / 10}</p>
+          <p>Stars: {Math.round(avgRating * 10) / 10}</p>
           {/* <p>Stars: {property.stars}</p> */}
           {/* <img src={property.photos[0]} alt="Property" /> */}
 
@@ -103,9 +110,16 @@ const Property = () => {
             max={5}
             onChange={(e) => setStars(e.target.value)}
           ></input>
-          <button onClick={handleGet}>Get</button>
+          <textarea onChange={(e) => setComment(e.target.value)}></textarea>
           <button onClick={handlePost}>Post</button>
-          <textarea></textarea>
+          <button onClick={handleGet}>Get</button>
+          {Ratings.map((rating) => (
+            <div>
+              <p>
+                {rating.stars}* {rating.comment}
+              </p>
+            </div>
+          ))}
         </div>
       ) : (
         <h1>Loading...</h1>
