@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import propertyService from "services/property/testAPI";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -6,6 +6,7 @@ import Navbar from "components/Navbar/Navbar";
 import Gallery from "components/Gallery";
 import "./Property.css";
 import axios from "services/axiosConfigs";
+import AuthContext from "context/AuthContext";
 
 const Property = () => {
   const [property, setProperty] = useState(null);
@@ -13,8 +14,7 @@ const Property = () => {
   const [rating, setRating] = useState(0);
 
   const { id } = useParams();
-
-  console.log(id);
+  const auth = useContext(AuthContext);
 
   const capitalize = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -37,7 +37,7 @@ const Property = () => {
     event.preventDefault();
     const formData = new FormData();
 
-    const request = axios.get("property/rating/", formData);
+    const request = axios.get(`property/rating/${id}`, formData);
     request.then((response) => setRating(response.data.average_value));
   };
 
@@ -46,8 +46,9 @@ const Property = () => {
     const formData = new FormData();
     formData.append("stars", stars);
     formData.append("propertyID", id);
+    formData.append("token", auth.authTokens.access)
 
-    const request = axios.post("property/rating/", formData)
+    const request = axios.post(`property/rating/${id}`, formData);
     request
       .then((response) => {
         console.log("Success:", response.data);
@@ -104,6 +105,7 @@ const Property = () => {
           ></input>
           <button onClick={handleGet}>Get</button>
           <button onClick={handlePost}>Post</button>
+          <textarea></textarea>
         </div>
       ) : (
         <h1>Loading...</h1>
