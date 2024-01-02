@@ -1,21 +1,19 @@
 import { useState, useEffect } from "react";
 
 import Navbar from "components/Navbar/Navbar";
-import Footer from 'components/Footer/Footer';
+import Footer from "components/Footer/Footer";
 
-import Recommendation from './RecommendationSection';
+import Recommendation from "./RecommendationSection";
 import SimilarItems from "./SimilarItemsSection";
 import Liked from "./LikedSection";
 import Search from "./SearchSection";
 
-import propertyService from "services/property/testAPI";
+import propertyService from "services/property/propertyAPI";
 
-import './Dashboard.css';
+import "./Dashboard.css";
 
-
-// Dashboard should show recommended property listings, liked properties, 
+// Dashboard should show recommended property listings, liked properties,
 // Normally you'll have two components: ThingThatLoadsData and ChildThatShowsData.
-
 
 export default function Root() {
   // state that holds the list of properties
@@ -35,20 +33,18 @@ export default function Root() {
       });
   }, []);
 
-
-
   return (
     <>
-        <button >get more data</button>
+      <button>get more data</button>
 
-        <div id="dashboard">
-          <Navbar />
-          <Recommendation property={properties[0]} />
-          <SimilarItems properties={properties} />
-          <Liked properties={properties} />
-          <Search />
-        </div>
-        <Footer />
+      <div id="dashboard">
+        <Navbar />
+        <Recommendation property={properties[0]} />
+        <SimilarItems properties={properties} />
+        <Liked properties={properties} />
+        <Search />
+      </div>
+      <Footer />
     </>
   );
 }

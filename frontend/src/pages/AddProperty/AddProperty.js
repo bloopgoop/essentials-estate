@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Navbar from "components/Navbar/Navbar";
 import Footer from "components/Footer/Footer";
 import "./AddProperty.css";
-import propertyService from "services/property/testAPI";
+import propertyService from "services/property/propertyAPI";
 import { useNavigate } from "react-router-dom";
 
 const AddProperty = () => {
@@ -209,7 +209,6 @@ const AddProperty = () => {
         </form>
       </div>
       <Footer />
-
     </div>
   );
 };

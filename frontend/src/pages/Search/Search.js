@@ -5,7 +5,7 @@ import Navbar from "components/Navbar/Navbar";
 import Footer from "components/Footer/Footer";
 import PreviewCard from "components/PreviewCard";
 
-import propertyService from "services/property/testAPI";
+import propertyService from "services/property/propertyAPI";
 
 import "./Search.css";
 

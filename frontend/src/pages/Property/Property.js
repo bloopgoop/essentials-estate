@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import propertyService from "services/property/testAPI";
+import propertyService from "services/property/propertyAPI";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Navbar from "components/Navbar/Navbar";
-import Gallery from "components/Gallery"
+import Gallery from "components/Gallery";
 import "./Property.css";
 
 const Property = () => {
@@ -34,7 +34,6 @@ const Property = () => {
       <Navbar />
       {property ? (
         <div>
-
           <main id="main-content">
             <h1>{property.title}</h1>
             <div className="split-container">
@@ -50,9 +49,6 @@ const Property = () => {
               <p>{property.description}</p>
               <button>Rent</button>
             </div>
-
-            
-
           </main>
 
           <h1>{property.title}</h1>
