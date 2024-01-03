@@ -1,8 +1,11 @@
+import jwt
 import json
 from django.shortcuts import render
 from django.http import JsonResponse, FileResponse
 from rest_framework.decorators import api_view
 import base64
+from django.conf import settings
+from django.contrib.auth.models import User
 
 from .models import Property, PropertyPhoto
 
@@ -22,13 +25,12 @@ def addPhoto(request):
         files = request.FILES
 
         descriptions = json.loads(data['descriptions'])
+        token_data = jwt.decode(data['token'], settings.SECRET_KEY, algorithms=['HS256'])
 
-        # decode JWT and compare the user to the owner of the property
-        # if not the same, return 403
-        # data['token'] <-decode this
-        # if *user* != Property.objects.get(id=data['propertyID']).owner:
-        #    return JsonResponse({'message': 'Unauthorized'}, status=403)
-
+        # Check if user is owner of property
+        property = Property.objects.get(id=data['propertyID'])
+        if token_data['user_id'] != property.owner.id:
+            return JsonResponse({'message': 'Unauthorized'}, status=403)
 
         for index, file in enumerate(files):
             photo = PropertyPhoto.objects.create(
@@ -51,8 +53,11 @@ def getProperties(request):
     elif request.method == 'POST':
         data = request.POST
 
+        token_data = jwt.decode(data['token'], settings.SECRET_KEY, algorithms=['HS256'])
+        owner = User.objects.get(id=token_data['user_id'])
+
         property = Property.objects.create(
-            owner=data['owner'],
+            owner=owner,
             address=data['address'],
             city=data['city'],
             state=data['state'],

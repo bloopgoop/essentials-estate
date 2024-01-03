@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Navbar from "components/Navbar/Navbar";
 import Footer from "components/Footer/Footer";
 import "./AddProperty.css";
 import propertyService from "services/property/propertyAPI";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "context/AuthContext";
 
 const AddProperty = () => {
+  const auth = useContext(AuthContext);
   const navigate = useNavigate();
-  const [owner, setOwner] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
@@ -26,7 +27,6 @@ const AddProperty = () => {
     event.preventDefault();
 
     const formData = new FormData();
-    formData.append("owner", owner);
     formData.append("address", address);
     formData.append("city", city);
     formData.append("state", state);
@@ -39,6 +39,7 @@ const AddProperty = () => {
     formData.append("sqft", sqft);
     formData.append("lotsize", lotsize);
     formData.append("type", type);
+    formData.append("token", auth.authTokens.access); // JWT token
     propertyService
       .create(formData)
       .then((response) => {
@@ -61,14 +62,7 @@ const AddProperty = () => {
         <h1>Add Property</h1>
         <form onSubmit={handleSubmit} id="property-form">
           <div>
-            <label htmlFor="owner">Owner:</label>
-            <input
-              type="text"
-              id="owner"
-              name="owner"
-              value={owner}
-              onChange={(e) => setOwner(e.target.value)}
-            />
+            You will be registered as the owner of this property.
           </div>
 
           <div>

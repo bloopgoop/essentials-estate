@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Authenticate.css";
 import img from "./register-background.jpg";
-
+import axios from "services/axiosConfigs.js";
 /*
 not finished
 change <form> to router dom's form.
@@ -13,8 +13,11 @@ add icons to the input bars to the right
 */
 
 const Register = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
-    name: "",
+    first_name: "",
+    last_name: "",
     email: "",
     username: "",
     password: "",
@@ -28,11 +31,23 @@ const Register = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    console.log(formData);
     if (password !== password2) {
       console.log("Passwords do not match");
     } else {
       console.log(formData);
     }
+    axios.post("/api/register/", formData)
+      .then((res) => {
+        if (res.status === 201) {
+          alert("Registered successfully");
+          navigate("/login")
+        }
+        else {
+          console.log(res);
+          alert("Error registering");
+        }
+      })
   };
 
   return (
@@ -50,12 +65,23 @@ const Register = () => {
           id="register-form"
           className="auth-form"
         >
-          <label htmlFor="name">Full Name</label>
+          <label htmlFor="name">First Name</label>
           <input
             type="text"
-            placeholder="Name"
-            name="name"
-            id="name"
+            placeholder="First Name"
+            name="first_name"
+            id="first_name"
+            value={name}
+            onChange={(e) => onChange(e)}
+            required
+          />
+
+          <label htmlFor="name">Last Name</label>
+          <input
+            type="text"
+            placeholder="Last Name"
+            name="last_name"
+            id="last_name"
             value={name}
             onChange={(e) => onChange(e)}
             required

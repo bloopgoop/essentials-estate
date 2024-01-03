@@ -53,6 +53,7 @@ const Property = () => {
 
           <h1>{property.title}</h1>
           <p>{property.description}</p>
+          <p>Owner: {property.owner}</p>
           <p>
             Address: {property.address}, {property.city}, {property.state}{" "}
             {property.zip}
