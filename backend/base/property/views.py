@@ -7,12 +7,14 @@ import base64
 import jwt
 from django.conf import settings
 from django.contrib.auth.models import User
-
 from .models import Property, PropertyPhoto, Rating
-
 from django.contrib.auth.models import Group
 
 from .decorators import allowed_users
+
+PENDING = 0
+APPROVED = 1
+REJECTED = 2
 
 @api_view(['GET', 'POST'])
 def addPhoto(request):
@@ -138,3 +140,8 @@ def checkGroup(request, group_name):
         return JsonResponse({'group': group_name })
     except:
         return JsonResponse({'message': 'Error'}, status=400)
+    
+@api_view(['GET', 'POST'])
+def reviewProperty(request):
+    if request.method == 'GET':
+        return JsonResponse([property.serialize() for property in Property.objects.all() if property.status == 0], safe=False)

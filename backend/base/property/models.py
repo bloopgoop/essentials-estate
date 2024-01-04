@@ -21,11 +21,21 @@ class Property(models.Model):
     lotsize = models.DecimalField(max_digits=5, decimal_places=2)
     stars = models.DecimalField(max_digits=2, decimal_places=1)
     type = models.CharField(max_length=50)
+    status = models.IntegerField(validators=[
+            MaxValueValidator(2),
+            MinValueValidator(0)
+        ])
 
     def __str__(self):
         return self.title
     
     def serialize(self):
+        status = {
+            0 : "Pending", 
+            1 : "Approved",
+            2 : "Rejected",
+        }
+
         return {
             'id': self.id,
             'owner': self.owner,
@@ -44,6 +54,7 @@ class Property(models.Model):
             'stars': self.stars,
             'type': self.type,
             'photos': [photo.getPath() for photo in PropertyPhoto.objects.filter(property=self.id)],
+            'status': status[self.status]
         }
     
 class PropertyPhoto(models.Model):

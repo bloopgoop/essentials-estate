@@ -8,4 +8,5 @@ urlpatterns = [
     path('rating/<int:property_id>', views.addRating, name='rating'),
     
     path('checkGroup/<str:group_name>', views.checkGroup, name='checkGroup'),
+    path('reviewProperty/', views.reviewProperty, name='review'),
 ]
