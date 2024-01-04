@@ -1,5 +1,14 @@
 import json
 from django.http import JsonResponse
+
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.encoding import force_bytes, force_str
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.template.loader import render_to_string
+from .tokens import account_activation_token
+from django.core.mail import EmailMessage
+from django.contrib import messages
+
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
@@ -8,6 +17,9 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
+
+from django.contrib.auth import authenticate, get_user_model
+from django.contrib.auth.models import Group
 
 # Customizing token response
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -40,19 +52,76 @@ def getRoutes(request):
 
 @api_view(['POST'])
 def register(request):
-    data = json.loads(request.body)
 
-    user = User.objects.create(
-        first_name=data['first_name'],
-        last_name=data['last_name'],
-        username=data['username'],
-        email=data['email'],
-        password=make_password(data['password'])
-    )
-    
+    if request.method == "POST":
+        data = json.loads(request.body)
+
+        user = User.objects.create(
+            first_name=data['first_name'],
+            last_name=data['last_name'],
+            username=data['username'],
+            email=data['email'],
+            password=make_password(data['password']),
+        )
+
     try:
+        user.is_active = False
         user.save()
-        return Response('User was registered!', status=201)
-    except:
-        return Response('Error registering user!', status=500)
 
+        # remember to uncomment this
+        """# add user to the common group
+        common_group, created = Group.objects.get_or_create(name="common_user")
+        user.groups.add(common_group)"""
+
+        activateEmail(request, data)
+        return Response('Click the link in your email to activate the account', status=201)
+    except Exception as e:
+        user.delete()
+        return Response(f'Error registering user! {e}', status=500)
+
+@api_view(['GET'])
+def activate(request, uidb64, token):
+    """
+    clean up this function,
+    make it render a template that shows email verification was successful
+    check if is_active changes through all states
+    """
+    User = get_user_model()
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except:
+        user = None
+
+    try:
+        if user is not None and account_activation_token.check_token(user, token):
+            user.is_active = True
+            user.save()
+
+            messages.success(request, "Thank you for your email confirmation. Now you can login your account.")
+            return Response('Successfully activated account!', status=200)
+        else:
+            messages.error(request, "Activation link is invalid!")
+
+    except Exception as e:
+        print(e)
+        return Response(f'Error activating account! {e}', status=400)
+    
+    return Response('ran through entire function', status=400)
+
+def activateEmail(request, data):
+    user = User.objects.get(username=data['username'])
+    mail_subject = "Activate your user account."
+    message = render_to_string("template_activate_account.html", {
+        'user': data['username'],
+        'domain': get_current_site(request).domain,
+        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+        'token': account_activation_token.make_token(user),
+        "protocol": 'https' if request.is_secure() else 'http'
+    })
+    email = EmailMessage(mail_subject, message, to=[data['email']])
+    if email.send():
+        messages.success(request, f'Dear <b>{user}</b>, please go to you email <b>{data['email']}</b> inbox and click on \
+                received activation link to confirm and complete the registration. <b>Note:</b> Check your spam folder.')
+    else:
+        messages.error(request, f'Problem sending email to {data['email']}, check if you typed it correctly.')

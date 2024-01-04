@@ -15,4 +15,6 @@ urlpatterns = [
     path('register/', views.register, name='register'),
 
     path('users/payment/', views.addPayment, name='add-payment-method'),
+
+    path('activate/<uidb64>/<token>/', views.activate, name='activate'),
 ]
