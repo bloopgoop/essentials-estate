@@ -133,12 +133,8 @@ def addRating(request, property_id):
 
 @api_view(['POST'])
 @allowed_users(allowed_roles=['admin'])
-def checkAdmin(request, group_name):
-    data = request.POST
-    user = User.objects.get(username=data['username'])
-    user_groups = user.groups.all()[0]
-    print(user_groups)
+def checkGroup(request, group_name):
     try: 
-        return JsonResponse({'message': 'SUCESS' })
+        return JsonResponse({'group': group_name })
     except:
-        return JsonResponse({'message': 'Error adding property'}, status=400)
+        return JsonResponse({'message': 'Error'}, status=400)

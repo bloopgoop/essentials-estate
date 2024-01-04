@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
-import "./Reveiw.css"
-
-useState()
+import React from "react";
+import "./Review.css";
 
 function Review() {
   return (
-    <div>Review</div>
-  )
+    <div>
+      <h1>This is the Review Page :D</h1>
+    </div>
+  );
 }
 
-export default Review
+export default Review;

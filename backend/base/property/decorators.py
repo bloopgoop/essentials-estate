@@ -11,6 +11,6 @@ def allowed_users(allowed_roles=[]):
             if user_group in allowed_roles:
                 return view_func(request, *args, **kwargs)
             else:
-                return HttpResponse("Not Allowed")
+                return HttpResponse("Wrong Group")
         return wrapper_func
     return decorator

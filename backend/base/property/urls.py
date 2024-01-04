@@ -7,5 +7,5 @@ urlpatterns = [
     path('photo/', views.addPhoto, name='addphoto'),
     path('rating/<int:property_id>', views.addRating, name='rating'),
     
-    path('checkAdmin/<str:group_name>', views.checkAdmin, name='checkAdmin'),
+    path('checkGroup/<str:group_name>', views.checkGroup, name='checkGroup'),
 ]

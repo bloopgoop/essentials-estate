@@ -13,6 +13,8 @@ import Payment from "./pages/Payment/Payment";
 import AddProperty from "./pages/AddProperty/AddProperty";
 import AddPhotos from "pages/AddPhotos/AddPhotos";
 
+import Review from "pages/Review/Review";
+import AdminRoutes from "./utils/AdminRoutes"
 function App() {
   return (
     <div className="App">
@@ -21,10 +23,15 @@ function App() {
           <Routes>
             <Route element={<LoggedInRoutes />}>
               <Route element={<Profile />} path="/profile/" />
-              
+
               <Route element={<Payment />} path="/payment" />
               <Route element={<AddProperty />} path="/add-property" />
               <Route element={<AddPhotos />} path="/add-photo" />
+            </Route>
+
+            {/* Added Review Page */}
+            <Route element={<AdminRoutes />}>
+              <Route element={<Review />} path="/review" />
             </Route>
 
             <Route element={<Search />} path="/" exact />

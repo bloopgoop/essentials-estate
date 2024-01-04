@@ -18,6 +18,9 @@ const Property = () => {
   const { id } = useParams();
   const auth = useContext(AuthContext);
 
+  let { user, logoutUser } = useContext(AuthContext);
+
+
   const capitalize = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
@@ -65,14 +68,12 @@ const Property = () => {
       });
   };
 
-  let { user, logoutUser } = useContext(AuthContext);
-
-  const checkAdmin = (event) => {
+  const checkGroup = (event) => {
     try {
       const formData = new FormData();
       formData.append("username", user.username);
       formData.append("user_id", user.user_id);
-      const request = axios.post("property/checkAdmin/admin", formData);
+      const request = axios.post("property/checkGroup/admin", formData);
       request.then((response) => console.log(response.data));
     } catch (error) {
       console.log(`ERROR: ${error}`);
@@ -118,7 +119,7 @@ const Property = () => {
           {/* <p>Stars: {property.stars}</p> */}
           {/* <img src={property.photos[0]} alt="Property" /> */}
 
-          <button onClick={checkAdmin}>Are You An Admin?</button>
+          <button onClick={checkGroup}>Are You An Admin?</button>
 
           <input
             type="number"
