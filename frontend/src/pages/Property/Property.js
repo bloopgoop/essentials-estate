@@ -65,6 +65,11 @@ const Property = () => {
       });
   };
 
+  const checkAdmin = (event) => {
+    const request = axios.get("property/checkAdmin/admin");
+    request.then((response) => console.log(response));
+  }
+
   return (
     <>
       <Navbar />
@@ -104,6 +109,8 @@ const Property = () => {
           {/* <p>Stars: {property.stars}</p> */}
           {/* <img src={property.photos[0]} alt="Property" /> */}
 
+          <button onClick={checkAdmin}>Are You An Admin?</button>
+
           <input
             type="number"
             min={0}
@@ -113,8 +120,8 @@ const Property = () => {
           <textarea onChange={(e) => setComment(e.target.value)}></textarea>
           <button onClick={handlePost}>Post</button>
           <button onClick={handleGet}>Get</button>
-          {Ratings.map((rating) => (
-            <div>
+          {Ratings.map((rating, key) => (
+            <div key={key}>
               <p>
                 {rating.stars}* {rating.comment}
               </p>

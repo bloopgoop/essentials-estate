@@ -10,6 +10,9 @@ from django.contrib.auth.models import User
 
 from .models import Property, PropertyPhoto, Rating
 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
+
 @api_view(['GET', 'POST'])
 def addPhoto(request):
     if request.method == 'GET':
@@ -126,3 +129,8 @@ def addRating(request, property_id):
             return JsonResponse({'id': id, 'message': 'Rating has been posted'}, status=200)
         except:
             return JsonResponse({'message': 'Error adding property'}, status=400)
+
+def checkAdmin(request, group_name):
+    print(request.user, group_name)
+    print(request.user.groups)
+    return JsonResponse({'user': group_name})
