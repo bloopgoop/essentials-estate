@@ -11,7 +11,7 @@ import AuthContext from "context/AuthContext";
 const Property = () => {
   const [property, setProperty] = useState(null);
   const [stars, setStars] = useState(0);
-  const [comment, setComment] = useState('');
+  const [comment, setComment] = useState("");
   const [avgRating, setAvgRating] = useState(0);
   const [Ratings, setRatings] = useState([]);
 
@@ -65,10 +65,19 @@ const Property = () => {
       });
   };
 
+  let { user, logoutUser } = useContext(AuthContext);
+
   const checkAdmin = (event) => {
-    const request = axios.get("property/checkAdmin/admin");
-    request.then((response) => console.log(response));
-  }
+    try {
+      const formData = new FormData();
+      formData.append("username", user.username);
+      formData.append("user_id", user.user_id);
+      const request = axios.post("property/checkAdmin/admin", formData);
+      request.then((response) => console.log(response.data));
+    } catch (error) {
+      console.log(`ERROR: ${error}`);
+    }
+  };
 
   return (
     <>
