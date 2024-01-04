@@ -68,6 +68,7 @@ const Property = () => {
       });
   };
 
+  // REMOVE LATER, FOR TESTING checkGroup
   const checkGroup = (event) => {
     try {
       const formData = new FormData();
@@ -101,7 +102,6 @@ const Property = () => {
               <button>Rent</button>
             </div>
           </main>
-
           <h1>{property.title}</h1>
           <p>{property.description}</p>
           <p>
@@ -118,9 +118,9 @@ const Property = () => {
           <p>Stars: {Math.round(avgRating * 10) / 10}</p>
           {/* <p>Stars: {property.stars}</p> */}
           {/* <img src={property.photos[0]} alt="Property" /> */}
-
+          
+          {/* REMOVE LATER, FOR TESTING checkGroup */}
           <button onClick={checkGroup}>Are You An Admin?</button>
-
           <input
             type="number"
             min={0}

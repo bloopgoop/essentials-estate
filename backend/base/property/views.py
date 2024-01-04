@@ -145,3 +145,10 @@ def checkGroup(request, group_name):
 def reviewProperty(request):
     if request.method == 'GET':
         return JsonResponse([property.serialize() for property in Property.objects.all() if property.status == 0], safe=False)
+    
+    elif request.method == 'POST':
+        data = request.POST
+        property_instance = Property.objects.get(id=data['propertyID'])
+        property_instance.status = data["status"]
+        property_instance.save()
+        return JsonResponse({"Message": "Sucess"})

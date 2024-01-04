@@ -2,7 +2,7 @@ import React from "react";
 import "./StatusCard.css";
 import image from "../../assets/couch.jpg";
 
-function StatusCard(props) {
+function StatusCard({props, onClick}) {
   const status = [
     "Submiting",
     "In Review By Lease Agent",
@@ -41,16 +41,16 @@ function StatusCard(props) {
         </p>
         <p>New York, NY</p>
 
-        <div class="stepper-wrapper">
+        <div className="stepper-wrapper">
           {currentStatus.map((stat, index) => (
-            <div className={`stepper-item ${check[index]}`}>
-              <div key={index} className="step-counter"></div>
+            <div key={index} className={`stepper-item ${check[index]}`}>
+              <div className="step-counter"></div>
               <div className="step-name">{stat}</div>
             </div>
           ))}
         </div>
 
-        <button>See Property</button>
+        <button onClick={onClick}>See Property</button>
       </div>
     </div>
   );
