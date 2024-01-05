@@ -11,14 +11,23 @@ function Review() {
     request.then((response) => setProperties(response.data));
   }, []);
 
-  const onClick = (propertyID) => {
+  const accept = (propertyID) => {
+    onClick(propertyID, 1)
+  };
+
+  const reject = (propertyID) => {
+    onClick(propertyID, 2)
+  };
+
+  const onClick = (propertyID, status) => {
     try {
-      console.log(propertyID);
+      console.log(`THIS IS THE PROPERTY ID: ${propertyID}`)
+      console.log(`THIS IS THE STATUS: ${status}`);
       const formData = new FormData();
       formData.append("propertyID", propertyID);
-      formData.append("status", 1);
+      formData.append("status", status);
       const request = axios.post("property/reviewProperty/", formData);
-      request.then((response) => console.log(response.data));
+      request.then((response) => setProperties(response.data));
     } catch (error) {
       console.log(`ERROR: ${error}`);
     }
@@ -30,7 +39,11 @@ function Review() {
       {/* {console.log(properties)} */}
       {properties.map((property, key) => (
         <div key={key}>
-          <StatusCard props={property} onClick={() => onClick(property.id)} />
+          <StatusCard
+            props={property}
+            accept={() => accept(property.id)}
+            reject={() => reject(property.id)}
+          />
         </div>
       ))}
     </div>

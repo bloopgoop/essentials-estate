@@ -2,7 +2,7 @@ import React from "react";
 import "./StatusCard.css";
 import image from "../../assets/couch.jpg";
 
-function StatusCard({props, onClick}) {
+function StatusCard({props, accept, reject}) {
   const status = [
     "Submiting",
     "In Review By Lease Agent",
@@ -49,8 +49,11 @@ function StatusCard({props, onClick}) {
             </div>
           ))}
         </div>
-
-        <button onClick={onClick}>See Property</button>
+        {/* REMOVE EXTRA BUTTON AND MAKE IT VIEW */}
+        {/* UNCOMMENT position: abosolute StatusCard.css */}
+        {/* CREATE A NEW COMPONENT FOR REVIEW.JS */}
+        <button onClick={accept}>Accept</button>
+        <button onClick={reject}>Reject</button>
       </div>
     </div>
   );

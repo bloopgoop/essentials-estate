@@ -151,4 +151,4 @@ def reviewProperty(request):
         property_instance = Property.objects.get(id=data['propertyID'])
         property_instance.status = data["status"]
         property_instance.save()
-        return JsonResponse({"Message": "Sucess"})
+        return JsonResponse([property.serialize() for property in Property.objects.all() if property.status == 0], safe=False)
