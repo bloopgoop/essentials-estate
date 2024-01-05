@@ -21,6 +21,8 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.models import Group
 
+from django.shortcuts import render
+
 # Customizing token response
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -68,10 +70,9 @@ def register(request):
         user.is_active = False
         user.save()
 
-        # remember to uncomment this
-        """# add user to the common group
+        # add user to the common group
         common_group, created = Group.objects.get_or_create(name="common_user")
-        user.groups.add(common_group)"""
+        user.groups.add(common_group)
 
         activateEmail(request, data)
         return Response('Click the link in your email to activate the account', status=201)
@@ -81,11 +82,6 @@ def register(request):
 
 @api_view(['GET'])
 def activate(request, uidb64, token):
-    """
-    clean up this function,
-    make it render a template that shows email verification was successful
-    check if is_active changes through all states
-    """
     User = get_user_model()
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
@@ -99,15 +95,17 @@ def activate(request, uidb64, token):
             user.save()
 
             messages.success(request, "Thank you for your email confirmation. Now you can login your account.")
-            return Response('Successfully activated account!', status=200)
+            return render(request, 'verify_email_complete.html')
         else:
             messages.error(request, "Activation link is invalid!")
+            return render(request, "verify_email_error.html", {
+                'error': 'Email already verified or link is invalid!'
+            })
 
     except Exception as e:
-        print(e)
-        return Response(f'Error activating account! {e}', status=400)
-    
-    return Response('ran through entire function', status=400)
+        return render(request, "verify_email_error.html", {
+            'error': e
+        })
 
 def activateEmail(request, data):
     user = User.objects.get(username=data['username'])
