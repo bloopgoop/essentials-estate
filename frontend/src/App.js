@@ -15,6 +15,7 @@ import AddPhotos from "pages/AddPhotos/AddPhotos";
 
 import Review from "pages/Review/Review";
 import AdminRoutes from "./utils/AdminRoutes"
+import PropertyReview from "pages/Review/PropertyReview/PropertyReview";
 function App() {
   return (
     <div className="App">
@@ -32,6 +33,7 @@ function App() {
             {/* Added Review Page */}
             <Route element={<AdminRoutes />}>
               <Route element={<Review />} path="/review" />
+              <Route element={<PropertyReview/>} path="/review/:id" />
             </Route>
 
             <Route element={<Search />} path="/" exact />

@@ -1,8 +1,9 @@
 import React from "react";
 import "./StatusCard.css";
 import image from "../../assets/couch.jpg";
+import { Link } from "react-router-dom";
 
-function StatusCard({props, accept, reject}) {
+function StatusCard({ props, accept, reject, view }) {
   const status = [
     "Submiting",
     "In Review By Lease Agent",
@@ -30,15 +31,12 @@ function StatusCard({props, accept, reject}) {
   return (
     <div id="Status--container">
       <div>
-        <img src={image} height={250} className="Status--image" />
+        <img src={props.photos[0]} height={250} className="Status--image" />
       </div>
       <div id="Status--info">
         <h2>Property Name</h2>
         <p>5 *****</p>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis est
-          ipsum, vulputate ac tortor in, tempus ullamcorper est.
-        </p>
+        <p>{props.description}</p>
         <p>New York, NY</p>
 
         <div className="stepper-wrapper">
@@ -54,6 +52,7 @@ function StatusCard({props, accept, reject}) {
         {/* CREATE A NEW COMPONENT FOR REVIEW.JS */}
         <button onClick={accept}>Accept</button>
         <button onClick={reject}>Reject</button>
+        <Link to={`/review/${props.id}`}><button>View Property</button></Link>
       </div>
     </div>
   );

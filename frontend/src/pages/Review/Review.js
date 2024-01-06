@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import propertyService from "services/property/testAPI";
 import "./Review.css";
 import axios from "services/axiosConfigs";
 import StatusCard from "../../components/StatusCard/StatusCard";
@@ -21,8 +22,6 @@ function Review() {
 
   const onClick = (propertyID, status) => {
     try {
-      console.log(`THIS IS THE PROPERTY ID: ${propertyID}`)
-      console.log(`THIS IS THE STATUS: ${status}`);
       const formData = new FormData();
       formData.append("propertyID", propertyID);
       formData.append("status", status);
@@ -32,6 +31,7 @@ function Review() {
       console.log(`ERROR: ${error}`);
     }
   };
+
 
   return (
     <div>
