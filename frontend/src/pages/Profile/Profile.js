@@ -21,4 +21,5 @@ export default function Profile() {
         <Footer/>
       </>
     );
+
 }

@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import { AuthProvider } from "context/AuthContext";
 import LoggedInRoutes from "./utils/LoggedInRoutes";
 
@@ -21,7 +26,7 @@ function App() {
           <Routes>
             <Route element={<LoggedInRoutes />}>
               <Route element={<Profile />} path="/profile/" />
-              
+
               <Route element={<Payment />} path="/payment" />
               <Route element={<AddProperty />} path="/add-property" />
               <Route element={<AddPhotos />} path="/add-photo" />

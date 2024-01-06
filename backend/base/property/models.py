@@ -1,13 +1,15 @@
 from django.db import models
 from django.conf import settings
+
 # from ..api.models import CustomUser
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 
+
 # Create your models here.
 
 class Property(models.Model):
-    owner = models.CharField(max_length=100)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
     address = models.CharField(max_length=255)
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=2)
@@ -29,7 +31,7 @@ class Property(models.Model):
     def serialize(self):
         return {
             'id': self.id,
-            'owner': self.owner,
+            'owner': self.owner.username,
             'address': self.address,
             'city': self.city,
             'state': self.state,

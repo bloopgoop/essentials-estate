@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
-import propertyService from "services/property/testAPI";
+import React, { useState, useEffect } from "react";
+import propertyService from "services/property/propertyAPI";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Navbar from "components/Navbar/Navbar";
@@ -82,6 +82,7 @@ const Property = () => {
 
           <h1>{property.title}</h1>
           <p>{property.description}</p>
+          <p>Owner: {property.owner}</p>
           <p>
             Address: {property.address}, {property.city}, {property.state}{" "}
             {property.zip}

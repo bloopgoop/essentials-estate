@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
 import "./Dropbox.css";
 import AuthContext from "context/AuthContext";
-import propertyService from "services/property/testAPI";
+import propertyService from "services/property/propertyAPI";
 
 function Dropbox({ id }) {
   const auth = useContext(AuthContext);
@@ -38,6 +38,10 @@ function Dropbox({ id }) {
     e.preventDefault();
     console.log(e.target.files);
     // combine existing files and new files
+    if (files.length + e.target.files.length > MAX_FILES) {
+      alert(`You can only upload ${MAX_FILES} files at a time`);
+      return;
+    }
     setFiles([...files, ...e.target.files]); // asynchronous
   };
 

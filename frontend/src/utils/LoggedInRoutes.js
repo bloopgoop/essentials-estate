@@ -3,15 +3,13 @@
   If not logged in, redirect to login page.
 */
 
-import { useContext } from 'react'
-import { Outlet, Navigate } from 'react-router-dom'
-import AuthContext from 'context/AuthContext'
+import { useContext } from "react";
+import { Outlet, Navigate } from "react-router-dom";
+import AuthContext from "context/AuthContext";
 
 const LoggedInRoutes = ({ request }) => {
-  let {user} = useContext(AuthContext)
-  return (
-    user ? <Outlet /> : <Navigate to="/login" />
-  )
-}
+  let { user } = useContext(AuthContext);
+  return user ? <Outlet /> : <Navigate to="/login" />;
+};
 
-export default LoggedInRoutes
+export default LoggedInRoutes;
