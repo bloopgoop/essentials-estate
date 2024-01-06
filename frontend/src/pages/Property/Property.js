@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import propertyService from "services/property/propertyAPI";
 import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
 import Navbar from "components/Navbar/Navbar";
 import Gallery from "components/Gallery";
 import "./Property.css";
+import AuthContext from "context/AuthContext";
+import RentalButton from "./RentalButton";
 
 const Property = () => {
-  const [property, setProperty] = useState(null);
-  const { id } = useParams();
+  const auth = useContext(AuthContext);
 
-  console.log(id);
+  const [requestStatus, setRequestStatus] = useState(null); // ["pending", "accepted", "none"]
+  const [property, setProperty] = useState(null);
+  const [isOwner, setIsOwner] = useState(false);
+  const { id } = useParams();
 
   const capitalize = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -22,6 +25,11 @@ const Property = () => {
       .then((response) => {
         console.log(response);
         setProperty(response);
+        if (auth.user) {
+          setIsOwner(response.ownerID === auth.user.user_id);
+        }
+        setRequestStatus(response.status);
+        console.log(requestStatus)
       })
       .catch((error) => {
         alert(`Error fetching property: ${error}`);
@@ -34,40 +42,48 @@ const Property = () => {
       <Navbar />
       {property ? (
         <div>
-          <main id="main-content">
+          {requestStatus}
+            <main id="main-content">
+              <h1>{property.title}</h1>
+              <div className="split-container">
+                <p>
+                  Property type: {capitalize(property.type)} &nbsp;
+                  <strong>{`City: ${property.city}`}</strong>
+                </p>
+                <i>{property.stars}</i>
+              </div>
+              <Gallery photos={property.photos} />
+
+              <div className="split-container">
+                <p>{property.description}</p>
+                <button>Rent</button>
+              </div>
+            </main>
+
             <h1>{property.title}</h1>
-            <div className="split-container">
-              <p>
-                Property type: {capitalize(property.type)} &nbsp;
-                <strong>{`City: ${property.city}`}</strong>
-              </p>
-              <i>{property.stars}</i>
-            </div>
-            <Gallery photos={property.photos} />
+            <p>{property.description}</p>
+            <p>Owner: {property.owner}</p>
+            <p>
+              Address: {property.address}, {property.city}, {property.state}{" "}
+              {property.zip}
+            </p>
+            <p>Rent: ${property.rent}/month</p>
+            <p>Bedrooms: {property.bedrooms}</p>
+            <p>Bathrooms: {property.bathrooms}</p>
+            <p>Garage: {property.garage} car(s)</p>
+            <p>Square Footage: {property.sqft} sqft</p>
+            <p>Lot Size: {property.lotsize} acres</p>
+            <p>Type: {property.type}</p>
+            <p>Stars: {property.stars}</p>
+            {/* <img src={property.photos[0]} alt="Property" /> */}
 
-            <div className="split-container">
-              <p>{property.description}</p>
-              <button>Rent</button>
-            </div>
-          </main>
+            {auth.user && !isOwner ? (
+              <RentalButton propertyID={id} status={requestStatus} />
+            ) : null}
 
-          <h1>{property.title}</h1>
-          <p>{property.description}</p>
-          <p>Owner: {property.owner}</p>
-          <p>
-            Address: {property.address}, {property.city}, {property.state}{" "}
-            {property.zip}
-          </p>
-          <p>Rent: ${property.rent}/month</p>
-          <p>Bedrooms: {property.bedrooms}</p>
-          <p>Bathrooms: {property.bathrooms}</p>
-          <p>Garage: {property.garage} car(s)</p>
-          <p>Square Footage: {property.sqft} sqft</p>
-          <p>Lot Size: {property.lotsize} acres</p>
-          <p>Type: {property.type}</p>
-          <p>Stars: {property.stars}</p>
-          {/* <img src={property.photos[0]} alt="Property" /> */}
+
         </div>
+        
       ) : (
         <h1>Loading...</h1>
       )}
