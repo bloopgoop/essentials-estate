@@ -3,11 +3,12 @@ import json
 from django.shortcuts import render
 from django.http import JsonResponse, FileResponse
 from rest_framework.decorators import api_view
+from django.db.models import Avg
 import base64
 from django.conf import settings
 from django.contrib.auth.models import User
 
-from .models import Property, PropertyPhoto, RentalRequest
+from .models import Property, PropertyPhoto, Rating, RentalRequest
 
 @api_view(['GET', 'POST'])
 def addPhoto(request):
@@ -52,6 +53,7 @@ def getProperties(request):
     
     elif request.method == 'POST':
         data = request.POST
+        print(data)
 
         token_data = jwt.decode(data['token'], settings.SECRET_KEY, algorithms=['HS256'])
         owner = User.objects.get(id=token_data['user_id'])
@@ -146,3 +148,32 @@ def requestRental(request, propertyID):
         
     except KeyError:
         return JsonResponse({'message': 'Bad request'}, status=400)
+    
+@api_view(['GET', 'POST'])
+def addRating(request, property_id):
+    if request.method == 'GET':
+        data = request.GET
+        print(data)
+        try:
+            average_value = Rating.objects.filter(property=Property.objects.get(id=property_id)).aggregate(Avg('stars'))['stars__avg']
+            return JsonResponse({'average_value': average_value})
+        except ValueError:
+            return JsonResponse({'error': 'Invalid propertyID'}, status=400)
+    elif request.method == 'POST':
+        data = request.POST
+        print(data['token'])
+        payload = jwt.decode(data['token'], settings.SECRET_KEY, algorithms=['HS256'])
+        print(payload)
+
+        rating = Rating.objects.create(
+            property=Property.objects.get(id=property_id),
+            stars=data['stars'],
+            user=User.objects.get(id=payload['user_id'])
+        )
+
+        try:
+            rating.save()
+            id = rating.id
+            return JsonResponse({'id': rating.id, 'message': 'Rating has been posted'}, status=200)
+        except:
+            return JsonResponse({'message': 'Error adding property'}, status=400)

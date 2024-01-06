@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import Navbar from "components/Navbar/Navbar";
 import Gallery from "components/Gallery";
 import "./Property.css";
+import axios from "services/axiosConfigs";
 import AuthContext from "context/AuthContext";
 import RentalButton from "./RentalButton";
 
@@ -12,8 +13,13 @@ const Property = () => {
 
   const [requestStatus, setRequestStatus] = useState(null); // ["pending", "accepted", "none"]
   const [property, setProperty] = useState(null);
+  const [stars, setStars] = useState(0);
+  const [rating, setRating] = useState(0);
+
   const [isOwner, setIsOwner] = useState(false);
   const { id } = useParams();
+
+  console.log(id);
 
   const capitalize = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -36,6 +42,31 @@ const Property = () => {
         return <h1>404 property not found</h1>;
       });
   }, []);
+
+  const handleGet = (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+
+    const request = axios.get(`property/rating/${id}`, formData);
+    request.then((response) => setRating(response.data.average_value));
+  };
+
+  const handlePost = (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append("stars", stars);
+    formData.append("propertyID", id);
+    formData.append("token", auth.authTokens.access)
+
+    const request = axios.post(`property/rating/${id}`, formData);
+    request
+      .then((response) => {
+        console.log("Success:", response.data);
+      })
+      .catch((error) => {
+        console.error("Error making POST request:", error);
+      });
+  };
 
   return (
     <>
@@ -74,7 +105,19 @@ const Property = () => {
             <p>Square Footage: {property.sqft} sqft</p>
             <p>Lot Size: {property.lotsize} acres</p>
             <p>Type: {property.type}</p>
-            <p>Stars: {property.stars}</p>
+            <p>Stars: {Math.round(rating * 10) / 10}</p>
+          {/* <p>Stars: {property.stars}</p> */}
+          {/* <img src={property.photos[0]} alt="Property" /> */}
+
+          <input
+            type="number"
+            min={0}
+            max={5}
+            onChange={(e) => setStars(e.target.value)}
+          ></input>
+          <button onClick={handleGet}>Get</button>
+          <button onClick={handlePost}>Post</button>
+          <textarea></textarea>
             {/* <img src={property.photos[0]} alt="Property" /> */}
 
             {auth.user && !isOwner ? (
