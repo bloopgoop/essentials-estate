@@ -35,7 +35,7 @@ const Property = () => {
           setIsOwner(response.ownerID === auth.user.user_id);
         }
         setRequestStatus(response.status);
-        console.log(requestStatus)
+        console.log(requestStatus);
       })
       .catch((error) => {
         alert(`Error fetching property: ${error}`);
@@ -56,7 +56,7 @@ const Property = () => {
     const formData = new FormData();
     formData.append("stars", stars);
     formData.append("propertyID", id);
-    formData.append("token", auth.authTokens.access)
+    formData.append("token", auth.authTokens.access);
 
     const request = axios.post(`property/rating/${id}`, formData);
     request
@@ -74,38 +74,38 @@ const Property = () => {
       {property ? (
         <div>
           {requestStatus}
-            <main id="main-content">
-              <h1>{property.title}</h1>
-              <div className="split-container">
-                <p>
-                  Property type: {capitalize(property.type)} &nbsp;
-                  <strong>{`City: ${property.city}`}</strong>
-                </p>
-                <i>{property.stars}</i>
-              </div>
-              <Gallery photos={property.photos} />
-
-              <div className="split-container">
-                <p>{property.description}</p>
-                <button>Rent</button>
-              </div>
-            </main>
-
+          <main id="main-content">
             <h1>{property.title}</h1>
-            <p>{property.description}</p>
-            <p>Owner: {property.owner}</p>
-            <p>
-              Address: {property.address}, {property.city}, {property.state}{" "}
-              {property.zip}
-            </p>
-            <p>Rent: ${property.rent}/month</p>
-            <p>Bedrooms: {property.bedrooms}</p>
-            <p>Bathrooms: {property.bathrooms}</p>
-            <p>Garage: {property.garage} car(s)</p>
-            <p>Square Footage: {property.sqft} sqft</p>
-            <p>Lot Size: {property.lotsize} acres</p>
-            <p>Type: {property.type}</p>
-            <p>Stars: {Math.round(rating * 10) / 10}</p>
+            <div className="split-container">
+              <p>
+                Property type: {capitalize(property.type)} &nbsp;
+                <strong>{`City: ${property.city}`}</strong>
+              </p>
+              <i>{property.stars}</i>
+            </div>
+            <Gallery photos={property.photos} />
+
+            <div className="split-container">
+              <p>{property.description}</p>
+              <button>Rent</button>
+            </div>
+          </main>
+
+          <h1>{property.title}</h1>
+          <p>{property.description}</p>
+          <p>Owner: {property.owner}</p>
+          <p>
+            Address: {property.address}, {property.city}, {property.state}{" "}
+            {property.zip}
+          </p>
+          <p>Rent: ${property.rent}/month</p>
+          <p>Bedrooms: {property.bedrooms}</p>
+          <p>Bathrooms: {property.bathrooms}</p>
+          <p>Garage: {property.garage} car(s)</p>
+          <p>Square Footage: {property.sqft} sqft</p>
+          <p>Lot Size: {property.lotsize} acres</p>
+          <p>Type: {property.type}</p>
+          <p>Stars: {Math.round(rating * 10) / 10}</p>
           {/* <p>Stars: {property.stars}</p> */}
           {/* <img src={property.photos[0]} alt="Property" /> */}
 
@@ -118,15 +118,12 @@ const Property = () => {
           <button onClick={handleGet}>Get</button>
           <button onClick={handlePost}>Post</button>
           <textarea></textarea>
-            {/* <img src={property.photos[0]} alt="Property" /> */}
+          {/* <img src={property.photos[0]} alt="Property" /> */}
 
-            {auth.user && !isOwner ? (
-              <RentalButton propertyID={id} status={requestStatus} />
-            ) : null}
-
-
+          {auth.user && !isOwner ? (
+            <RentalButton propertyID={id} status={requestStatus} />
+          ) : null}
         </div>
-        
       ) : (
         <h1>Loading...</h1>
       )}
