@@ -40,6 +40,8 @@ export function AuthProvider({ children }) {
           setUser(jwtDecode(response.data.access));
           console.log(jwtDecode(response.data.access));
           localStorage.setItem("authTokens", JSON.stringify(response.data));
+          console.log("axios defautls")
+          console.log(axios.defaults.headers.common['Authorization']);
           return navigate("/");
         }
       })

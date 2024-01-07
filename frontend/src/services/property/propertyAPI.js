@@ -28,6 +28,12 @@ const update = (id, newObject) => {
   return request.then((response) => response.data);
 };
 
+const requestPropertyRental = (id) => {
+  const request = axios.post(`${baseURL}/requestRental/${id}/`);
+  return request.then((response) => response.data);
+}
+
+
 const shuffle = (array) => {
   let currentIndex = array.length,
     randomIndex;
@@ -48,5 +54,5 @@ const shuffle = (array) => {
   return array;
 };
 
-const propertyService = { getAll, getOne, create, update, addPhoto };
+const propertyService = { getAll, getOne, create, update, addPhoto, requestPropertyRental };
 export default propertyService;

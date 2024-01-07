@@ -1,20 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import propertyService from "services/property/propertyAPI";
 import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
 import Navbar from "components/Navbar/Navbar";
 import Gallery from "components/Gallery";
 import "./Property.css";
 import axios from "services/axiosConfigs";
 import AuthContext from "context/AuthContext";
+import RentalButton from "./RentalButton";
 
 const Property = () => {
+  const auth = useContext(AuthContext);
+
+  const [requestStatus, setRequestStatus] = useState(null); // ["pending", "accepted", "none"]
   const [property, setProperty] = useState(null);
   const [stars, setStars] = useState(0);
   const [rating, setRating] = useState(0);
 
+  const [isOwner, setIsOwner] = useState(false);
   const { id } = useParams();
-  const auth = useContext(AuthContext);
+
+  console.log(id);
 
   const capitalize = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -26,6 +31,11 @@ const Property = () => {
       .then((response) => {
         console.log(response);
         setProperty(response);
+        if (auth.user) {
+          setIsOwner(response.ownerID === auth.user.user_id);
+        }
+        setRequestStatus(response.status);
+        console.log(requestStatus);
       })
       .catch((error) => {
         alert(`Error fetching property: ${error}`);
@@ -46,7 +56,7 @@ const Property = () => {
     const formData = new FormData();
     formData.append("stars", stars);
     formData.append("propertyID", id);
-    formData.append("token", auth.authTokens.access)
+    formData.append("token", auth.authTokens.access);
 
     const request = axios.post(`property/rating/${id}`, formData);
     request
@@ -63,6 +73,7 @@ const Property = () => {
       <Navbar />
       {property ? (
         <div>
+          {requestStatus}
           <main id="main-content">
             <h1>{property.title}</h1>
             <div className="split-container">
@@ -107,6 +118,11 @@ const Property = () => {
           <button onClick={handleGet}>Get</button>
           <button onClick={handlePost}>Post</button>
           <textarea></textarea>
+          {/* <img src={property.photos[0]} alt="Property" /> */}
+
+          {auth.user && !isOwner ? (
+            <RentalButton propertyID={id} status={requestStatus} />
+          ) : null}
         </div>
       ) : (
         <h1>Loading...</h1>
