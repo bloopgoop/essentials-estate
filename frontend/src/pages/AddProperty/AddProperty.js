@@ -13,6 +13,7 @@ const AddProperty = () => {
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [zip, setZip] = useState("");
+  const [title, setTitle] = useState("");
   const [rent, setRent] = useState(0);
   const [description, setDescription] = useState("");
   const [bedrooms, setBedrooms] = useState(0);
@@ -31,6 +32,7 @@ const AddProperty = () => {
     formData.append("city", city);
     formData.append("state", state);
     formData.append("zip", zip);
+    formData.append("title", title);
     formData.append("rent", rent);
     formData.append("description", description);
     formData.append("bedrooms", bedrooms);
@@ -106,6 +108,17 @@ const AddProperty = () => {
               name="zip"
               value={zip}
               onChange={(e) => setZip(e.target.value)}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="title">Title:</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
             />
           </div>
 

@@ -64,6 +64,7 @@ def getProperties(request):
             city=data['city'],
             state=data['state'],
             zip=data['zip'],
+            title=data['title'],
             rent=data['rent'],
             description=data['description'],
             bedrooms=data['bedrooms'],
