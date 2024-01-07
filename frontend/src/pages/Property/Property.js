@@ -7,6 +7,7 @@ import "./Property.css";
 import axios from "services/axiosConfigs";
 import AuthContext from "context/AuthContext";
 import RentalButton from "./RentalButton";
+import Footer from "components/Footer/Footer";
 
 const Property = () => {
   const auth = useContext(AuthContext);
@@ -73,9 +74,12 @@ const Property = () => {
       <Navbar />
       {property ? (
         <div>
-          {requestStatus}
           <main id="main-content">
-            <h1>{property.title}</h1>
+            {property.title ? (
+              <h1>{property.title}</h1>
+            ) : (
+              <h1>{property.address + " " + property.zip}</h1>
+            )}
             <div className="split-container">
               <p>
                 Property type: {capitalize(property.type)} &nbsp;
@@ -86,43 +90,74 @@ const Property = () => {
             <Gallery photos={property.photos} />
 
             <div className="split-container">
-              <p>{property.description}</p>
-              <button>Rent</button>
+              <p>Owner: {property.owner}</p>
+              {auth.user && !isOwner ? (
+                <RentalButton propertyID={id} status={requestStatus} />
+              ) : null}
             </div>
+
+            <p>{property.description}</p>
+
+            <table>
+              <tbody>
+                <tr>
+                  <td>Owner:</td>
+                  <td>{property.owner}</td>
+                </tr>
+                <tr>
+                  <td>Address:</td>
+                  <td>
+                    {property.address}, {property.city}, {property.state}{" "}
+                    {property.zip}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Rent:</td>
+                  <td>${property.rent}/month</td>
+                </tr>
+                <tr>
+                  <td>Bedrooms:</td>
+                  <td>{property.bedrooms}</td>
+                </tr>
+                <tr>
+                  <td>Bathrooms:</td>
+                  <td>{property.bathrooms}</td>
+                </tr>
+                <tr>
+                  <td>Garage:</td>
+                  <td>{property.garage} car(s)</td>
+                </tr>
+                <tr>
+                  <td>Square Footage:</td>
+                  <td>{property.sqft} sqft</td>
+                </tr>
+                <tr>
+                  <td>Lot Size:</td>
+                  <td>{property.lotsize} acres</td>
+                </tr>
+                <tr>
+                  <td>Type:</td>
+                  <td>{property.type}</td>
+                </tr>
+                <tr>
+                  <td>Stars:</td>
+                  <td>{Math.round(rating * 10) / 10}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <input
+              type="number"
+              min={0}
+              max={5}
+              onChange={(e) => setStars(e.target.value)}
+            ></input>
+            <button onClick={handleGet}>Get</button>
+            <button onClick={handlePost}>Post</button>
+            <textarea></textarea>
+            {/* <img src={property.photos[0]} alt="Property" /> */}
           </main>
-
-          <h1>{property.title}</h1>
-          <p>{property.description}</p>
-          <p>Owner: {property.owner}</p>
-          <p>
-            Address: {property.address}, {property.city}, {property.state}{" "}
-            {property.zip}
-          </p>
-          <p>Rent: ${property.rent}/month</p>
-          <p>Bedrooms: {property.bedrooms}</p>
-          <p>Bathrooms: {property.bathrooms}</p>
-          <p>Garage: {property.garage} car(s)</p>
-          <p>Square Footage: {property.sqft} sqft</p>
-          <p>Lot Size: {property.lotsize} acres</p>
-          <p>Type: {property.type}</p>
-          <p>Stars: {Math.round(rating * 10) / 10}</p>
-          {/* <p>Stars: {property.stars}</p> */}
-          {/* <img src={property.photos[0]} alt="Property" /> */}
-
-          <input
-            type="number"
-            min={0}
-            max={5}
-            onChange={(e) => setStars(e.target.value)}
-          ></input>
-          <button onClick={handleGet}>Get</button>
-          <button onClick={handlePost}>Post</button>
-          <textarea></textarea>
-          {/* <img src={property.photos[0]} alt="Property" /> */}
-
-          {auth.user && !isOwner ? (
-            <RentalButton propertyID={id} status={requestStatus} />
-          ) : null}
+          <Footer />
         </div>
       ) : (
         <h1>Loading...</h1>
