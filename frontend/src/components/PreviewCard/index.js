@@ -12,7 +12,11 @@ export default function PreviewCard({ property }) {
       </Link>
       <div className="preview-card-description">
         <Link to={`/property/${property.id}`}>
-          <h3>{property.title}</h3>
+          <h3>
+            {property.title
+              ? property.title
+              : property.address + " " + property.zip + " " + property.city}
+          </h3>
         </Link>
         <img src={lock} alt="star"></img>
         <p>{property.description}</p>
