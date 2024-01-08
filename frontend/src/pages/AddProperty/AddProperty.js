@@ -39,6 +39,7 @@ const AddProperty = () => {
     formData.append("sqft", sqft);
     formData.append("lotsize", lotsize);
     formData.append("type", type);
+    formData.append("status", 0);
     propertyService
       .create(formData)
       .then((response) => {
@@ -209,7 +210,6 @@ const AddProperty = () => {
         </form>
       </div>
       <Footer />
-
     </div>
   );
 };

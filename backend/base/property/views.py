@@ -77,6 +77,7 @@ def getProperties(request):
             lotsize=data['lotsize'],
             stars=0,
             type=data['type'],
+            status=data['status']
         )
         try:
             property.save()
