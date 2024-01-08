@@ -50,8 +50,6 @@ function StatusCard({ props, accept, reject, view }) {
         {/* REMOVE EXTRA BUTTON AND MAKE IT VIEW */}
         {/* UNCOMMENT position: abosolute StatusCard.css */}
         {/* CREATE A NEW COMPONENT FOR REVIEW.JS */}
-        <button onClick={accept}>Accept</button>
-        <button onClick={reject}>Reject</button>
         <Link to={`/review/${props.id}`}><button>View Property</button></Link>
       </div>
     </div>
