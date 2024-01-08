@@ -1,5 +1,5 @@
 .gallery-card {
-    border-radius: 5px;
+    border-radius: 20px;
     position: relative;
     min-height: 30rem;
     max-height: 35rem;
@@ -37,4 +37,20 @@
     height: 100%;
     width: 100%;
     object-fit: cover;
+}
+
+.fade-in {
+    animation: fadeIn ease 1s;
+    -webkit-animation: fadeIn ease 1s;
+    -moz-animation: fadeIn ease 1s;
+    -o-animation: fadeIn ease 1s;
+    -ms-animation: fadeIn ease 1s;
+}
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }

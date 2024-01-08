@@ -1,22 +1,27 @@
 import React, { useState, useEffect, useContext } from "react";
-import propertyService from "services/property/testAPI";
+import propertyService from "services/property/propertyAPI";
 import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
 import Navbar from "components/Navbar/Navbar";
 import Gallery from "components/Gallery";
 import "./Property.css";
 import axios from "services/axiosConfigs";
 import AuthContext from "context/AuthContext";
+import RentalButton from "./RentalButton";
 
 const Property = () => {
+  const auth = useContext(AuthContext);
+
+  const [requestStatus, setRequestStatus] = useState(null); // ["pending", "accepted", "none"]
   const [property, setProperty] = useState(null);
   const [stars, setStars] = useState(0);
   const [comment, setComment] = useState("");
   const [avgRating, setAvgRating] = useState(0);
   const [Ratings, setRatings] = useState([]);
 
+  const [isOwner, setIsOwner] = useState(false);
   const { id } = useParams();
-  const auth = useContext(AuthContext);
+
+  console.log(id);
 
   let { user, logoutUser } = useContext(AuthContext);
 
@@ -34,6 +39,11 @@ const Property = () => {
       .getOne(id)
       .then((response) => {
         setProperty(response);
+        if (auth.user) {
+          setIsOwner(response.ownerID === auth.user.user_id);
+        }
+        setRequestStatus(response.status);
+        console.log(requestStatus);
       })
       .catch((error) => {
         alert(`Error fetching property: ${error}`);
@@ -86,6 +96,7 @@ const Property = () => {
       <Navbar />
       {property ? (
         <div>
+          {requestStatus}
           <main id="main-content">
             <h1>{property.title}</h1>
             <div className="split-container">
@@ -104,6 +115,7 @@ const Property = () => {
           </main>
           <h1>{property.title}</h1>
           <p>{property.description}</p>
+          <p>Owner: {property.owner}</p>
           <p>
             Address: {property.address}, {property.city}, {property.state}{" "}
             {property.zip}
@@ -137,6 +149,12 @@ const Property = () => {
               </p>
             </div>
           ))}
+          <textarea></textarea>
+          {/* <img src={property.photos[0]} alt="Property" /> */}
+
+          {auth.user && !isOwner ? (
+            <RentalButton propertyID={id} status={requestStatus} />
+          ) : null}
         </div>
       ) : (
         <h1>Loading...</h1>

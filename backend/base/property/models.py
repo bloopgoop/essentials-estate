@@ -1,12 +1,15 @@
 from django.db import models
 from django.conf import settings
+# from ..api.models import CustomUser
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
+
 
 # Create your models here.
 
 class Property(models.Model):
-    owner = models.CharField(max_length=100)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    rented_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name='rented_to', null=True)
     address = models.CharField(max_length=255)
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=2)
@@ -25,6 +28,7 @@ class Property(models.Model):
             MaxValueValidator(2),
             MinValueValidator(0)
         ])
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.title
@@ -38,7 +42,8 @@ class Property(models.Model):
 
         return {
             'id': self.id,
-            'owner': self.owner,
+            'owner': self.owner.username,
+            'ownerID': self.owner.id,
             'address': self.address,
             'city': self.city,
             'state': self.state,
@@ -53,8 +58,9 @@ class Property(models.Model):
             'lotsize': self.lotsize,
             'stars': self.stars,
             'type': self.type,
-            'photos': [photo.getPath() for photo in PropertyPhoto.objects.filter(property=self.id)],
+#             'photos': [photo.getPath() for photo in PropertyPhoto.objects.filter(property=self.id)], WAS FROM JOAN-BRANCH
             'status': status[self.status]
+            'photos': [{"img":photo.getPath(), "description":photo.description} for photo in PropertyPhoto.objects.filter(property=self.id)],
         }
     
 class PropertyPhoto(models.Model):
@@ -92,5 +98,22 @@ class Rating(models.Model):
             # 'property': self.property.id,
             'stars': self.stars,
             'comment': self.comment,
+        }
+      
+class RentalRequest(models.Model):
+    property = models.ForeignKey(Property, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True)
+    approved = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.user.username + "wants to rent out property id" + self.property.id + ":" + self.property.description
+    
+    def serialize(self):
+        return {
+            'id': self.id,
+            'property': self.property.id,
+            'user': self.user.username,
             'date': self.date,
         }

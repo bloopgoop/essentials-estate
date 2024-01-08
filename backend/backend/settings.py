@@ -181,6 +181,16 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = f'{os.getenv("EMAIL_HOST_USER")}'
+EMAIL_HOST_PASSWORD = f'{os.getenv("EMAIL_HOST_PASSWORD")}'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = "EssentialsEstate@gmail.com"
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
@@ -207,5 +217,3 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True
-
-# AUTH_USER_MODEL = 'api.CustomUser'
