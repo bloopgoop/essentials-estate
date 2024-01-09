@@ -10,50 +10,50 @@ from django.contrib.auth.models import User
 
 from .models import Property, PropertyPhoto, Rating, RentalRequest
 
-@api_view(['GET', 'POST'])
+@api_view(['POST'])
 def addPhoto(request):
-    if request.method == 'GET':
-        photos = PropertyPhoto.objects.filter(property=Property.objects.get(id=77))
-        paths = []
-        for photo in photos:
-            paths.append(photo.getPath())
-            print(photo.serialize())
 
-        return JsonResponse(paths, safe=False)
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required."}, status=400)
+    
+    data = request.POST
+    files = request.FILES
 
-    if request.method == 'POST':
-        data = request.POST
-        files = request.FILES
+    descriptions = json.loads(data['descriptions'])
+    token_data = jwt.decode(data['token'], settings.SECRET_KEY, algorithms=['HS256'])
 
-        descriptions = json.loads(data['descriptions'])
-        token_data = jwt.decode(data['token'], settings.SECRET_KEY, algorithms=['HS256'])
+    # Check if user is owner of property
+    property = Property.objects.get(id=data['propertyID'])
+    if token_data['user_id'] != property.owner.id:
+        return JsonResponse({'message': 'Unauthorized'}, status=403)
 
-        # Check if user is owner of property
-        property = Property.objects.get(id=data['propertyID'])
-        if token_data['user_id'] != property.owner.id:
-            return JsonResponse({'message': 'Unauthorized'}, status=403)
-
-        for index, file in enumerate(files):
-            photo = PropertyPhoto.objects.create(
-                property=Property.objects.get(id=data['propertyID']),
-                photo=files[file],
-                description=descriptions[index]
-            )
-            try:
-                photo.save()
-            except:
-                return JsonResponse({'message': 'Error adding photo'}, status=400)
-            
-        return JsonResponse({'message': 'Photo(s) added successfully'}, status=200)
+    for index, file in enumerate(files):
+        photo = PropertyPhoto.objects.create(
+            property=Property.objects.get(id=data['propertyID']),
+            photo=files[file],
+            description=descriptions[index]
+        )
+        try:
+            photo.save()
+        except:
+            return JsonResponse({'message': 'Error adding photo'}, status=400)
+        
+    return JsonResponse({'message': 'Photo(s) added successfully'}, status=200)
 
 @api_view(['GET', 'POST'])
-def getProperties(request):
+def properties(request):
     if request.method == 'GET':
-        return JsonResponse([property.serialize() for property in Property.objects.all()], safe=False)
-    
+        # Get properties in range [start, end], if not specified, give first 50
+        start = int(request.GET.get('start', 0))
+        end = int(request.GET.get('end', start + 50))
+        property = [property.serialize() for property in Property.objects.all().order_by('id')[start:end]]
+        if len(property) == 0:
+            return JsonResponse({"message": "No more content"}, status=204)
+        
+        return JsonResponse(property, safe=False, status=200)
+
     elif request.method == 'POST':
         data = request.POST
-        print(data)
 
         token_data = jwt.decode(data['token'], settings.SECRET_KEY, algorithms=['HS256'])
         owner = User.objects.get(id=token_data['user_id'])

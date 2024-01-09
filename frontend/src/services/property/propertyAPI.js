@@ -3,9 +3,10 @@ const baseURL = "/property";
 
 // Turn all these into async functions and return the data directly instead of promises
 
-const getAll = () => {
-  const request = axios.get(`${baseURL}/`);
-  return request.then((response) => shuffle(response.data));
+// returns response instead of response.data
+const getRange = (start, end) => {
+  const request = axios.get(`${baseURL}/?start=${start}&end=${end}`);
+  return request.then((response) => (response));
 };
 
 const getOne = (id) => {
@@ -54,5 +55,5 @@ const shuffle = (array) => {
   return array;
 };
 
-const propertyService = { getAll, getOne, create, update, addPhoto, requestPropertyRental };
+const propertyService = { getRange, getOne, create, update, addPhoto, requestPropertyRental };
 export default propertyService;

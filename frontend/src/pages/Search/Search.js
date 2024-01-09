@@ -18,14 +18,21 @@ function Search() {
   const [hasMore, setHasMore] = useState(true);
 
   const fetchData = () => {
-    if (properties.length >= 20) {
+    if (properties.length >= 500) {
       setHasMore(false);
       return;
     }
     propertyService
-      .getAll()
+      .getRange(properties.length, properties.length + 20)
       .then((response) => {
-        setProperties(properties.concat(response));
+
+        if (response.status === 204) {
+          // no more properties to fetch
+          setHasMore(false);
+          return;
+        }
+
+        setProperties(properties.concat(response.data));
       })
       .catch((error) => {
         alert(`Error fetching properties: ${error}`);
@@ -87,7 +94,7 @@ function Search() {
         </div>
 
         <div>
-          Filtering by: <span>  </span>
+          Sorting by: <span>  </span>
           <strong>
             {filter === "" ? "NONE" : filter.toUpperCase()}
           </strong>
@@ -99,7 +106,7 @@ function Search() {
           hasMore={hasMore}
           loader={<Loading/>}
           endMessage={
-            <p style={{ textAlign: "center", margin:"auto" }}>
+            <p style={{ textAlign: "center", margin:"auto", marginTop:"3rem" }}>
               <b>Yay! You have seen it all</b>
             </p>
           }
