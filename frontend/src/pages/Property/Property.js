@@ -16,22 +16,30 @@ const Property = () => {
   const [requestStatus, setRequestStatus] = useState(null); // ["pending", "accepted", "none"]
   const [property, setProperty] = useState(null);
   const [stars, setStars] = useState(0);
-  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
+  const [avgRating, setAvgRating] = useState(0);
+  const [Ratings, setRatings] = useState([]);
 
   const [isOwner, setIsOwner] = useState(false);
   const { id } = useParams();
 
   console.log(id);
 
+  let { user, logoutUser } = useContext(AuthContext);
+
+
   const capitalize = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
 
   useEffect(() => {
+    const request = axios.get(`property/rating/${id}`);
+    request.then((response) => setAvgRating(response.data.average_value));
+    request.then((response) => setRatings(response.data.ratings.reverse()));
+
     propertyService
       .getOne(id)
       .then((response) => {
-        console.log(response);
         setProperty(response);
         if (auth.user) {
           setIsOwner(response.ownerID === auth.user.user_id);
@@ -47,10 +55,9 @@ const Property = () => {
 
   const handleGet = (event) => {
     event.preventDefault();
-    const formData = new FormData();
-
-    const request = axios.get(`property/rating/${id}`, formData);
-    request.then((response) => setRating(response.data.average_value));
+    const request = axios.get(`property/rating/${id}`);
+    request.then((response) => setAvgRating(response.data.average_value));
+    request.then((response) => setRatings(response.data.ratings.reverse()));
   };
 
   const handlePost = (event) => {
@@ -58,16 +65,32 @@ const Property = () => {
     const formData = new FormData();
     formData.append("stars", stars);
     formData.append("propertyID", id);
+    formData.append("comment", comment);
     formData.append("token", auth.authTokens.access);
 
     const request = axios.post(`property/rating/${id}`, formData);
     request
       .then((response) => {
         console.log("Success:", response.data);
+        // Updates comments and rating every post
+        handleGet(event);
       })
       .catch((error) => {
         console.error("Error making POST request:", error);
       });
+  };
+
+  // REMOVE LATER, FOR TESTING checkGroup
+  const checkGroup = (event) => {
+    try {
+      const formData = new FormData();
+      formData.append("username", user.username);
+      formData.append("user_id", user.user_id);
+      const request = axios.post("property/checkGroup/admin", formData);
+      request.then((response) => console.log(response.data));
+    } catch (error) {
+      console.log(`ERROR: ${error}`);
+    }
   };
 
   return (
@@ -96,7 +119,6 @@ const Property = () => {
                 <RentalButton propertyID={id} status={requestStatus} />
               ) : null}
             </div>
-
             <p>{property.description}</p>
 
             <table>
@@ -147,18 +169,22 @@ const Property = () => {
               </tbody>
             </table>
 
-            <input
-              type="number"
-              min={0}
-              max={5}
-              onChange={(e) => setStars(e.target.value)}
-            ></input>
+           {/* REMOVE LATER, FOR TESTING checkGroup */}
+          <button onClick={checkGroup}>Are You An Admin?</button>
+          <input
+            type="number"
+            min={0}
+            max={5}
+            onChange={(e) => setStars(e.target.value)}
+          ></input>
+          <textarea onChange={(e) => setComment(e.target.value)}></textarea>
             <button onClick={handleGet}>Get</button>
             <button onClick={handlePost}>Post</button>
             <textarea></textarea>
             {/* <img src={property.photos[0]} alt="Property" /> */}
           </main>
           <Footer />
+
         </div>
       ) : (
         <Loading />

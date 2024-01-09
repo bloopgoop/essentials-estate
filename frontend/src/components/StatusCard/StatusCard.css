@@ -107,7 +107,8 @@
 }
 
 #Status--info > button {
-    position: absolute;
+/* ADD POSITION ONCE THERE IS ONLY ONE BUTTON */
+    /* position: absolute; */
     right: 1rem;
     bottom: 1rem;
     width: 10rem;

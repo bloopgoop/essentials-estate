@@ -18,6 +18,9 @@ import Payment from "./pages/Payment/Payment";
 import AddProperty from "./pages/AddProperty/AddProperty";
 import AddPhotos from "pages/AddPhotos/AddPhotos";
 
+import Review from "pages/Review/Review";
+import AdminRoutes from "./utils/AdminRoutes"
+import PropertyReview from "pages/Review/PropertyReview/PropertyReview";
 function App() {
   return (
     <div className="App">
@@ -30,6 +33,12 @@ function App() {
               <Route element={<Payment />} path="/payment" />
               <Route element={<AddProperty />} path="/add-property" />
               <Route element={<AddPhotos />} path="/add-photo" />
+            </Route>
+
+            {/* Added Review Page */}
+            <Route element={<AdminRoutes />}>
+              <Route element={<Review />} path="/review" />
+              <Route element={<PropertyReview/>} path="/review/:id" />
             </Route>
 
             <Route element={<Search />} path="/" exact />

@@ -1,6 +1,5 @@
 from django.db import models
 from django.conf import settings
-
 # from ..api.models import CustomUser
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -25,12 +24,22 @@ class Property(models.Model):
     lotsize = models.DecimalField(max_digits=5, decimal_places=2)
     stars = models.DecimalField(max_digits=2, decimal_places=1)
     type = models.CharField(max_length=50)
+    status = models.IntegerField(validators=[
+            MaxValueValidator(2),
+            MinValueValidator(0)
+        ])
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.title
     
     def serialize(self):
+        status = {
+            0 : "Pending", 
+            1 : "Approved",
+            2 : "Rejected",
+        }
+
         return {
             'id': self.id,
             'owner': self.owner.username,
@@ -75,6 +84,7 @@ class Rating(models.Model):
             MaxValueValidator(5),
             MinValueValidator(0)
         ])
+    comment = models.CharField(max_length=255, blank=True)
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -83,6 +93,15 @@ class Rating(models.Model):
     def is_valid_rating(self):
         return (0 <= self.stars <= 5) and (self.user != self.property.owner)
     
+
+    def serialize(self):
+        return {
+            # 'user': self.user.id,
+            # 'property': self.property.id,
+            'stars': self.stars,
+            'comment': self.comment,
+        }
+
 class RentalRequest(models.Model):
     property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='rental_requests')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='rental_requests')

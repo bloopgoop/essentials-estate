@@ -41,6 +41,7 @@ const AddProperty = () => {
     formData.append("sqft", sqft);
     formData.append("lotsize", lotsize);
     formData.append("type", type);
+    formData.append("status", 0);
     formData.append("token", auth.authTokens.access); // JWT token
     propertyService
       .create(formData)
