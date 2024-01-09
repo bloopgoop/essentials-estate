@@ -20,3 +20,27 @@
   border: 1px solid #ccc;
   box-shadow: #ccc 0px 0px 15px;
 }
+
+#filter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+#filter > * {
+  display: flex;
+  width: 30%;
+  align-items: center;
+}
+#searchTerm {
+  flex: 1;
+  margin-left: 1rem;
+}
+#filterType {
+  font-size: 16px; /* Updated font size */
+  margin-left: 1rem;
+}
+#filterTypeContainer {
+  justify-content: flex-end;
+}
+  

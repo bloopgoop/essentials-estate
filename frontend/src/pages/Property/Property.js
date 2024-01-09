@@ -8,6 +8,7 @@ import axios from "services/axiosConfigs";
 import AuthContext from "context/AuthContext";
 import RentalButton from "./RentalButton";
 import Footer from "components/Footer/Footer";
+import Loading from "components/Loading";
 
 const Property = () => {
   const auth = useContext(AuthContext);
@@ -160,7 +161,7 @@ const Property = () => {
           <Footer />
         </div>
       ) : (
-        <h1>Loading...</h1>
+        <Loading />
       )}
     </>
   );

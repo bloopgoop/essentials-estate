@@ -4,18 +4,21 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Navbar from "components/Navbar/Navbar";
 import Footer from "components/Footer/Footer";
 import PreviewCard from "components/PreviewCard";
+import Loading from "components/Loading";
 
 import propertyService from "services/property/propertyAPI";
 
 import "./Search.css";
 
 function Search() {
-  // state that holds the list of properties
+  const [filter, setFilter] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [properties, setProperties] = useState([]);
+  const [shownProperties, setShownProperties] = useState([]); // properties that are shown on the page
   const [hasMore, setHasMore] = useState(true);
 
   const fetchData = () => {
-    if (properties.length >= 200) {
+    if (properties.length >= 20) {
       setHasMore(false);
       return;
     }
@@ -34,23 +37,75 @@ function Search() {
     fetchData();
   }, []);
 
+  // change filter on filter change, sort properties by show matched properties first, then unmatched after
+  useEffect(() => {
+    if (searchTerm === "" || filter === "") {
+      setShownProperties(properties);
+      return;
+    }
+    let filteredProperties = [];
+    let unmatchedProperties = [];
+    for (let i = 0; i < properties.length; i++) {
+      if (properties[i][filter].toLowerCase().includes(searchTerm.toLowerCase())) {
+        filteredProperties.push(properties[i]);
+      } else {
+        unmatchedProperties.push(properties[i]);
+      }
+    }
+    
+    setShownProperties([...filteredProperties, ...unmatchedProperties]);
+  }, [filter, searchTerm, properties]);
+
   return (
     <>
       <Navbar />
       <div id="search">
+
+        <div id="filter">
+          <div>
+            <label htmlFor="searchTerm">Search Term: </label>
+            <input
+              id="searchTerm"
+              type="text"
+              placeholder={"Search by " + filter + "..."}
+              onChange={(event) => setSearchTerm(event.target.value.toLowerCase())}
+            />
+          </div>
+
+          <div id="filterTypeContainer">
+            <label htmlFor="filterType">Filter by: </label>
+            <select onChange={(event) => setFilter(event.target.value)} id="filterType">
+              <option value="">None</option>
+              <option value="address">Address</option>
+              <option value="city">City</option>
+              <option value="title">Title</option>
+              <option value="description">Description</option>
+              <option value="owner">Owner</option>
+              <option value="type">Type</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          Filtering by: <span>  </span>
+          <strong>
+            {filter === "" ? "NONE" : filter.toUpperCase()}
+          </strong>
+        </div>
+
         <InfiniteScroll
           dataLength={properties.length}
           next={fetchData}
           hasMore={hasMore}
-          loader={<h4>Loading...</h4>}
+          loader={<Loading/>}
           endMessage={
-            <p style={{ textAlign: "center" }}>
+            <p style={{ textAlign: "center", margin:"auto" }}>
               <b>Yay! You have seen it all</b>
             </p>
           }
         >
           <div className="grid">
-            {properties.map((property, index) => (
+            {shownProperties.map((property, index) => (
               <div className="grid-item" key={index}>
                 <PreviewCard property={property} />
               </div>
