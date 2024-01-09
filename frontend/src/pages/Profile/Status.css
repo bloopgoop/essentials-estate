@@ -1,17 +1,115 @@
-#searchsort {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    margin: 0 10rem;
+.stepper-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem 0;
+}
+.step-name {
+  text-align: center;
+}
+.stepper-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 }
 
-
-
-#sortitem {
-    margin-left: 2rem;
+.stepper-item::before {
+  position: absolute;
+  content: "";
+  border-bottom: 2px solid #ccc;
+  width: 100%;
+  top: 20px;
+  left: -50%;
+  z-index: 2;
 }
 
-#sortitem > label {
-    margin-right: 1rem;
+.stepper-item::after {
+  position: absolute;
+  content: "";
+  border-bottom: 2px solid #ccc;
+  width: 100%;
+  top: 20px;
+  left: 50%;
+  z-index: 2;
 }
 
+.stepper-item .step-counter {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ccc;
+  margin-bottom: 6px;
+  outline: 3px solid gray;
+}
+
+.stepper-item.active {
+  font-weight: bold;
+}
+
+.stepper-item.completed .step-counter {
+  background-color: #4bb543;
+  outline: 3px solid #3b923a;
+}
+
+.stepper-item.completed::after {
+  position: absolute;
+  content: "";
+  border-bottom: 2px solid #4bb543;
+  width: 100%;
+  top: 20px;
+  left: 50%;
+  z-index: 3;
+}
+
+.stepper-item:first-child::before {
+  content: none;
+}
+.stepper-item:last-child::after {
+  content: none;
+}
+
+#Status--container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 40rem;
+  background-color: var(--secondary-color);
+  padding: 30px;
+  align-items: center;
+  margin: 1rem;
+  width: 90%;
+  position: relative;
+  min-width: 820px;
+}
+
+.Status--image {
+  border-radius: 9px;
+}
+
+#Status--info {
+  display: flex;
+  flex-direction: column;
+  margin: 3%;
+}
+
+#Status--info > h2,
+#Status--info > p {
+  margin: 0.5rem 0;
+}
+
+#Status--info > button {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  width: 10rem;
+}

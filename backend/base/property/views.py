@@ -7,7 +7,8 @@ from django.db.models import Avg
 import base64
 from django.conf import settings
 from django.contrib.auth.models import User
-
+from django.contrib.auth.models import Group
+from .decorators import allowed_users
 from .models import Property, PropertyPhoto, Rating, RentalRequest
 
 @api_view(['GET', 'POST'])
@@ -73,6 +74,7 @@ def getProperties(request):
             lotsize=data['lotsize'],
             stars=0,
             type=data['type'],
+            status=data['status']
         )
         try:
             property.save()
@@ -152,28 +154,51 @@ def requestRental(request, propertyID):
 @api_view(['GET', 'POST'])
 def addRating(request, property_id):
     if request.method == 'GET':
-        data = request.GET
-        print(data)
         try:
             average_value = Rating.objects.filter(property=Property.objects.get(id=property_id)).aggregate(Avg('stars'))['stars__avg']
-            return JsonResponse({'average_value': average_value})
+            rating = [rating.serialize() for rating in Rating.objects.filter(property=Property.objects.get(id=property_id))]
+            return JsonResponse({'average_value': average_value,
+                                 'ratings': rating})
         except ValueError:
             return JsonResponse({'error': 'Invalid propertyID'}, status=400)
+        
     elif request.method == 'POST':
         data = request.POST
-        print(data['token'])
         payload = jwt.decode(data['token'], settings.SECRET_KEY, algorithms=['HS256'])
-        print(payload)
 
         rating = Rating.objects.create(
             property=Property.objects.get(id=property_id),
             stars=data['stars'],
+            comment=data['comment'],
             user=User.objects.get(id=payload['user_id'])
         )
 
         try:
             rating.save()
             id = rating.id
-            return JsonResponse({'id': rating.id, 'message': 'Rating has been posted'}, status=200)
+            return JsonResponse({'id': id, 'message': 'Rating has been posted'}, status=200)
         except:
             return JsonResponse({'message': 'Error adding property'}, status=400)
+
+@api_view(['POST'])
+@allowed_users(allowed_roles=['admin'])
+def checkGroup(request, group_name):
+    try: 
+        return JsonResponse({'group': group_name })
+    except:
+        return JsonResponse({'message': 'Error'}, status=400)
+    
+@api_view(['GET', 'POST'])
+def reviewProperty(request):
+  try:
+    if request.method == 'GET':
+        return JsonResponse([property.serialize() for property in Property.objects.all() if property.status == 0], safe=False)
+    
+    elif request.method == 'POST':
+        data = request.POST
+        property_instance = Property.objects.get(id=data['propertyID'])
+        property_instance.status = data["status"]
+        property_instance.save()
+        return JsonResponse([property.serialize() for property in Property.objects.all() if property.status == 0], safe=False)
+  except:
+    return JsonResponse({'message': 'Error adding property'}, status=400)

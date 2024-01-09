@@ -14,22 +14,30 @@ const Property = () => {
   const [requestStatus, setRequestStatus] = useState(null); // ["pending", "accepted", "none"]
   const [property, setProperty] = useState(null);
   const [stars, setStars] = useState(0);
-  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
+  const [avgRating, setAvgRating] = useState(0);
+  const [Ratings, setRatings] = useState([]);
 
   const [isOwner, setIsOwner] = useState(false);
   const { id } = useParams();
 
   console.log(id);
 
+  let { user, logoutUser } = useContext(AuthContext);
+
+
   const capitalize = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
 
   useEffect(() => {
+    const request = axios.get(`property/rating/${id}`);
+    request.then((response) => setAvgRating(response.data.average_value));
+    request.then((response) => setRatings(response.data.ratings.reverse()));
+
     propertyService
       .getOne(id)
       .then((response) => {
-        console.log(response);
         setProperty(response);
         if (auth.user) {
           setIsOwner(response.ownerID === auth.user.user_id);
@@ -45,10 +53,9 @@ const Property = () => {
 
   const handleGet = (event) => {
     event.preventDefault();
-    const formData = new FormData();
-
-    const request = axios.get(`property/rating/${id}`, formData);
-    request.then((response) => setRating(response.data.average_value));
+    const request = axios.get(`property/rating/${id}`);
+    request.then((response) => setAvgRating(response.data.average_value));
+    request.then((response) => setRatings(response.data.ratings.reverse()));
   };
 
   const handlePost = (event) => {
@@ -56,16 +63,32 @@ const Property = () => {
     const formData = new FormData();
     formData.append("stars", stars);
     formData.append("propertyID", id);
+    formData.append("comment", comment);
     formData.append("token", auth.authTokens.access);
 
     const request = axios.post(`property/rating/${id}`, formData);
     request
       .then((response) => {
         console.log("Success:", response.data);
+        // Updates comments and rating every post
+        handleGet(event);
       })
       .catch((error) => {
         console.error("Error making POST request:", error);
       });
+  };
+
+  // REMOVE LATER, FOR TESTING checkGroup
+  const checkGroup = (event) => {
+    try {
+      const formData = new FormData();
+      formData.append("username", user.username);
+      formData.append("user_id", user.user_id);
+      const request = axios.post("property/checkGroup/admin", formData);
+      request.then((response) => console.log(response.data));
+    } catch (error) {
+      console.log(`ERROR: ${error}`);
+    }
   };
 
   return (
@@ -90,7 +113,6 @@ const Property = () => {
               <button>Rent</button>
             </div>
           </main>
-
           <h1>{property.title}</h1>
           <p>{property.description}</p>
           <p>Owner: {property.owner}</p>
@@ -105,18 +127,28 @@ const Property = () => {
           <p>Square Footage: {property.sqft} sqft</p>
           <p>Lot Size: {property.lotsize} acres</p>
           <p>Type: {property.type}</p>
-          <p>Stars: {Math.round(rating * 10) / 10}</p>
+          <p>Stars: {Math.round(avgRating * 10) / 10}</p>
           {/* <p>Stars: {property.stars}</p> */}
           {/* <img src={property.photos[0]} alt="Property" /> */}
-
+          
+          {/* REMOVE LATER, FOR TESTING checkGroup */}
+          <button onClick={checkGroup}>Are You An Admin?</button>
           <input
             type="number"
             min={0}
             max={5}
             onChange={(e) => setStars(e.target.value)}
           ></input>
-          <button onClick={handleGet}>Get</button>
+          <textarea onChange={(e) => setComment(e.target.value)}></textarea>
           <button onClick={handlePost}>Post</button>
+          <button onClick={handleGet}>Get</button>
+          {Ratings.map((rating, key) => (
+            <div key={key}>
+              <p>
+                {rating.stars}* {rating.comment}
+              </p>
+            </div>
+          ))}
           <textarea></textarea>
           {/* <img src={property.photos[0]} alt="Property" /> */}
 
