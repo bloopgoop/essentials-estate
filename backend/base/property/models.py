@@ -9,8 +9,8 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 # Create your models here.
 
 class Property(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    rented_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name='rented_to', null=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='owned_properties')
+    renter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='rented_properties', null=True)
     address = models.CharField(max_length=255)
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=2)
@@ -49,11 +49,11 @@ class Property(models.Model):
             'lotsize': self.lotsize,
             'stars': self.stars,
             'type': self.type,
-            'photos': [{"img":photo.getPath(), "description":photo.description} for photo in PropertyPhoto.objects.filter(property=self.id)],
+            'photos': [photo.serialize() for photo in self.photos.all()],
         }
     
 class PropertyPhoto(models.Model):
-    property = models.ForeignKey(Property, on_delete=models.CASCADE)
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='photos')
     photo = models.ImageField(upload_to='images/')
     description = models.CharField(max_length=255, blank=True)
 
@@ -64,26 +64,28 @@ class PropertyPhoto(models.Model):
         return {
             'id': self.id,
             'property': self.property.id,
-            'photo': self.photo.name,
+            'photo': "http://localhost:8000" + settings.MEDIA_URL + self.photo.name,
             'description': self.description,
         }
     
-    def getPath(self):
-        return "http://localhost:8000" + settings.MEDIA_URL + self.photo.name
-    
 class Rating(models.Model):
-    # user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE) 
-    property = models.ForeignKey(Property, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews') 
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='reviews')
     stars = models.IntegerField(validators=[
             MaxValueValidator(5),
             MinValueValidator(0)
         ])
     date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.username + " rated " + self.property.title + " " + str(self.stars) + " stars"
+    
+    def is_valid_rating(self):
+        return (0 <= self.stars <= 5) and (self.user != self.property.owner)
     
 class RentalRequest(models.Model):
-    property = models.ForeignKey(Property, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='rental_requests')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='rental_requests')
     date = models.DateTimeField(auto_now_add=True)
     approved = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
@@ -98,3 +100,6 @@ class RentalRequest(models.Model):
             'user': self.user.username,
             'date': self.date,
         }
+    
+    def is_valid_rental_request(self):
+        return self.user != self.property.owner
