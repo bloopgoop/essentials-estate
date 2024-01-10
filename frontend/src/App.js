@@ -17,12 +17,13 @@ import Profile from "./pages/Profile/Profile";
 import Payment from "./pages/Payment/Payment";
 import AddProperty from "./pages/AddProperty/AddProperty";
 import AddPhotos from "pages/AddPhotos/AddPhotos";
-import Assets from "./pages/Profile/Assets";
-import Watchlist from "pages/Profile/Watchlist";
-import Status from "pages/Profile/Status";
+import Assets from "./pages/Profile/ProfileAssets/Assets";
+import Watchlist from "pages/Profile/Watchlist/Watchlist";
+import Status from "pages/Profile/Status/Status";
 import Review from "pages/Review/Review";
-import AdminRoutes from "./utils/AdminRoutes"
+import AdminRoutes from "./utils/AdminRoutes";
 import PropertyReview from "pages/Review/PropertyReview/PropertyReview";
+import Profilemain from "pages/Profile/Main/Profilemain";
 function App() {
   return (
     <div className="App">
@@ -31,6 +32,7 @@ function App() {
           <Routes>
             <Route element={<LoggedInRoutes />}>
               <Route element={<Profile />} path="/profile/">
+                <Route element={<Profilemain />} path="" />
                 <Route element={<Assets />} path="assets" />
                 <Route element={<Watchlist />} path="watchlist" />
                 <Route element={<Status />} path="status" />

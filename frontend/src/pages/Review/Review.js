@@ -12,17 +12,16 @@ function Review() {
     request.then((response) => setProperties(response.data));
   }, []);
 
-return (
-      <>
-        <h1>This is the Review Page :D</h1>
-        {properties.map((property, key) => (
-          <div key={key}>
-            <StatusCard props={property} />
-          </div>
-        ))}
-      </>
-);
-
+  return (
+    <>
+      <h1>This is the Review Page :D</h1>
+      {properties.map((property, key) => (
+        <div key={key}>
+          <StatusCard props={property} page="review" />
+        </div>
+      ))}
+    </>
+  );
 }
 
 export default Review;

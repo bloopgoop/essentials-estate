@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Status.css";
-import StatusCard from "../../components/StatusCard/StatusCard";
+import StatusCard from "../../../components/StatusCard/StatusCard";
 import axios from "services/axiosConfigs";
 
 export default function Status() {
@@ -30,9 +30,8 @@ export default function Status() {
       </div>
       {properties.map((property, key) => (
         <div key={key}>
-          <StatusCard props={property} />
+          <StatusCard props={property} page="property" />
         </div>
-        // Current view takes to review page, TO GO TO OWN PROPERTY PAGE
       ))}
     </div>
   );
