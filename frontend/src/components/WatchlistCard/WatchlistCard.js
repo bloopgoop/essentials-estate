@@ -1,9 +1,7 @@
-import "./WatchlistCard.css"
+import "./WatchlistCard.css";
 
 export default function Card({ props }) {
-    if (!props) return (
-        <h1>Loading...</h1>
-    )
+  if (!props) return <h1>Loading...</h1>;
 
     return (
       <div id="Watchlistcard--container">

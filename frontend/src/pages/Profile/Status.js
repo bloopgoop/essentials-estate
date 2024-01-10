@@ -1,10 +1,12 @@
+import React from "react";
+import "./Status.css";
+import StatusCard from "../../components/StatusCard/StatusCard";
 import Card from "../../components/StatusCard/StatusCard"
-import "./Status.css"
-
 import Couch from "../../assets/couch.jpg"
 
 export default function Status(){
     return(
+        <StatusCard />
         <div id="StatusContainer">
             <h1>Status</h1>
             <div id="searchsort">
