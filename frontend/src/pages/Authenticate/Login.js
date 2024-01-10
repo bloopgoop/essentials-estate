@@ -32,7 +32,7 @@ const Login = () => {
             required
           />
 
-          <label htmlFor="password">Create a password</label>
+          <label htmlFor="password">Enter your password</label>
           <input
             type="password"
             placeholder="Password"

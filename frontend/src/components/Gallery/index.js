@@ -3,25 +3,28 @@ import "./styles.css";
 
 export default function Gallery({ photos }) {
   const [mainImage, setMainImage] = useState(null);
+  const [mainDescription, setMainDescription] = useState(null);
   const mainImageRef = useRef(null);
 
   const switchMainImage = (event) => {
     setMainImage(event.target.src);
+    setMainDescription(event.target.title);
   };
 
   useEffect(() => {
     if (!photos) {
-      return <h1>Loading...</h1>
-    };
+      return <h1>Loading...</h1>;
+    }
     if (!mainImage) {
       setMainImage(photos[0].img);
+      setMainDescription(photos[0].description);
     }
     if (mainImageRef.current) {
-      mainImageRef.current.classList.remove('fade-in');
+      mainImageRef.current.classList.remove("fade-in");
       void mainImageRef.current.offsetWidth; // Trigger reflow
-      mainImageRef.current.classList.add('fade-in');
+      mainImageRef.current.classList.add("fade-in");
     }
-  }, [mainImage]); 
+  }, [mainImage]);
 
   return (
     <>
@@ -31,20 +34,29 @@ export default function Gallery({ photos }) {
             {photos &&
               photos.map((photo, index) => (
                 <li key={index} className="clickable">
-                  <img src={photo.img} alt={`img${index}`} onClick={switchMainImage} className="fade-in"/>
+                  <img
+                    src={photo.img}
+                    alt={`img${index}`}
+                    onClick={switchMainImage}
+                    className="fade-in"
+                    title={photo.description}
+                  />
                 </li>
               ))}
           </ul>
         </div>
 
         <div className="main-image">
-          <img src={mainImage} alt="main-img" ref={mainImageRef} className="fade-in"/>
+          <img
+            src={mainImage}
+            alt="main-img"
+            ref={mainImageRef}
+            className="fade-in"
+            title={mainDescription}
+          />
         </div>
       </div>
 
-      <div>
-        {photos && photos[0].description}
-      </div>
     </>
   );
 }

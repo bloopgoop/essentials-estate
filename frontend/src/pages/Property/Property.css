@@ -8,3 +8,21 @@
     justify-content: space-between;
     align-items: center;
 }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+tbody {
+    background-color: #dddcdc;
+}
+
+td {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+}
+
+tr:nth-child(even) {
+    background-color: var(--secondary-color);
+}
