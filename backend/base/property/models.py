@@ -58,7 +58,6 @@ class Property(models.Model):
             'lotsize': self.lotsize,
             'stars': self.stars,
             'type': self.type,
-#             'photos': [photo.getPath() for photo in PropertyPhoto.objects.filter(property=self.id)], WAS FROM JOAN-BRANCH
             'status': status[self.status],
             'photos': [{"img":photo.getPath(), "description":photo.description} for photo in PropertyPhoto.objects.filter(property=self.id)],
         }

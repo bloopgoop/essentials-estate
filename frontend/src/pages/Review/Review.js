@@ -13,8 +13,6 @@ function Review() {
   }, []);
 
 return (
-  <div>
-    {properties ? (
       <>
         <h1>This is the Review Page :D</h1>
         {properties.map((property, key) => (
@@ -23,10 +21,6 @@ return (
           </div>
         ))}
       </>
-    ) : (
-      <h1>Loading...</h1>
-    )}
-  </div>
 );
 
 }

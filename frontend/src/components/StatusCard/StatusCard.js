@@ -27,32 +27,39 @@ function StatusCard({ props, accept, reject, view }) {
   }
 
   check[step] = "active";
-
   return (
-    <div id="Status--container">
-      <div>
-        <img src={props.photos[0]} height={250} className="Status--image" />
-      </div>
-      <div id="Status--info">
-        <h2>Property Name</h2>
-        <p>5 *****</p>
-        <p>{props.description}</p>
-        <p>New York, NY</p>
+    <>
+      {props ? (
+        <div id="Status--container">
+          <div>
+            <img src={props.photos[0].img} height={250} className="Status--image" />
+          </div>
+          <div id="Status--info">
+            <h2>Property Name</h2>
+            <p>5 *****</p>
+            <p>{props.description}</p>
+            <p>New York, NY</p>
 
-        <div className="stepper-wrapper">
-          {currentStatus.map((stat, index) => (
-            <div key={index} className={`stepper-item ${check[index]}`}>
-              <div className="step-counter"></div>
-              <div className="step-name">{stat}</div>
+            <div className="stepper-wrapper">
+              {currentStatus.map((stat, index) => (
+                <div key={index} className={`stepper-item ${check[index]}`}>
+                  <div className="step-counter"></div>
+                  <div className="step-name">{stat}</div>
+                </div>
+              ))}
             </div>
-          ))}
+            {/* REMOVE EXTRA BUTTON AND MAKE IT VIEW */}
+            {/* UNCOMMENT position: abosolute StatusCard.css */}
+            {/* CREATE A NEW COMPONENT FOR REVIEW.JS */}
+            <Link to={`/review/${props.id}`}>
+              <button>View Property</button>
+            </Link>
+          </div>
         </div>
-        {/* REMOVE EXTRA BUTTON AND MAKE IT VIEW */}
-        {/* UNCOMMENT position: abosolute StatusCard.css */}
-        {/* CREATE A NEW COMPONENT FOR REVIEW.JS */}
-        <Link to={`/review/${props.id}`}><button>View Property</button></Link>
-      </div>
-    </div>
+      ) : (
+        <h1>Loading...</h1>
+      )}
+    </>
   );
 }
 
