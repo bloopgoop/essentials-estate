@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import propertyService from "services/property/testAPI";
+import propertyService from "services/property/propertyAPI";
 import axios from "services/axiosConfigs";
 import "./PropertyReview.css";
 

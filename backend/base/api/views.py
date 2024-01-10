@@ -119,7 +119,7 @@ def activateEmail(request, data):
     })
     email = EmailMessage(mail_subject, message, to=[data['email']])
     if email.send():
-        messages.success(request, f'Dear <b>{user}</b>, please go to you email <b>{data['email']}</b> inbox and click on \
-                received activation link to confirm and complete the registration. <b>Note:</b> Check your spam folder.')
+        messages.success(request, f"Dear <b>{user}</b>, please go to you email <b>{data['email']}</b> inbox and click on \
+                received activation link to confirm and complete the registration. <b>Note:</b> Check your spam folder.")
     else:
-        messages.error(request, f'Problem sending email to {data['email']}, check if you typed it correctly.')
+        messages.error(request, f"Problem sending email to {data['email']}, check if you typed it correctly.")
