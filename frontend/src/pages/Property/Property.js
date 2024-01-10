@@ -69,17 +69,17 @@ const Property = () => {
   };
 
   // REMOVE LATER, FOR TESTING checkGroup
-  const checkGroup = (event) => {
-    try {
-      const formData = new FormData();
-      formData.append("username", user.username);
-      formData.append("user_id", user.user_id);
-      const request = axios.post("property/checkGroup/admin", formData);
-      request.then((response) => console.log(response.data));
-    } catch (error) {
-      console.log(`ERROR: ${error}`);
-    }
-  };
+  // const checkGroup = (event) => {
+  //   try {
+  //     const formData = new FormData();
+  //     formData.append("username", user.username);
+  //     formData.append("user_id", user.user_id);
+  //     const request = axios.post("property/checkGroup/admin", formData);
+  //     request.then((response) => console.log(response.data));
+  //   } catch (error) {
+  //     console.log(`ERROR: ${error}`);
+  //   }
+  // };
 
   return (
     <>
@@ -120,7 +120,7 @@ const Property = () => {
           {/* <img src={property.photos[0]} alt="Property" /> */}
           
           {/* REMOVE LATER, FOR TESTING checkGroup */}
-          <button onClick={checkGroup}>Are You An Admin?</button>
+          {/* <button onClick={checkGroup}>Are You An Admin?</button> */}
           <input
             type="number"
             min={0}
@@ -129,7 +129,7 @@ const Property = () => {
           ></input>
           <textarea onChange={(e) => setComment(e.target.value)}></textarea>
           <button onClick={handlePost}>Post</button>
-          <button onClick={handleGet}>Get</button>
+          {/* <button onClick={handleGet}>Get</button> */}
           {Ratings.map((rating, key) => (
             <div key={key}>
               <p>
