@@ -8,6 +8,7 @@ on:
 
 jobs:
   build:
+    name: Django CI
 
     runs-on: ubuntu-latest
 

@@ -93,8 +93,8 @@ class DatabaseTestCase(TestCase):
     def test_valid_rating(self):
         """ Test that rating is valid """
         rating = Rating.objects.create(
-            property=self.property2,
-            user=self.user1,
+            property=self.property1,
+            user=self.user2,
             stars=3,
         )
         self.assertTrue(rating.is_valid_rating())
@@ -115,7 +115,7 @@ class DatabaseTestCase(TestCase):
             property=self.property1,
             user=self.user2,
         )
-        self.assertTrue(rental.is_valid_request())
+        self.assertTrue(rental.is_valid_rental_request())
 
     def test_invalid_rental_request(self):
         """ Test that rental request is invalid """
@@ -123,7 +123,7 @@ class DatabaseTestCase(TestCase):
             property=self.property1,
             user=self.user1,
         )
-        self.assertFalse(rental.is_valid_request())
+        self.assertFalse(rental.is_valid_rental_request())
 
 
 

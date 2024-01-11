@@ -27,8 +27,8 @@ class Property(models.Model):
     status = models.IntegerField(validators=[
             MaxValueValidator(2),
             MinValueValidator(0)
-        ])
-    is_active = models.BooleanField(default=True)
+        ], default=0)
+    is_rentable = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
@@ -59,6 +59,8 @@ class Property(models.Model):
             'stars': self.stars,
             'type': self.type,
             'photos': [photo.serialize() for photo in self.photos.all()],
+            'status': status[self.status],
+            'is_rentable': self.is_rentable,
         }
     
 class PropertyPhoto(models.Model):
@@ -96,8 +98,8 @@ class Rating(models.Model):
 
     def serialize(self):
         return {
-            # 'user': self.user.id,
-            # 'property': self.property.id,
+            'user': self.user.id,
+            'property': self.property.id,
             'stars': self.stars,
             'comment': self.comment,
         }
@@ -107,7 +109,7 @@ class RentalRequest(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='rental_requests')
     date = models.DateTimeField(auto_now_add=True)
     approved = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True) # True if the request is pending or approved, False if rejected
 
     def __str__(self):
         return self.user.username + "wants to rent out property id" + self.property.id + ":" + self.property.description
@@ -118,6 +120,8 @@ class RentalRequest(models.Model):
             'property': self.property.id,
             'user': self.user.username,
             'date': self.date,
+            'approved': self.approved,
+            'is_active': self.is_active,
         }
     
     def is_valid_rental_request(self):
