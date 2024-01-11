@@ -10,7 +10,8 @@ const RentalButton = ({ propertyID, status }) => {
     propertyService
       .requestPropertyRental(propertyID)
       .then((response) => {
-        alert(response);
+        console.log(response.message);
+        setRentalStatus("pending");
       })
       .catch((error) => {
         alert(`Error sending rental request: ${error}`);
@@ -22,7 +23,7 @@ const RentalButton = ({ propertyID, status }) => {
       .getPropertyRentalStatus(propertyID)
       .then((response) => {
         console.log(response)
-        setRentalStatus(response.status);
+        setRentalStatus(response.rental_status);
       })
       .catch((error) => {
         alert(`Error fetching rental status: ${error}`);
@@ -31,7 +32,7 @@ const RentalButton = ({ propertyID, status }) => {
 
   return (
     <>
-      {status === "none" ? (
+      {rentalStatus === "none" ? (
         <button onClick={requestRental}>Request Rental</button>
       ) : (
         <button disabled className="disabled">
