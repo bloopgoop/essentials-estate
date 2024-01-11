@@ -7,7 +7,11 @@ export default function PreviewCard({ property }) {
 
   return (
     <div className="preview-item-card">
-      <Link to={`/property/${property.id}`} className="preview-image">
+      <Link
+        to={`/property/${property.id}`}
+        className="preview-image"
+        data-testid="preview-link"
+      >
         <img src={property.photos[0].photo} alt="preview" />
       </Link>
       <div className="preview-card-description">

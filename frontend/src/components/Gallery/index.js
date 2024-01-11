@@ -56,7 +56,6 @@ export default function Gallery({ photos }) {
           />
         </div>
       </div>
-
     </>
   );
 }

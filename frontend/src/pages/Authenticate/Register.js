@@ -15,39 +15,37 @@ add icons to the input bars to the right
 const Register = () => {
   const navigate = useNavigate();
 
+  const [errorMessage, setErrorMessage] = useState("");
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
     email: "",
     username: "",
     password: "",
-    password2: "",
+    verify_password: "",
   });
 
-  const { name, email, password, password2, username } = formData;
+  const { name, email, password, verify_password, username } = formData;
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
-    if (password !== password2) {
-      console.log("Passwords do not match");
+    if (password !== verify_password) {
+      setErrorMessage("Passwords do not match");
     } else {
       console.log(formData);
     }
-    axios.post("/api/register/", formData)
-      .then((res) => {
-        if (res.status === 201) {
-          alert("Registered successfully");
-          navigate("/login")
-        }
-        else {
-          console.log(res);
-          alert("Error registering");
-        }
-      })
+    axios.post("/api/register/", formData).then((res) => {
+      if (res.status === 201) {
+        alert("Registered successfully");
+        navigate("/login");
+      } else {
+        console.log(res);
+        alert("Error registering");
+      }
+    });
   };
 
   return (
@@ -65,7 +63,7 @@ const Register = () => {
           id="register-form"
           className="auth-form"
         >
-          <label htmlFor="name">First Name</label>
+          <label htmlFor="first_name">First Name</label>
           <input
             type="text"
             placeholder="First Name"
@@ -76,7 +74,7 @@ const Register = () => {
             required
           />
 
-          <label htmlFor="name">Last Name</label>
+          <label htmlFor="last_name">Last Name</label>
           <input
             type="text"
             placeholder="Last Name"
@@ -122,18 +120,20 @@ const Register = () => {
             required
           />
 
-          <label htmlFor="password2">Confirm your password</label>
+          <label htmlFor="verify_password">Confirm your password</label>
           <input
             type="password"
             placeholder="Confirm Password"
-            name="password2"
-            id="password2"
-            value={password2}
+            name="verify_password"
+            id="verify_password"
+            value={verify_password}
             onChange={(e) => onChange(e)}
             minLength="6"
             required
           />
           <input type="submit" value="Register" />
+
+          {errorMessage && <p className="error">{errorMessage}</p>}
         </form>
         <div className="footer">
           <p>

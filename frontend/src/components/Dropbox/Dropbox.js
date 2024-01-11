@@ -88,7 +88,7 @@ function Dropbox({ id }) {
       .addPhoto(formData)
       .then((response) => {
         alert("Photos added successfully");
-        navigate('/property/' + id);
+        navigate("/property/" + id);
       })
       .catch((error) => {
         alert(`Error adding photos: ${error}`);
@@ -119,6 +119,7 @@ function Dropbox({ id }) {
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
+          data-testid="dropzone"
         >
           {!image ? (
             `Drop files here`
@@ -136,6 +137,7 @@ function Dropbox({ id }) {
           multiple
           ref={fileInputRef}
           onChange={handleFileChange}
+          data-testid="file-input"
         />
         <div>{files.length} images selected</div>
       </label>
