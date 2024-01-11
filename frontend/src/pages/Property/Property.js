@@ -18,7 +18,7 @@ const Property = () => {
   const [stars, setStars] = useState(0);
   const [comment, setComment] = useState("");
   const [avgRating, setAvgRating] = useState(0);
-  const [Ratings, setRatings] = useState([]);
+  const [ratings, setRatings] = useState([]);
 
   const [isOwner, setIsOwner] = useState(false);
   const { id } = useParams();
@@ -164,7 +164,7 @@ const Property = () => {
                 </tr>
                 <tr>
                   <td>Stars:</td>
-                  <td>{Math.round(rating * 10) / 10}</td>
+                  <td>{Math.round(ratings * 10) / 10}</td>
                 </tr>
               </tbody>
             </table>

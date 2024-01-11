@@ -7,10 +7,18 @@ def allowed_users(allowed_roles=[]):
         def wrapper_func(request, *args, **kwargs):
             data = request.POST
             user = User.objects.get(username=data['username'])
-            user_group = user.groups.all()[0].name
-            if user_group in allowed_roles:
-                return view_func(request, *args, **kwargs)
-            else:
-                return HttpResponse("Wrong Group")
+            user_groups = user.groups.all()
+
+            if len(user_groups) == 0:
+                return HttpResponse("No Groups")
+            
+            # Check if atleast 1 of user's group is allowed
+            for group in user_groups:
+                name = group.name
+                if name in allowed_roles:
+                    return view_func(request, *args, **kwargs)
+                
+            return HttpResponse("Wrong Group")
+        
         return wrapper_func
     return decorator

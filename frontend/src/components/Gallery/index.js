@@ -16,7 +16,7 @@ export default function Gallery({ photos }) {
       return <h1>Loading...</h1>;
     }
     if (!mainImage) {
-      setMainImage(photos[0].img);
+      setMainImage(photos[0].photo);
       setMainDescription(photos[0].description);
     }
     if (mainImageRef.current) {
@@ -35,7 +35,7 @@ export default function Gallery({ photos }) {
               photos.map((photo, index) => (
                 <li key={index} className="clickable">
                   <img
-                    src={photo.img}
+                    src={photo.photo}
                     alt={`img${index}`}
                     onClick={switchMainImage}
                     className="fade-in"
