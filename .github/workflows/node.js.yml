@@ -35,9 +35,10 @@ jobs:
     - name: Build
       run: |
         cd frontend
-        npm build --if-present
+        npm help
+        npm run build --if-present
         
     - name: Test
       run: |
         cd frontend
-        npm test
+        npm run test
