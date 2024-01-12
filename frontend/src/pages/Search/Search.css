@@ -3,6 +3,7 @@
   padding-left: 3rem;
   padding-right: 3rem;
   margin-top: 2rem;
+  min-height: 101vh;
 }
 
 .grid {

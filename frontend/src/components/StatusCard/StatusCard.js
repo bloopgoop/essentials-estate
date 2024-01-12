@@ -1,6 +1,5 @@
 import React from "react";
 import "./StatusCard.css";
-import image from "../../assets/couch.jpg";
 import { Link } from "react-router-dom";
 
 function StatusCard({ props, accept, reject, view }) {
@@ -31,7 +30,7 @@ function StatusCard({ props, accept, reject, view }) {
   return (
     <div id="Status--container">
       <div>
-        <img src={props.photos[0]} height={250} className="Status--image" />
+        <img src={props.photos[0]} height={250} className="Status--image" alt="status"/>
       </div>
       <div id="Status--info">
         <h2>Property Name</h2>

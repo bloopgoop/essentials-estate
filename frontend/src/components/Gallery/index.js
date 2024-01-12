@@ -12,9 +12,6 @@ export default function Gallery({ photos }) {
   };
 
   useEffect(() => {
-    if (!photos) {
-      return <h1>Loading...</h1>;
-    }
     if (!mainImage) {
       setMainImage(photos[0].photo);
       setMainDescription(photos[0].description);
@@ -28,34 +25,40 @@ export default function Gallery({ photos }) {
 
   return (
     <>
-      <div className="gallery-card">
-        <div className="gallery">
-          <ul>
-            {photos &&
-              photos.map((photo, index) => (
-                <li key={index} className="clickable">
-                  <img
-                    src={photo.photo}
-                    alt={`img${index}`}
-                    onClick={switchMainImage}
-                    className="fade-in"
-                    title={photo.description}
-                  />
-                </li>
-              ))}
-          </ul>
+      {!photos ? (
+        <div className="gallery-card">
+          <h1>No Photos</h1>
         </div>
+      ) : (
+        <div className="gallery-card">
+          <div className="gallery">
+            <ul>
+              {photos &&
+                photos.map((photo, index) => (
+                  <li key={index} className="clickable">
+                    <img
+                      src={photo.photo}
+                      alt={`img${index}`}
+                      onClick={switchMainImage}
+                      className="fade-in"
+                      title={photo.description}
+                    />
+                  </li>
+                ))}
+            </ul>
+          </div>
 
-        <div className="main-image">
-          <img
-            src={mainImage}
-            alt="main-img"
-            ref={mainImageRef}
-            className="fade-in"
-            title={mainDescription}
-          />
+          <div className="main-image">
+            <img
+              src={mainImage}
+              alt="main-img"
+              ref={mainImageRef}
+              className="fade-in"
+              title={mainDescription}
+            />
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }

@@ -91,8 +91,12 @@ def getProperty(request, pk):
     """
     Returns a JSON object containing the property data with the given id
     """
-    property = Property.objects.get(id=pk)
-    return JsonResponse(property.serialize(), safe=False)    
+    try:
+        property = Property.objects.get(id=pk)
+    except Property.DoesNotExist:
+        return JsonResponse({'message': 'Property does not exist'}, status=404)
+    
+    return JsonResponse(property.serialize(), safe=False)
 
 @api_view(['GET', 'POST'])
 @allowed_users(allowed_roles=['common_user','admin'])

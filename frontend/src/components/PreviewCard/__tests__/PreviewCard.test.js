@@ -23,7 +23,7 @@ const mockPropertyNoTitle = {
   rent: "1000",
 };
 
-test("renders correctly", () => {
+test("renders correctly with title", () => {
   render(
     <BrowserRouter>
       <PreviewCard property={mockPropertyTitle} />

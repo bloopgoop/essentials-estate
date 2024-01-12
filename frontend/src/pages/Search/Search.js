@@ -39,10 +39,8 @@ function Search() {
       });
   };
 
-  // call api on first render
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const useMountEffect = (fun) => useEffect(fun, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useMountEffect(fetchData); // fetch data on mount
 
   // change filter on filter change, sort properties by show matched properties first, then unmatched after
   useEffect(() => {
