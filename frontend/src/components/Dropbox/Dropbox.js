@@ -38,7 +38,7 @@ function Dropbox({ id }) {
     e.preventDefault();
     // combine existing files and new files
     if (files.length + e.target.files.length > MAX_FILES) {
-      alert(`You can only upload ${MAX_FILES} files at a time`);
+      console.log(`You can only upload ${MAX_FILES} files at a time`);
       return;
     }
     setFiles([...files, ...e.target.files]); // asynchronous
@@ -47,7 +47,7 @@ function Dropbox({ id }) {
   const handleDrop = (e) => {
     e.preventDefault();
     if (files.length + e.dataTransfer.files.length > MAX_FILES) {
-      alert(`You can only upload ${MAX_FILES} files at a time`);
+      console.log(`You can only upload ${MAX_FILES} files at a time`);
       return;
     }
     setFiles([...files, ...e.dataTransfer.files]); // asynchronous
