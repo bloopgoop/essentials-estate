@@ -52,9 +52,6 @@ function StatusCard({ props, page }) {
               </div>
             ))}
           </div>
-          {/* REMOVE EXTRA BUTTON AND MAKE IT VIEW */}
-          {/* UNCOMMENT position: abosolute StatusCard.css */}
-          {/* CREATE A NEW COMPONENT FOR REVIEW.JS */}
           <Link to={`/${page}/${props.id}`}>
             <button>View Property</button>
           </Link>

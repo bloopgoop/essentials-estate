@@ -43,7 +43,6 @@ function App() {
               <Route element={<AddPhotos />} path="/add-photo" />
             </Route>
 
-            {/* Added Review Page */}
             <Route element={<AdminRoutes />}>
               <Route element={<Review />} path="/review" />
               <Route element={<PropertyReview />} path="/review/:id" />
