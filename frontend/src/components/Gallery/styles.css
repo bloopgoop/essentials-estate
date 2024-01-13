@@ -2,7 +2,7 @@
     border-radius: 20px;
     position: relative;
     min-height: 30rem;
-    max-height: 35rem;
+    max-height: 50rem;
     height: 50vw;
     width: 100%;
     background-color: var(--secondary-color);
@@ -34,9 +34,7 @@
     flex: 1;
 }
 .main-image > img {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .fade-in {

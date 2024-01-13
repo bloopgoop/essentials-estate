@@ -2,9 +2,11 @@ import React, { useEffect, useRef, useState, useContext } from "react";
 import "./Dropbox.css";
 import AuthContext from "context/AuthContext";
 import propertyService from "services/property/propertyAPI";
+import { useNavigate } from "react-router-dom";
 
 function Dropbox({ id }) {
   const auth = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const MAX_FILES = 20;
 
@@ -86,7 +88,7 @@ function Dropbox({ id }) {
       .addPhoto(formData)
       .then((response) => {
         alert("Photos added successfully");
-        // navigate('/');
+        navigate('/property/' + id);
       })
       .catch((error) => {
         alert(`Error adding photos: ${error}`);
