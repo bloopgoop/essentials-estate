@@ -25,7 +25,7 @@ function PropertyReview() {
         setProperty(response);
         if (response.status === "Approved") {
           setCheck(true);
-          console.log(check)
+          console.log(check);
         }
       })
       .catch((error) => {
@@ -74,8 +74,9 @@ function PropertyReview() {
     if (confirmation) {
       alert("Property has been rejected");
       navigate("/review");
+    } else {
+      onClick(2);
     }
-    onClick(2);
   };
 
   const onClick = (status) => {

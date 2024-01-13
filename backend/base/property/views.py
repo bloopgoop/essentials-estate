@@ -167,7 +167,7 @@ def addRating(request, property_id):
             id = rating.id
             return JsonResponse({'id': id, 'message': 'Rating has been posted'}, status=200)
         except:
-            return JsonResponse({'message': 'Error adding property'}, status=400)
+            return JsonResponse({'message': 'Error adding rating'}, status=400)
 
 @api_view(['POST'])
 @allowed_users(allowed_roles=['admin'])
