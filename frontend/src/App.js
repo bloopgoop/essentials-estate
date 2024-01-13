@@ -18,9 +18,9 @@ import Payment from "./pages/Payment/Payment";
 import AddProperty from "./pages/AddProperty/AddProperty";
 import AddPhotos from "pages/AddPhotos/AddPhotos";
 
-import Review from "pages/Review/Review";
+import Review from "./pages/Review/Review";
 import AdminRoutes from "./utils/AdminRoutes"
-import PropertyReview from "pages/Review/PropertyReview/PropertyReview";
+import PropertyReview from "./pages/Review/PropertyReview/PropertyReview";
 function App() {
   return (
     <div className="App">
