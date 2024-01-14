@@ -1,12 +1,11 @@
-import Person from "../../assets/person.jpg";
 import "./Profilemain.css";
-import Notification from "../../components/Notification/Notification";
+import Notification from "../../../components/Notification/Notification";
 
 export default function Profilemain() {
   return (
     <>
       <div id="profile-box">
-        <img src={Person} height={260} width={260} alt="profile" />
+        <img src={""} height={260} width={260} alt="profile" />
         <div className="profile-items">
           <h1>John Smith</h1>
 

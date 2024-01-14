@@ -1,4 +1,4 @@
-import Card from "../../components/WatchlistCard/WatchlistCard";
+import WatchlistCard from "../../../components/WatchlistCard/WatchlistCard";
 import "./Watchlist.css";
 import { useState, useEffect } from "react";
 import propertyService from "services/property/propertyAPI";
@@ -28,12 +28,12 @@ export default function Watchlist() {
           </select>
         </div>
       </div>
-      <Card props={properties[0]} />
       {properties &&
-        properties.map((property, index) => {
-          console.log(property);
-          return <Card props={property} />;
-        })}
+        properties.map((property, index) => (
+          <div key={index}>
+            <WatchlistCard props={property} />
+          </div>
+        ))}
     </>
   );
 }

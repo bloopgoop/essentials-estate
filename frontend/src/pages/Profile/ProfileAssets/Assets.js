@@ -1,8 +1,18 @@
-import Couch from "../../assets/couch.jpg";
-import Card from "../../components/WatchlistCard/WatchlistCard";
+import { useEffect, useState } from "react";
+import AssetCard from "../../../components/AssetCard/AssetCard";
 import "./Assets.css";
+import propertyService from "services/property/propertyAPI";
 
 export default function Assets() {
+  const [properties, setProperties] = useState([]);
+
+  useEffect(() => {
+    propertyService.getAll().then((properties) => {
+      setProperties(properties);
+      console.log(propertyService);
+    });
+  }, []);
+
   return (
     <>
       <h1>Assets</h1>
@@ -20,9 +30,9 @@ export default function Assets() {
       </div>
       <div id="asset-container">
         <div className="asset-item">
-          <Card img={Couch} />
-          <Card img={Couch} />
-          <Card img={Couch} />
+          {properties.map((property, key) => (
+            <div key={key}><AssetCard props={property}/></div>
+          ))}
         </div>
       </div>
     </>

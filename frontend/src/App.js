@@ -6,7 +6,6 @@ import {
 } from "react-router-dom";
 import { AuthProvider } from "context/AuthContext";
 import LoggedInRoutes from "./utils/LoggedInRoutes";
-
 import Dashboard from "./pages/Dashboard/Dashboard";
 import ErrorPage from "./pages/Error/Error";
 import Login from "./pages/Authenticate/Login";
@@ -17,10 +16,14 @@ import Profile from "./pages/Profile/Profile";
 import Payment from "./pages/Payment/Payment";
 import AddProperty from "./pages/AddProperty/AddProperty";
 import AddPhotos from "pages/AddPhotos/AddPhotos";
+import Assets from "./pages/Profile/ProfileAssets/Assets";
+import Watchlist from "pages/Profile/Watchlist/Watchlist";
+import Status from "pages/Profile/Status/Status";
+import Review from "pages/Review/Review";
+import AdminRoutes from "./utils/AdminRoutes";
+import PropertyReview from "pages/Review/PropertyReview/PropertyReview";
+import Profilemain from "pages/Profile/Main/Profilemain";
 
-import Review from "./pages/Review/Review";
-import AdminRoutes from "./utils/AdminRoutes"
-import PropertyReview from "./pages/Review/PropertyReview/PropertyReview";
 function App() {
   return (
     <div className="App">
@@ -28,17 +31,21 @@ function App() {
         <AuthProvider>
           <Routes>
             <Route element={<LoggedInRoutes />}>
-              <Route element={<Profile />} path="/profile/" />
+              <Route element={<Profile />} path="/profile/">
+                <Route element={<Profilemain />} path="" />
+                <Route element={<Assets />} path="assets" />
+                <Route element={<Watchlist />} path="watchlist" />
+                <Route element={<Status />} path="status" />
+              </Route>
 
               <Route element={<Payment />} path="/payment" />
               <Route element={<AddProperty />} path="/add-property" />
               <Route element={<AddPhotos />} path="/add-photo" />
             </Route>
 
-            {/* Added Review Page */}
             <Route element={<AdminRoutes />}>
               <Route element={<Review />} path="/review" />
-              <Route element={<PropertyReview/>} path="/review/:id" />
+              <Route element={<PropertyReview />} path="/review/:id" />
             </Route>
 
             <Route element={<Search />} path="/" exact />
