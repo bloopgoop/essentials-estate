@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "components/Navbar/Navbar";
 import Gallery from "components/Gallery";
 import "./Property.css";
-import axios from "services/axiosConfig";
+import axios from "services/axiosConfigs";
 import AuthContext from "context/AuthContext";
 import RentalButton from "./RentalButton";
 import Footer from "components/Footer/Footer";
