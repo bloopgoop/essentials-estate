@@ -84,7 +84,6 @@ function PropertyReview() {
       formData.append("propertyID", id);
       formData.append("status", status);
       const request = axios.post("property/reviewProperty/", formData);
-      //    request.then((response) => setProperties(response.data));
     } catch (error) {
       console.log(`ERROR: ${error}`);
     }

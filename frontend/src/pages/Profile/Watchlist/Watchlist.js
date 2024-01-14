@@ -7,10 +7,17 @@ export default function Watchlist() {
   const [properties, setProperties] = useState([]);
 
   useEffect(() => {
-    propertyService.getAll().then((properties) => {
-      setProperties(properties);
-      console.log(propertyService);
-    });
+    propertyService
+      .getRange(properties.length, properties.length + 20)
+      .then((response) => {
+        if (response.status === 204) {
+          return;
+        }
+        setProperties(properties.concat(response.data));
+      })
+      .catch((error) => {
+        alert(`Error fetching properties: ${error}`);
+      });
   }, []);
 
   return (

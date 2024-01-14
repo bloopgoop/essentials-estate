@@ -23,10 +23,7 @@ const Property = () => {
   const [isOwner, setIsOwner] = useState(false);
   const { id } = useParams();
 
-  console.log(id);
-
   let { user, logoutUser } = useContext(AuthContext);
-
 
   const capitalize = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -80,18 +77,35 @@ const Property = () => {
       });
   };
 
-  // REMOVE LATER, FOR TESTING checkGroup
-  const checkGroup = (event) => {
-    try {
-      const formData = new FormData();
-      formData.append("username", user.username);
-      formData.append("user_id", user.user_id);
-      const request = axios.post("property/checkGroup/admin", formData);
-      request.then((response) => console.log(response.data));
-    } catch (error) {
-      console.log(`ERROR: ${error}`);
-    }
+  const handlePut = (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append("comment", comment);
+    formData.append("stars", stars);
+    const request = axios.put(`property/rating/${id}`, formData);
+    request
+      .then((response) => {
+        console.log("Success:", response.data);
+        // Updates any updated comments
+        handleGet(event);
+      })
+      .catch((error) => {
+        console.error("Error making PUT request:", error);
+      });
   };
+
+  // REMOVE LATER, FOR TESTING checkGroup
+  // const checkGroup = (event) => {
+  //   try {
+  //     const formData = new FormData();
+  //     formData.append("username", user.username);
+  //     formData.append("user_id", user.user_id);
+  //     const request = axios.post("property/checkGroup/admin", formData);
+  //     request.then((response) => console.log(response.data));
+  //   } catch (error) {
+  //     console.log(`ERROR: ${error}`);
+  //   }
+  // };
 
   return (
     <>
@@ -164,27 +178,30 @@ const Property = () => {
                 </tr>
                 <tr>
                   <td>Stars:</td>
-                  <td>{Math.round(ratings * 10) / 10}</td>
+                  <td>{Math.round(avgRating * 10) / 10}</td>
                 </tr>
               </tbody>
             </table>
 
-           {/* REMOVE LATER, FOR TESTING checkGroup */}
-          <button onClick={checkGroup}>Are You An Admin?</button>
-          <input
-            type="number"
-            min={0}
-            max={5}
-            onChange={(e) => setStars(e.target.value)}
-          ></input>
-          <textarea onChange={(e) => setComment(e.target.value)}></textarea>
-            <button onClick={handleGet}>Get</button>
+            {/* REMOVE LATER, FOR TESTING checkGroup */}
+            {/* <button onClick={checkGroup}>Are You An Admin?</button> */}
+            <input
+              type="number"
+              min={0}
+              max={5}
+              onChange={(e) => setStars(e.target.value)}
+            ></input>
+            <textarea onChange={(e) => setComment(e.target.value)}></textarea>
             <button onClick={handlePost}>Post</button>
-            <textarea></textarea>
-            {/* <img src={property.photos[0]} alt="Property" /> */}
+
+            {ratings.map((rating, key) => (
+              <div key={key}>
+                {rating.comment} - {rating.stars}*{" "}
+                <button onClick={handlePut}>Update</button>
+              </div>
+            ))}
           </main>
           <Footer />
-
         </div>
       ) : (
         <Loading />

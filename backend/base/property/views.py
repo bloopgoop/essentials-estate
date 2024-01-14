@@ -140,8 +140,8 @@ def requestRental(request, propertyID):
             return JsonResponse({'message': 'Error adding rental request'}, status=500)
             
     
-@api_view(['GET', 'POST'])
-def addRating(request, property_id):
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
+def ratings(request, property_id, rating_id=1):
     if request.method == 'GET':
         try:
             average_value = Rating.objects.filter(property=Property.objects.get(id=property_id)).aggregate(Avg('stars'))['stars__avg']
@@ -152,22 +152,34 @@ def addRating(request, property_id):
             return JsonResponse({'error': 'Invalid propertyID'}, status=400)
         
     elif request.method == 'POST':
-        data = request.POST
-        payload = jwt.decode(data['token'], settings.SECRET_KEY, algorithms=['HS256'])
-
-        rating = Rating.objects.create(
-            property=Property.objects.get(id=property_id),
-            stars=data['stars'],
-            comment=data['comment'],
-            user=User.objects.get(id=payload['user_id'])
-        )
-
         try:
+            data = request.POST
+            payload = jwt.decode(data['token'], settings.SECRET_KEY, algorithms=['HS256'])
+
+            rating = Rating.objects.create(
+                property=Property.objects.get(id=property_id),
+                stars=data['stars'],
+                comment=data['comment'],
+                user=User.objects.get(id=payload['user_id'])
+            )
             rating.save()
             id = rating.id
             return JsonResponse({'id': id, 'message': 'Rating has been posted'}, status=200)
         except:
             return JsonResponse({'message': 'Error adding property'}, status=400)
+    
+    elif request.method == 'PUT':
+        try:
+            print("working")
+            rating = Rating.objects.get(id=rating_id, property=Property.objects.get(id=property_id))
+            rating.comment = request.data['comment']
+            rating.save()
+            return JsonResponse({'sucess': "yippers"}, status=200)
+        except:
+            return JsonResponse({'error': 'Issue updating comment'}, status=404)
+        
+    elif request.method == 'DELETE':
+        pass
 
 @api_view(['POST'])
 @allowed_users(allowed_roles=['admin'])
