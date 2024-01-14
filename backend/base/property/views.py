@@ -3,7 +3,7 @@ import json
 from django.shortcuts import render
 from django.http import JsonResponse, FileResponse
 from rest_framework.decorators import api_view
-from django.db.models import Avg
+from django.db.models import Avg, Q
 import base64
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -11,51 +11,53 @@ from django.contrib.auth.models import Group
 from .decorators import allowed_users
 from .models import Property, PropertyPhoto, Rating, RentalRequest
 
-@api_view(['GET', 'POST'])
+@api_view(['POST'])
+@allowed_users(allowed_roles=['common_user','admin'])
 def addPhoto(request):
-    if request.method == 'GET':
-        photos = PropertyPhoto.objects.filter(property=Property.objects.get(id=77))
-        paths = []
-        for photo in photos:
-            paths.append(photo.getPath())
-            print(photo.serialize())
 
-        return JsonResponse(paths, safe=False)
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required."}, status=400)
+    
+    data = request.POST
+    files = request.FILES
 
-    if request.method == 'POST':
-        data = request.POST
-        files = request.FILES
+    descriptions = json.loads(data['descriptions'])
+    token_data = jwt.decode(data['token'], settings.SECRET_KEY, algorithms=['HS256'])
 
-        descriptions = json.loads(data['descriptions'])
-        token_data = jwt.decode(data['token'], settings.SECRET_KEY, algorithms=['HS256'])
+    # Check if user is owner of property
+    property = Property.objects.get(id=data['propertyID'])
+    if token_data['user_id'] != property.owner.id:
+        return JsonResponse({'message': 'Unauthorized'}, status=403)
 
-        # Check if user is owner of property
-        property = Property.objects.get(id=data['propertyID'])
-        if token_data['user_id'] != property.owner.id:
-            return JsonResponse({'message': 'Unauthorized'}, status=403)
-
-        for index, file in enumerate(files):
-            photo = PropertyPhoto.objects.create(
-                property=Property.objects.get(id=data['propertyID']),
-                photo=files[file],
-                description=descriptions[index]
-            )
-            try:
-                photo.save()
-            except:
-                return JsonResponse({'message': 'Error adding photo'}, status=400)
-            
-        return JsonResponse({'message': 'Photo(s) added successfully'}, status=200)
+    for index, file in enumerate(files):
+        photo = PropertyPhoto.objects.create(
+            property=Property.objects.get(id=data['propertyID']),
+            photo=files[file],
+            description=descriptions[index]
+        )
+        try:
+            photo.save()
+        except:
+            return JsonResponse({'message': 'Error adding photo'}, status=400)
+        
+    return JsonResponse({'message': 'Photo(s) added successfully'}, status=200)
 
 @api_view(['GET', 'POST'])
-def getProperties(request):
+def properties(request):
     if request.method == 'GET':
-        return JsonResponse([property.serialize() for property in Property.objects.all()], safe=False)
-    
+        # Get properties in range [start, end], if not specified, give first 50
+        start = int(request.GET.get('start', 0))
+        end = int(request.GET.get('end', start + 50))
+        property = [property.serialize() for property in Property.objects.all().order_by('id')[start:end]]
+        if len(property) == 0:
+            return JsonResponse({"message": "No more content"}, status=204)
+        
+        return JsonResponse(property, safe=False, status=200)
+
     elif request.method == 'POST':
         data = request.POST
-        print(data)
 
+        # Decode jwt token to get user id
         token_data = jwt.decode(data['token'], settings.SECRET_KEY, algorithms=['HS256'])
         owner = User.objects.get(id=token_data['user_id'])
 
@@ -65,6 +67,7 @@ def getProperties(request):
             city=data['city'],
             state=data['state'],
             zip=data['zip'],
+            title=data['title'],
             rent=data['rent'],
             description=data['description'],
             bedrooms=data['bedrooms'],
@@ -74,16 +77,14 @@ def getProperties(request):
             lotsize=data['lotsize'],
             stars=0,
             type=data['type'],
-            status=data['status']
         )
         try:
             property.save()
             id = property.id
-                
             return JsonResponse({'id': property.id, 'message': 'Property added successfully'}, status=200)
         
         except:
-            return JsonResponse({'message': 'Error adding property'}, status=400)
+            return JsonResponse({'message': 'Error adding property'}, status=500)
         
         
 
@@ -91,65 +92,53 @@ def getProperties(request):
 def getProperty(request, pk):
     """
     Returns a JSON object containing the property data with the given id
-    Status field is added to the JSON object to indicate if the user has 
-    requested to rent the property
     """
-
     property = Property.objects.get(id=pk)
+    return JsonResponse(property.serialize(), safe=False)    
 
-    try:
-        access_token = request.headers['Authorization']
-        token_data = jwt.decode(access_token, settings.SECRET_KEY, algorithms=['HS256'])
-        owner = User.objects.get(id=token_data['user_id'])
-        rentalRequest = RentalRequest.objects.filter(property=property, user=owner)
-        if owner == property.owner:
-            status = 'owner'
-        elif rentalRequest:
-            status = 'approved' if rentalRequest.latest('date').approved else 'pending'
-        else:
-            status = 'none'
-    except KeyError:
-        status = 'none'
-
-    propertyObject = property.serialize()
-    propertyObject['status'] = status
-    return JsonResponse(propertyObject, safe=False)    
-
-@api_view(['POST'])
+@api_view(['GET', 'POST'])
+@allowed_users(allowed_roles=['common_user','admin'])
 def requestRental(request, propertyID):
     """
-    Makes a requestRental object with the given propertyID and the user
+    GET: Returns the status of the rental request for the given property
+    POST: Makes a requestRental object with the given propertyID and the user
     """
-    try:
-        access_token = request.headers['Authorization']
-        token_data = jwt.decode(access_token, settings.SECRET_KEY, algorithms=['HS256'])
-        user = User.objects.get(id=token_data['user_id'])
+    if request.method == 'GET':
+        property = Property.objects.get(id=propertyID)
+        rentalRequest = RentalRequest.objects.filter(property=property, user=request.user)
 
-        data = request.POST
+        if request.user == property.owner:
+            rental_status = 'owner'
+        elif rentalRequest:
+            rental_status = 'approved' if rentalRequest.latest('date').approved else 'pending'
+        else:
+            rental_status = 'none'
+
+        return JsonResponse({'rental_status': rental_status}, status=200)
+    
+    if request.method == "POST":
         property=Property.objects.get(id=propertyID)
 
         # Check if user already has a rental request for this property
-        if not RentalRequest.objects.filter(
+        if RentalRequest.objects.filter(
             property=Property.objects.get(id=propertyID),
-            user=user,
-            is_active=False,
-            approved=False,
+            user=request.user
+        ).filter(
+            Q(is_active=True) | Q(approved=True)
         ).exists():
             return JsonResponse({'message': 'Rental request already made'}, status=400)
         
         rentalRequest = RentalRequest.objects.create(
             property=Property.objects.get(id=propertyID),
-            user=user,
+            user=request.user,
         )
         
         try:
             rentalRequest.save()
             return JsonResponse({'message': 'Rental request added successfully'}, status=200)
         except:
-            return JsonResponse({'message': 'Error adding rental request'}, status=400)
-        
-    except KeyError:
-        return JsonResponse({'message': 'Bad request'}, status=400)
+            return JsonResponse({'message': 'Error adding rental request'}, status=500)
+            
     
 @api_view(['GET', 'POST'])
 def addRating(request, property_id):
@@ -183,6 +172,7 @@ def addRating(request, property_id):
 @api_view(['POST'])
 @allowed_users(allowed_roles=['admin'])
 def checkGroup(request, group_name):
+    print("in checkGroup, the user is:", request.user)
     try: 
         return JsonResponse({'group': group_name })
     except:

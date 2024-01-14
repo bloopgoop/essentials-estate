@@ -1,11 +1,13 @@
 import axios from "services/axiosConfigs";
 const baseURL = "/property";
 
+// API layer for property related requests
 // Turn all these into async functions and return the data directly instead of promises
 
-const getAll = () => {
-  const request = axios.get(`${baseURL}/`);
-  return request.then((response) => shuffle(response.data));
+// returns response instead of response.data
+const getRange = (start, end) => {
+  const request = axios.get(`${baseURL}/?start=${start}&end=${end}`);
+  return request.then((response) => (response));
 };
 
 const getOne = (id) => {
@@ -27,6 +29,11 @@ const update = (id, newObject) => {
   const request = axios.put(`${baseURL}/${id}`, newObject);
   return request.then((response) => response.data);
 };
+
+const getPropertyRentalStatus = (id) => {
+  const request = axios.get(`${baseURL}/requestRental/${id}/`);
+  return request.then((response) => response.data);
+}
 
 const requestPropertyRental = (id) => {
   const request = axios.post(`${baseURL}/requestRental/${id}/`);
@@ -54,5 +61,5 @@ const shuffle = (array) => {
   return array;
 };
 
-const propertyService = { getAll, getOne, create, update, addPhoto, requestPropertyRental };
+const propertyService = { getRange, getOne, create, update, addPhoto, requestPropertyRental, getPropertyRentalStatus };
 export default propertyService;
