@@ -28,7 +28,7 @@ const Property = () => {
   const capitalize = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
-
+  
   useEffect(() => {
     const request = axios.get(`property/rating/${id}`);
     request.then((response) => setAvgRating(response.data.average_value));
@@ -77,9 +77,10 @@ const Property = () => {
       });
   };
 
-  const handlePut = (event) => {
+  const handlePut = (event, ratingId) => {
     event.preventDefault();
     const formData = new FormData();
+    formData.append("id", ratingId);
     formData.append("comment", comment);
     formData.append("stars", stars);
     const request = axios.put(`property/rating/${id}`, formData);
@@ -196,8 +197,10 @@ const Property = () => {
 
             {ratings.map((rating, key) => (
               <div key={key}>
-                {rating.comment} - {rating.stars}*{" "}
-                <button onClick={handlePut}>Update</button>
+                {rating.comment} - {rating.stars}*
+                <button onClick={(event) => handlePut(event, rating.id)}>
+                  Update
+                </button>
               </div>
             ))}
           </main>

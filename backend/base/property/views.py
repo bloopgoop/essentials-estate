@@ -170,9 +170,9 @@ def ratings(request, property_id, rating_id=1):
     
     elif request.method == 'PUT':
         try:
-            print("working")
-            rating = Rating.objects.get(id=rating_id, property=Property.objects.get(id=property_id))
+            rating = Rating.objects.get(id=request.data['id'], property=Property.objects.get(id=property_id))
             rating.comment = request.data['comment']
+            rating.stars = request.data['stars']
             rating.save()
             return JsonResponse({'sucess': "yippers"}, status=200)
         except:
