@@ -141,7 +141,7 @@ def requestRental(request, propertyID):
             
     
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
-def ratings(request, property_id, rating_id=1):
+def ratings(request, property_id):
     # Get user, issue if nonuser posting a comment
     # BUT should take the nonuser to loggin page
     try:
@@ -149,9 +149,9 @@ def ratings(request, property_id, rating_id=1):
         token_data = jwt.decode(access_token, settings.SECRET_KEY, algorithms=['HS256'])
         user_id = token_data['user_id']
     except:
+        user_id = -1
         return JsonResponse({'error': 'Issue with retriving User'}, status=400)
     
-
     if request.method == 'GET':
         try:
             average_value = Rating.objects.filter(property=Property.objects.get(id=property_id)).aggregate(Avg('stars'))['stars__avg']
@@ -189,12 +189,23 @@ def ratings(request, property_id, rating_id=1):
                 rating.save()
                 return JsonResponse({'message': "Rating has been updated", "result": True}, status=200)
             else: 
-                return JsonResponse({'message': "WRONG USER, Rating has not been updated", "result": False}, status=200)
+                return JsonResponse({'message': "WRONG USER, Rating has not been updated", "result": False}, status=401)
         except:
-            return JsonResponse({'error': 'Issue updating comment'}, status=404)
+            return JsonResponse({'error': 'Error updating rating'}, status=404)
         
     elif request.method == 'DELETE':
-        pass
+        try:
+            rating_id = request.data['id']
+            # return JsonResponse({'message': 'Rating deleted successfully'}, status=200)
+            if user_id == request.data['user_id']:
+                rating = Rating.objects.get(id=rating_id, property=Property.objects.get(id=property_id))
+                rating.delete()
+                return JsonResponse({'message': 'Rating deleted successfully'}, status=200)
+            else:
+                return JsonResponse({'message': "WRONG USER, Rating has not been updated", "result": False}, status=401)
+        except:
+            return JsonResponse({'error': 'Error deleting rating'}, status=404)
+
 
 @api_view(['POST'])
 @allowed_users(allowed_roles=['admin'])

@@ -49,12 +49,18 @@ const Property = () => {
         return <h1>404 property not found</h1>;
       });
   }, []);
-  
+
   const handleGet = (event) => {
     event.preventDefault();
     const request = axios.get(`property/rating/${id}`);
-    request.then((response) => setAvgRating(response.data.average_value));
-    request.then((response) => setRatings(response.data.ratings.reverse()));
+    request
+      .then((response) => {
+        setAvgRating(response.data.average_value);
+        setRatings(response.data.ratings.reverse());
+      })
+      .catch((error) => {
+        console.error("Error making GET request:", error);
+      });
   };
 
   const handlePost = (event) => {
@@ -76,6 +82,7 @@ const Property = () => {
         console.error("Error making POST request:", error);
       });
   };
+
   const handlePut = (event, ratingId, userID) => {
     event.preventDefault();
     const formData = new FormData();
@@ -92,6 +99,24 @@ const Property = () => {
       })
       .catch((error) => {
         console.error("Error making PUT request:", error);
+      });
+  };
+
+  const handleDelete = (event, ratingId, userID) => {
+    event.preventDefault();
+    const requestData = { id: ratingId, user_id: userID };
+    const request = axios.delete(`property/rating/${id}`, {
+      data: requestData,
+    });
+    request
+      .then((response) => {
+        console.log("Success:", response.data);
+        // Updates any updated comments
+        handleGet(event);
+      })
+      .catch((error) => {
+        console.log("Error making DELETE request:", error);
+        alert("CAN'T DELETE OTHER USERS COMMENTS!")
       });
   };
 
@@ -198,8 +223,17 @@ const Property = () => {
             {ratings.map((rating, key) => (
               <div key={key}>
                 {rating.comment} - {rating.stars}*
-                <button onClick={(event) => handlePut(event, rating.id, rating.user)}>
+                <button
+                  onClick={(event) => handlePut(event, rating.id, rating.user)}
+                >
                   Update
+                </button>
+                <button
+                  onClick={(event) =>
+                    handleDelete(event, rating.id, rating.user)
+                  }
+                >
+                  Delete
                 </button>
               </div>
             ))}
