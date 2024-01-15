@@ -142,10 +142,20 @@ def requestRental(request, propertyID):
     
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
 def ratings(request, property_id, rating_id=1):
+    # Get user, issue if nonuser posting a comment
+    # BUT should take the nonuser to loggin page
+    try:
+        access_token = request.headers['Authorization']
+        token_data = jwt.decode(access_token, settings.SECRET_KEY, algorithms=['HS256'])
+        user_id = token_data['user_id']
+    except:
+        return JsonResponse({'error': 'Issue with retriving User'}, status=400)
+    
+
     if request.method == 'GET':
         try:
             average_value = Rating.objects.filter(property=Property.objects.get(id=property_id)).aggregate(Avg('stars'))['stars__avg']
-            rating = [rating.serialize() for rating in Rating.objects.filter(property=Property.objects.get(id=property_id))]
+            rating = [rating.serialize(user_id) for rating in Rating.objects.filter(property=Property.objects.get(id=property_id))]
             return JsonResponse({'average_value': average_value,
                                  'ratings': rating})
         except ValueError:
@@ -170,11 +180,16 @@ def ratings(request, property_id, rating_id=1):
     
     elif request.method == 'PUT':
         try:
-            rating = Rating.objects.get(id=request.data['id'], property=Property.objects.get(id=property_id))
-            rating.comment = request.data['comment']
-            rating.stars = request.data['stars']
-            rating.save()
-            return JsonResponse({'sucess': "yippers"}, status=200)
+            # Checks if its the same user_id
+            # Will ideally make it so that the user can only see update on their own posts
+            if str(user_id) == request.data["userID"]:
+                rating = Rating.objects.get(id=request.data['id'], property=Property.objects.get(id=property_id))
+                rating.comment = request.data['comment']
+                rating.stars = request.data['stars']
+                rating.save()
+                return JsonResponse({'message': "Rating has been updated", "result": True}, status=200)
+            else: 
+                return JsonResponse({'message': "WRONG USER, Rating has not been updated", "result": False}, status=200)
         except:
             return JsonResponse({'error': 'Issue updating comment'}, status=404)
         

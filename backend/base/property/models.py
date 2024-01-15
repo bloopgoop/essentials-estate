@@ -95,14 +95,14 @@ class Rating(models.Model):
     def is_valid_rating(self):
         return (0 <= self.stars <= 5) and (self.user != self.property.owner)
     
-
-    def serialize(self):
+    def serialize(self, user_id=False):
         return {
             'id' : self.id,
             'user': self.user.id,
             'property': self.property.id,
             'stars': self.stars,
             'comment': self.comment,
+            'same_user': self.user.id == user_id,
         }
 
 class RentalRequest(models.Model):

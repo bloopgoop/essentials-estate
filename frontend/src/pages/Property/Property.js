@@ -28,7 +28,7 @@ const Property = () => {
   const capitalize = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
-  
+
   useEffect(() => {
     const request = axios.get(`property/rating/${id}`);
     request.then((response) => setAvgRating(response.data.average_value));
@@ -49,7 +49,7 @@ const Property = () => {
         return <h1>404 property not found</h1>;
       });
   }, []);
-
+  
   const handleGet = (event) => {
     event.preventDefault();
     const request = axios.get(`property/rating/${id}`);
@@ -76,11 +76,11 @@ const Property = () => {
         console.error("Error making POST request:", error);
       });
   };
-
-  const handlePut = (event, ratingId) => {
+  const handlePut = (event, ratingId, userID) => {
     event.preventDefault();
     const formData = new FormData();
     formData.append("id", ratingId);
+    formData.append("userID", userID);
     formData.append("comment", comment);
     formData.append("stars", stars);
     const request = axios.put(`property/rating/${id}`, formData);
@@ -198,7 +198,7 @@ const Property = () => {
             {ratings.map((rating, key) => (
               <div key={key}>
                 {rating.comment} - {rating.stars}*
-                <button onClick={(event) => handlePut(event, rating.id)}>
+                <button onClick={(event) => handlePut(event, rating.id, rating.user)}>
                   Update
                 </button>
               </div>
