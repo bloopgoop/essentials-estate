@@ -17,9 +17,9 @@
 }
 
 .grid-item {
-  min-height: 500px;
-  border: 1px solid #ccc;
-  box-shadow: #ccc 0px 0px 15px;
+  height: 500px;
+  /* border: 1px solid #ccc;
+  box-shadow: #ccc 0px 0px 15px; */
 }
 
 #filter {
