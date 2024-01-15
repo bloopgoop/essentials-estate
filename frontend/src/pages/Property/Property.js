@@ -116,9 +116,11 @@ const Property = () => {
       })
       .catch((error) => {
         console.log("Error making DELETE request:", error);
-        alert("CAN'T DELETE OTHER USERS COMMENTS!")
+        alert("CAN'T DELETE OTHER USERS COMMENTS!");
       });
   };
+
+  console.log(ratings);
 
   // REMOVE LATER, FOR TESTING checkGroup
   // const checkGroup = (event) => {
@@ -222,19 +224,29 @@ const Property = () => {
 
             {ratings.map((rating, key) => (
               <div key={key}>
-                {rating.comment} - {rating.stars}*
-                <button
-                  onClick={(event) => handlePut(event, rating.id, rating.user)}
-                >
-                  Update
-                </button>
-                <button
-                  onClick={(event) =>
-                    handleDelete(event, rating.id, rating.user)
-                  }
-                >
-                  Delete
-                </button>
+                {rating.same_user ? (
+                  <>
+                    {rating.comment} - {rating.stars}*
+                    <button
+                      onClick={(event) =>
+                        handlePut(event, rating.id, rating.user)
+                      }
+                    >
+                      Update
+                    </button>
+                    <button
+                      onClick={(event) =>
+                        handleDelete(event, rating.id, rating.user)
+                      }
+                    >
+                      Delete
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    {rating.comment} - {rating.stars}*
+                  </>
+                )}
               </div>
             ))}
           </main>
