@@ -26,10 +26,8 @@ export default function PreviewCard({ property }) {
       ) : (
         <div className="preview-item-card">
           <div className="preview-image-container">
-            <div className="preview-image-button-container">
-              {state.index > 0 ? <button onClick={() => dispatch({type: "previous"})} className="preview-image-button">&lt;</button> : <div></div>}
-              {state.index < property.photos.length - 1 ? <button onClick={() => dispatch({type: "next"})} className="preview-image-button">&gt;</button> : <div></div>}
-            </div>
+              {state.index > 0 ? <button onClick={() => dispatch({type: "previous"})} className="preview-image-button button-left">&lt;</button> : <div></div>}
+              {state.index < property.photos.length - 1 ? <button onClick={() => dispatch({type: "next"})} className="preview-image-button button-right">&gt;</button> : <div></div>}
             <Link
               to={`/property/${property.id}`}
               data-testid="preview-link"

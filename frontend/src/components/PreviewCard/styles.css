@@ -28,7 +28,7 @@
 .preview-image-button-container {
     display: flex;
     justify-content: space-between;
-    height: 30px;
+    height: 50px;
     width: 100%;
 
     position: absolute;
@@ -38,15 +38,44 @@
     -moz-transform: translateY(-50%);
     transform: translateY(-50%);
 }
-.preview-image-button {
+.preview-image-container:hover .preview-image-button {
+    display: block;
+    animation: fade-in 0.15s ease-in-out;
+}
+.preview-image-button{
+    display: none;
     border-radius: 100px;
     height: 100%;
     width: 30px;
     background-color: white;
     border: none;
     color: black;   
-    line-height: 10px;
+    line-height: 44px;
     box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.5);
+
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    transform: translateY(-50%);
+    height: 60px;
+}
+.preview-image-button:active{
+    transform: translateY(-30px); /* counter act transformation down */
+}
+.preview-image-button:hover{
+    filter: blur(1.5px);
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.5);
+}
+.button-right {
+    right: 3%;
+}
+.button-left {
+    left: 3%;
+}
+.preview-image-button:hover {
+    cursor: pointer;
+    filter: blur(0.5px);
 }
 .preview-image {
     height: 100%;
@@ -56,7 +85,6 @@
 }
 .preview-image > img:hover {
     cursor: pointer;
-    filter: blur(2px);
 }
 
 .preview-card-description {
