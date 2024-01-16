@@ -17,7 +17,7 @@
 
 
 .preview-image-container {
-    height: 70%;
+    height: 80%;
     width: 100%;
     border-radius: 20px;
     overflow: hidden;
@@ -38,7 +38,8 @@
     -moz-transform: translateY(-50%);
     transform: translateY(-50%);
 }
-.preview-image-container:hover .preview-image-button {
+.preview-image-container:hover .preview-image-button,
+.preview-image-container:hover .preview-image-counter {
     display: block;
     animation: fade-in 0.15s ease-in-out;
 }
@@ -61,7 +62,7 @@
     height: 60px;
 }
 .preview-image-button:active{
-    transform: translateY(-30px); /* counter act transformation down */
+    transform: translateY(-29px); /* counter act transformation down */
 }
 .preview-image-button:hover{
     filter: blur(1.5px);
@@ -77,6 +78,21 @@
     cursor: pointer;
     filter: blur(0.5px);
 }
+.preview-image-counter {
+    display: none;
+    font-weight: bold;
+    font-size: 0.75rem;
+    padding: 0.5rem 1rem;
+    background-color: white;
+    border-radius: 100px;
+
+    position: absolute;
+    justify-content: space-between;
+    bottom: 3%;
+    margin: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
 .preview-image {
     height: 100%;
     width: 100%;
@@ -87,38 +103,33 @@
     cursor: pointer;
 }
 
+
+
 .preview-card-description {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 
     position: relative;
-    height: 30%;
-    padding: 1rem;
+    height: 100%;
+    padding: 0.75rem;
     margin: 0;
 }
-.preview-card-description a {
-    color: var(--text-color);
-    text-decoration: none;
+.description-header {
+    display: flex;
+    align-items: center;
 }
-.preview-card-description a:hover {
-    text-decoration: underline;
-    offset: 1rem;
-    transform: translateY(-1px);
-}
-.preview-card-description h3 {
+.description-header > h3 {
+    flex: 1;
     margin: 0;
-    width: calc(100% - 1rem);
     overflow: hidden;
 }
-.preview-card-description > img {
-    position: absolute;
-    right: 1rem;
+.description-header > img {
     height: 1rem;
     width: 1rem;
+    margin-right: 0.25rem;
 }
 .preview-card-description > p {
-    flex: 1;
-    margin: 0.5rem 0;
+    margin: 0;
     overflow: hidden;
 }
