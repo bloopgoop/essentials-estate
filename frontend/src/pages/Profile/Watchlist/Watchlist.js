@@ -26,7 +26,7 @@ export default function Watchlist() {
       <div id="searchsort">
         <input type="text" placeholder="Search.." />
         <div id="sortitem">
-          <label for="sort">Sort by:</label>
+          <label htmlFor="sort">Sort by:</label>
           <select name="sort" id="sort">
             <option value="recent">Recent</option>
             <option value="A-Z">A-Z</option>

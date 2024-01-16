@@ -1,6 +1,5 @@
 import React from "react";
 import "./StatusCard.css";
-import image from "../../assets/couch.jpg";
 import { Link } from "react-router-dom";
 
 function StatusCard({ props, page }) {
@@ -54,7 +53,7 @@ function StatusCard({ props, page }) {
           </div>
           <Link to={`/${page}/${props.id}`}>
             <button>View Property</button>
-          </Link>
+          </Link> 
         </div>
       </div>
     </>
