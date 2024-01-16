@@ -21,7 +21,7 @@ export default function Gallery({ photos }) {
       void mainImageRef.current.offsetWidth; // Trigger reflow
       mainImageRef.current.classList.add("fade-in");
     }
-  }, [mainImage]);
+  }, [mainImage, photos]);
 
   return (
     <>
