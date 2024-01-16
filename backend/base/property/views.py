@@ -85,7 +85,10 @@ def properties(request):
         
         except:
             return JsonResponse({'message': 'Error adding property'}, status=500)
-        
+    
+    elif request.method == 'PUT':
+        print("Property Put working :D")
+        return JsonResponse({"message": "good shi"}, status = 200)
         
 
 @api_view(['GET'])
@@ -173,7 +176,7 @@ def ratings(request, property_id):
                 user=User.objects.get(id=payload['user_id'])
             )
             rating.save()
-            
+
             property.stars = Rating.objects.filter(property=Property.objects.get(id=property_id)).aggregate(Avg('stars'))['stars__avg']
             property.save()
             id = rating.id

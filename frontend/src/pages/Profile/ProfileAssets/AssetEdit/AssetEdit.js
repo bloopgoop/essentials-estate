@@ -60,7 +60,7 @@ function AssetEdit() {
     formData.append("lotsize", lotsize);
     formData.append("type", type);
     formData.append("description", description);
-    const request = axios.put(`property/`)
+    const request = axios.put(`/property`, formData)
   };
 
   const handleDelete = (event) => {
@@ -182,7 +182,7 @@ function AssetEdit() {
           </tr>
         </tbody>
       </table>
-      <button>Update</button>
+      <button onClick={handlePut}>Update</button>
       <button>Delete</button>
     </>
   );

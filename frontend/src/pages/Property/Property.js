@@ -70,7 +70,6 @@ const Property = () => {
     formData.append("propertyID", id);
     formData.append("comment", comment);
     formData.append("token", auth.authTokens.access);
-
     const request = axios.post(`property/rating/${id}`, formData);
     request
       .then((response) => {

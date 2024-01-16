@@ -17,11 +17,10 @@ export default function AssetCard(props) {
       <div id="Assetcard--info">
         <h2>Property Name</h2>
         <p>{props.props.stars}</p>
+        <p>{props.props.description}</p>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis est
-          ipsum, vulputate ac tortor in, tempus ullamcorper est.
+          {props.props.city}, {props.props.state}
         </p>
-        <p>New York, NY</p>
       </div>
       <Link to={`/profile/assets/${props.props.id}`}>
         <button>Edit Property</button>
