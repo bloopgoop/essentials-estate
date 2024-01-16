@@ -1,13 +1,13 @@
 import "./WatchlistCard.css";
 
-export default function Card({ props }) {
+export default function WatchlistCard({ props }) {
   if (!props) return <h1>Loading...</h1>;
 
     return (
       <div id="Watchlistcard--container">
         <div>
           <img
-            src={props.photos[0]}
+            src={props.photos[0].img}
             height={250}
             width={250}
             alt="Property"

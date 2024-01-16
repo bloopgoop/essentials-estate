@@ -73,9 +73,9 @@ function PropertyReview() {
     );
     if (confirmation) {
       alert("Property has been rejected");
+      onClick(2);
       navigate("/review");
     }
-    onClick(2);
   };
 
   const onClick = (status) => {
