@@ -165,14 +165,17 @@ def ratings(request, property_id):
         try:
             data = request.POST
             payload = jwt.decode(data['token'], settings.SECRET_KEY, algorithms=['HS256'])
-
+            property=Property.objects.get(id=property_id)
             rating = Rating.objects.create(
-                property=Property.objects.get(id=property_id),
+                property=property,
                 stars=data['stars'],
                 comment=data['comment'],
                 user=User.objects.get(id=payload['user_id'])
             )
             rating.save()
+            
+            property.stars = Rating.objects.filter(property=Property.objects.get(id=property_id)).aggregate(Avg('stars'))['stars__avg']
+            property.save()
             id = rating.id
             return JsonResponse({'id': id, 'message': 'Rating has been posted'}, status=200)
         except:
