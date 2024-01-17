@@ -3,7 +3,6 @@ import "./AssetCard.css";
 
 export default function AssetCard(props) {
   if (!props) return <h1>Loading...</h1>;
-  console.log(props)
   return (
     <div id="Assetcard--container">
       <div>

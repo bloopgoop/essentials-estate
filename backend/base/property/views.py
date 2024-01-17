@@ -111,11 +111,12 @@ def getProperty(request, pk):
         property.type = request.data["type"]
         property.description = request.data["description"]
         property.save()        
-        return JsonResponse({"message": "good shi"}, status = 200)
+        return JsonResponse({"message": "Property has been updated"}, status = 200)
     
     elif request.method == 'DELETE':
-        print("Property DELETE working :D")
-        return JsonResponse({"message": "good shi"}, status = 200)   
+        property = Property.objects.get(id=pk)
+        property.delete()
+        return JsonResponse({"message": "Property has been deleted"}, status = 200)   
 
 
 @api_view(['GET', 'POST'])

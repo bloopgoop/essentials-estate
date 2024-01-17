@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import propertyService from "services/property/propertyAPI";
 import axios from "services/axiosConfigs";
 import "./AssetEdit.css";
@@ -20,6 +20,7 @@ function AssetEdit() {
   const [description, setDescription] = useState("");
 
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     getProperty();
@@ -47,7 +48,7 @@ function AssetEdit() {
         alert(`Error fetching property: ${error}`);
         return <h1>404 property not found</h1>;
       });
-  }
+  };
 
   const handlePut = (event) => {
     event.preventDefault();
@@ -73,12 +74,25 @@ function AssetEdit() {
       .catch((error) => {
         console.error("Error making PUT request:", error);
       });
-
   };
 
   const handleDelete = (event) => {
-    event.preventDefault();
-    const request = axios.delete(`/property/${id}/`);
+    const confirmation = window.confirm(
+      "Are you sure you want to delete this property?"
+    );
+    if (confirmation) {
+      alert("Property has been deleted");
+      event.preventDefault();
+      const request = axios.delete(`/property/${id}/`);
+      request
+        .then((response) => {
+          console.log("Success:", response.data);
+        })
+        .catch((error) => {
+          console.log("Error making DELETE request:", error);
+        });
+      navigate("/profile/assets");
+    }
   };
 
   if (!property) return <h1>Loading...</h1>;
