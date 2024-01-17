@@ -97,7 +97,6 @@ def getProperty(request, pk):
     
     elif request.method == 'PUT':
         property = Property.objects.get(id=pk)
-        print(request.data)
         property.address = request.data["address"]
         property.city = request.data["city"]
         property.state = request.data["state"] 
