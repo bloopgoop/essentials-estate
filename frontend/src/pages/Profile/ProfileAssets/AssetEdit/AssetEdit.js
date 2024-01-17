@@ -22,6 +22,10 @@ function AssetEdit() {
   const { id } = useParams();
 
   useEffect(() => {
+    getProperty();
+  }, [id]);
+
+  const getProperty = () => {
     propertyService
       .getOne(id)
       .then((response) => {
@@ -43,7 +47,7 @@ function AssetEdit() {
         alert(`Error fetching property: ${error}`);
         return <h1>404 property not found</h1>;
       });
-  }, [id]);
+  }
 
   const handlePut = (event) => {
     event.preventDefault();
@@ -53,18 +57,28 @@ function AssetEdit() {
     formData.append("state", state);
     formData.append("zip", zip);
     formData.append("rent", rent);
-    formData.append("bedroom", bedrooms);
+    formData.append("bedrooms", bedrooms);
     formData.append("bathrooms", bathrooms);
     formData.append("garage", garage);
     formData.append("sqft", sqft);
     formData.append("lotsize", lotsize);
     formData.append("type", type);
     formData.append("description", description);
-    const request = axios.put(`/property`, formData)
+    const request = axios.put(`/property/${id}/`, formData);
+    request
+      .then((response) => {
+        console.log("Success:", response.data);
+        getProperty();
+      })
+      .catch((error) => {
+        console.error("Error making PUT request:", error);
+      });
+
   };
 
   const handleDelete = (event) => {
-    return;
+    event.preventDefault();
+    const request = axios.delete(`/property/${id}/`);
   };
 
   if (!property) return <h1>Loading...</h1>;
@@ -138,7 +152,7 @@ function AssetEdit() {
           </tr>
           <tr>
             <td>Garage:</td>
-            <td>{property.garage} car(s)</td>
+            <td>{property.garage}</td>
             <td>
               <input
                 value={garage}
@@ -174,7 +188,7 @@ function AssetEdit() {
             <td>Description:</td>
             <td>{property.description}</td>
             <td>
-              <input
+              <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
@@ -183,7 +197,7 @@ function AssetEdit() {
         </tbody>
       </table>
       <button onClick={handlePut}>Update</button>
-      <button>Delete</button>
+      <button onClick={handleDelete}>Delete</button>
     </>
   );
 }

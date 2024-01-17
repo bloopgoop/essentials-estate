@@ -85,19 +85,38 @@ def properties(request):
         
         except:
             return JsonResponse({'message': 'Error adding property'}, status=500)
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def getProperty(request, pk):
+    if request.method == 'GET':
+        """
+        Returns a JSON object containing the property data with the given id
+        """
+        property = Property.objects.get(id=pk)
+        return JsonResponse(property.serialize(), safe=False) 
     
     elif request.method == 'PUT':
-        print("Property Put working :D")
+        property = Property.objects.get(id=pk)
+        print(request.data)
+        property.address = request.data["address"]
+        property.city = request.data["city"]
+        property.state = request.data["state"] 
+        property.zip = request.data["zip"]
+        property.rent = request.data["rent"]
+        property.bedrooms = request.data["bedrooms"]
+        property.bathrooms = request.data["bathrooms"]
+        property.garage = request.data["garage"]
+        property.sqft = request.data["sqft"]
+        property.lotsize = request.data["lotsize"]
+        property.type = request.data["type"]
+        property.description = request.data["description"]
+        property.save()        
         return JsonResponse({"message": "good shi"}, status = 200)
-        
+    
+    elif request.method == 'DELETE':
+        print("Property DELETE working :D")
+        return JsonResponse({"message": "good shi"}, status = 200)   
 
-@api_view(['GET'])
-def getProperty(request, pk):
-    """
-    Returns a JSON object containing the property data with the given id
-    """
-    property = Property.objects.get(id=pk)
-    return JsonResponse(property.serialize(), safe=False)    
 
 @api_view(['GET', 'POST'])
 @allowed_users(allowed_roles=['common_user','admin'])
