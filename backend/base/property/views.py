@@ -20,13 +20,11 @@ def addPhoto(request):
     
     data = request.POST
     files = request.FILES
-
     descriptions = json.loads(data['descriptions'])
-    token_data = jwt.decode(data['token'], settings.SECRET_KEY, algorithms=['HS256'])
 
     # Check if user is owner of property
     property = Property.objects.get(id=data['propertyID'])
-    if token_data['user_id'] != property.owner.id:
+    if request.user != property.owner:
         return JsonResponse({'message': 'Unauthorized'}, status=403)
 
     for index, file in enumerate(files):
@@ -93,8 +91,12 @@ def getProperty(request, pk):
     """
     Returns a JSON object containing the property data with the given id
     """
-    property = Property.objects.get(id=pk)
-    return JsonResponse(property.serialize(), safe=False)    
+    try:
+        property = Property.objects.get(id=pk)
+    except Property.DoesNotExist:
+        return JsonResponse({'message': 'Property does not exist'}, status=404)
+    
+    return JsonResponse(property.serialize(), safe=False)
 
 @api_view(['GET', 'POST'])
 @allowed_users(allowed_roles=['common_user','admin'])

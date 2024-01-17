@@ -20,8 +20,6 @@ function Dropbox({ id }) {
   const descriptionInputRef = useRef();
 
   useEffect(() => {
-    console.log(files);
-    console.log(index);
 
     // set the image state to the url of file to display preview
     if (files.length > 0) {
@@ -38,10 +36,9 @@ function Dropbox({ id }) {
 
   const handleFileChange = (e) => {
     e.preventDefault();
-    console.log(e.target.files);
     // combine existing files and new files
     if (files.length + e.target.files.length > MAX_FILES) {
-      alert(`You can only upload ${MAX_FILES} files at a time`);
+      console.log(`You can only upload ${MAX_FILES} files at a time`);
       return;
     }
     setFiles([...files, ...e.target.files]); // asynchronous
@@ -49,7 +46,10 @@ function Dropbox({ id }) {
 
   const handleDrop = (e) => {
     e.preventDefault();
-    console.log(e.dataTransfer.files);
+    if (files.length + e.dataTransfer.files.length > MAX_FILES) {
+      console.log(`You can only upload ${MAX_FILES} files at a time`);
+      return;
+    }
     setFiles([...files, ...e.dataTransfer.files]); // asynchronous
   };
 
@@ -69,9 +69,6 @@ function Dropbox({ id }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("submitting");
-    console.log(descriptions);
-    console.log(files);
     // use auth context to send auth token to backend
     const formData = new FormData();
     for (let i = 0; i < files.length; i++) {
@@ -88,7 +85,7 @@ function Dropbox({ id }) {
       .addPhoto(formData)
       .then((response) => {
         alert("Photos added successfully");
-        navigate('/property/' + id);
+        navigate("/property/" + id);
       })
       .catch((error) => {
         alert(`Error adding photos: ${error}`);
@@ -119,6 +116,7 @@ function Dropbox({ id }) {
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
+          data-testid="dropzone"
         >
           {!image ? (
             `Drop files here`
@@ -136,13 +134,16 @@ function Dropbox({ id }) {
           multiple
           ref={fileInputRef}
           onChange={handleFileChange}
+          data-testid="file-input"
         />
         <div>{files.length} images selected</div>
       </label>
 
       {files.length > 0 ? (
-        <label htmlFor="description-input" className="description">
-          <span>Description:</span>
+        <div>
+          <label htmlFor="description-input" className="description">
+            Description:
+          </label>
           <input
             id="description-input"
             type="textarea"
@@ -150,7 +151,7 @@ function Dropbox({ id }) {
             value={descriptions[index]}
             onChange={handleDescriptionChange}
           />
-        </label>
+        </div>
       ) : null}
 
       {index > 0 ? (

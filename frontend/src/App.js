@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import { AuthProvider } from "context/AuthContext";
 import LoggedInRoutes from "./utils/LoggedInRoutes";
-import Dashboard from "./pages/Dashboard/Dashboard";
+
 import ErrorPage from "./pages/Error/Error";
 import Login from "./pages/Authenticate/Login";
 import Register from "./pages/Authenticate/Register";

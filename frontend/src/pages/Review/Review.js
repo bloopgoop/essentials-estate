@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import propertyService from "services/property/propertyAPI";
 import "./Review.css";
 import axios from "services/axiosConfigs";
 import StatusCard from "../../components/StatusCard/StatusCard";

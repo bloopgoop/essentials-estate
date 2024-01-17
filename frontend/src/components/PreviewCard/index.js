@@ -1,27 +1,95 @@
 import "./styles.css";
-import lock from "assets/lock.svg";
+import star from "assets/star.svg";
 import { Link } from "react-router-dom";
+import { useReducer } from "react";
+
+function switchImage(state, action) {
+  switch (action.type) {
+    case "previous":
+      const prevIndex = state.index - 1;
+      return { index: prevIndex, images: state.images };
+    case "next":
+      const nextIndex = state.index + 1;
+      return { index: nextIndex, images: state.images };
+    default:
+      throw new Error("Invalid action type");
+  }
+}
 
 export default function PreviewCard({ property }) {
-  if (!property) return <h1>Loading...</h1>;
+  const [state, dispatch] = useReducer(switchImage, {
+    index: 0,
+    images: property.photos,
+  });
 
   return (
-    <div className="preview-item-card">
-      <Link to={`/property/${property.id}`} className="preview-image">
-        <img src={property.photos[0].photo} alt="preview" />
-      </Link>
-      <div className="preview-card-description">
-        <Link to={`/property/${property.id}`}>
-          <h3>
-            {property.title
-              ? property.title
-              : property.address + " " + property.zip + " " + property.city}
-          </h3>
-        </Link>
-        <img src={lock} alt="star"></img>
-        <p>{property.description}</p>
-        <i>Monthly rent: {property.rent}</i>
-      </div>
-    </div>
+    <>
+      {!property ? (
+        <h1>Loading...</h1>
+      ) : (
+        <div className="preview-item-card">
+          <div className="preview-image-container">
+            {state.index > 0 ? (
+              <button
+                onClick={() => dispatch({ type: "previous" })}
+                className="preview-image-button button-left"
+              >
+                &lt;
+              </button>
+            ) : (
+              <div></div>
+            )}
+            {state.index < property.photos.length - 1 ? (
+              <button
+                onClick={() => dispatch({ type: "next" })}
+                className="preview-image-button button-right"
+              >
+                &gt;
+              </button>
+            ) : (
+              <div></div>
+            )}
+            {property.photos.length > 1 && (
+              <p className="preview-image-counter">
+                {state.index + 1}/{property.photos.length}
+              </p>
+            )}
+            <Link to={`/property/${property.id}`} data-testid="preview-link">
+              <img
+                src={state.images[state.index].photo}
+                alt="preview"
+                className="preview-image"
+              />
+            </Link>
+          </div>
+
+          <Link
+            to={`/property/${property.id}`}
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            <div className="preview-card-description">
+              <div className="description-header">
+                <h3>
+                  {property.title
+                    ? property.title
+                    : property.address +
+                      " " +
+                      property.zip +
+                      " " +
+                      property.city}
+                </h3>
+
+                <img src={star} alt="star"></img>
+
+                <div>{property.stars}</div>
+              </div>
+
+              <p>{property.description}</p>
+              <i>Monthly rent: {property.rent}</i>
+            </div>
+          </Link>
+        </div>
+      )}
+    </>
   );
 }
