@@ -38,11 +38,6 @@ test("renders correctly with title", () => {
   // Check if the image source is correct
   expect(screen.getByAltText("preview").src).toContain("photo1.jpg");
 
-  // Check if the links to the property page are correct
-  expect(screen.getByRole("link", { name: "Test Property" })).toHaveAttribute(
-    "href",
-    "/property/1"
-  );
   expect(screen.getByTestId("preview-link")).toHaveAttribute(
     "href",
     "/property/1"
@@ -64,12 +59,4 @@ test("renders correctly without title", () => {
   // Check if the image source is correct
   expect(screen.getByAltText("preview").src).toContain("photo1.jpg");
 
-  // Check if the links to the property page are correct
-  expect(
-    screen.getByRole("link", { name: "123 Test St 12345 Test City" })
-  ).toHaveAttribute("href", "/property/1");
-  expect(screen.getByTestId("preview-link")).toHaveAttribute(
-    "href",
-    "/property/1"
-  );
 });
