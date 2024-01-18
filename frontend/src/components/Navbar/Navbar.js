@@ -24,32 +24,29 @@ function Navbar() {
 
   return (
     <nav id="navbar" ref={navbar}>
-      <Link to="/" className="nav-btn">
-        Home
-      </Link>
-      <Link to="/payment" className="nav-btn">
-        List your property!
-      </Link>
-
-      <div className="search-container">
-        <div className="search-bar">
-          <input type="text" placeholder="Search" />
-          <button>Search</button>
-        </div>
+      <div id="nav-left">
+        <Link to="/" className="nav-btn">
+          <h3 id="nav-logo">Essentials Estate</h3>
+        </Link>
+        <Link to="/payment" className="nav-btn">
+          List your property!
+        </Link>
       </div>
 
-      <Link to="/profile" className="nav-btn">
-        Profile
-      </Link>
-      {user ? (
-        <Link to={"/login"} onClick={logoutUser} className="nav-btn">
-          Logout
+      <div id="nav-right">
+        <Link to="/profile" className="nav-btn">
+          Profile
         </Link>
-      ) : (
-        <Link to={"/login"} className="nav-btn">
-          Login
-        </Link>
-      )}
+        {user ? (
+          <Link to={"/login"} onClick={logoutUser} className="nav-btn">
+            Logout
+          </Link>
+        ) : (
+          <Link to={"/login"} className="nav-btn">
+            Login
+          </Link>
+        )}
+      </div>
     </nav>
   );
 }

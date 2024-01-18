@@ -10,8 +10,18 @@ import propertyService from "services/property/propertyAPI";
 
 import "./Search.css";
 
+const searchTerms = [
+  "address",
+  "city",
+  "state",
+  "zip",
+  "title",
+  "description",
+  "owner",
+  "type",
+];
+
 function Search() {
-  const [filter, setFilter] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [properties, setProperties] = useState([]);
   const [shownProperties, setShownProperties] = useState([]); // properties that are shown on the page
@@ -42,24 +52,36 @@ function Search() {
   const useMountEffect = (fun) => useEffect(fun, []); // eslint-disable-line react-hooks/exhaustive-deps
   useMountEffect(fetchData); // fetch data on mount
 
-  // change filter on filter change, sort properties by show matched properties first, then unmatched after
+  // show matched properties first, then unmatched after
   useEffect(() => {
-    if (searchTerm === "" || filter === "") {
+    if (searchTerm === "") {
       setShownProperties(properties);
       return;
     }
     let filteredProperties = [];
     let unmatchedProperties = [];
     for (let i = 0; i < properties.length; i++) {
-      if (properties[i][filter].toLowerCase().includes(searchTerm.toLowerCase())) {
+      let hasSearchTerm = Object.keys(properties[i]).some(key => {
+        if (!searchTerms.includes(key)) {
+          return false;
+        }
+    
+        if (typeof properties[i][key] === "number") {
+          return properties[i][key].toString().toLowerCase().includes(searchTerm.toLowerCase());
+        }
+    
+        return properties[i][key].toLowerCase().includes(searchTerm.toLowerCase());
+      });
+    
+      if (hasSearchTerm) {
         filteredProperties.push(properties[i]);
       } else {
         unmatchedProperties.push(properties[i]);
       }
     }
-    
+    console.log(filteredProperties, unmatchedProperties)
     setShownProperties([...filteredProperties, ...unmatchedProperties]);
-  }, [filter, searchTerm, properties]);
+  }, [searchTerm, properties]);
 
   return (
     <>
@@ -67,35 +89,12 @@ function Search() {
       <div id="search">
 
         <div id="filter">
-          <div>
-            <label htmlFor="searchTerm">Search Term: </label>
-            <input
-              id="searchTerm"
-              type="text"
-              placeholder={"Search by " + filter + "..."}
-              onChange={(event) => setSearchTerm(event.target.value.toLowerCase())}
-            />
-          </div>
-
-          <div id="filterTypeContainer">
-            <label htmlFor="filterType">Filter by: </label>
-            <select onChange={(event) => setFilter(event.target.value)} id="filterType">
-              <option value="">None</option>
-              <option value="address">Address</option>
-              <option value="city">City</option>
-              <option value="title">Title</option>
-              <option value="description">Description</option>
-              <option value="owner">Owner</option>
-              <option value="type">Type</option>
-            </select>
-          </div>
-        </div>
-
-        <div>
-          Sorting by: <span>  </span>
-          <strong>
-            {filter === "" ? "NONE" : filter.toUpperCase()}
-          </strong>
+          <input
+            id="searchTerm"
+            type="text"
+            placeholder="Search by location, owner, type..."
+            onChange={(event) => setSearchTerm(event.target.value.toLowerCase())}
+          />
         </div>
 
         <InfiniteScroll

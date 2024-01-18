@@ -1,7 +1,7 @@
 import "./styles.css";
 import star from "assets/star.svg";
 import { Link } from "react-router-dom";
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 
 function switchImage(state, action) {
   switch (action.type) {
