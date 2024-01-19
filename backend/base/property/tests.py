@@ -1,8 +1,11 @@
 from django.test import TestCase, Client
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
+from django.urls import reverse
+from rest_framework.test import APIClient
 from .models import Property, PropertyPhoto, Rating, RentalRequest
 import jwt
+import json
 
 class DatabaseTestCase(TestCase):
     def setUp(self):
@@ -125,26 +128,62 @@ class DatabaseTestCase(TestCase):
         )
         self.assertFalse(rental.is_valid_rental_request())
 
+class ViewTestCase(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.user = User.objects.create_user(username='testuser', password='12345')
+        self.property = Property.objects.create(
+            owner=self.user,
+            address='123 Test St',
+            city='Test City',
+            state='TS',
+            zip='12345',
+            title='Test Property1',
+            rent=100,
+            description='Test Description1',
+            bedrooms=2,
+            bathrooms=1,
+            garage=1,
+            sqft=100,
+            lotsize=100,
+            stars=0,
+            type='house',
+        )
 
+    # def log_in(self, username, password):
+    #     response = self.client.post(reverse('token_obtain_pair'), {'username': username, 'password': password})
+    #     return response.data['token']
 
-
-    # def test_get_properties(self):
-    #     response = self.client.get('/getProperties/')
+    # def test_add_photo(self):
+    #     self.client.login(username='testuser', password='12345')
+    #     with open('path/to/your/test/image.jpg', 'rb') as img:
+    #         response = self.client.post(reverse('addPhoto'), {'propertyID': self.property.id, 'descriptions': json.dumps(['Test Description']), 'file': img}, format='multipart')
     #     self.assertEqual(response.status_code, 200)
 
-    # def test_get_property(self):
-    #     response = self.client.get(f'/getProperty/{self.property.id}/')
-    #     self.assertEqual(response.status_code, 200)
+    def test_properties(self):
+        response = self.client.get(reverse('properties'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_property(self):
+        response = self.client.get(reverse('property', args=[self.property.id]))
+        self.assertEqual(response.status_code, 200)
 
     # def test_request_rental(self):
-    #     response = self.client.post(f'/requestRental/{self.property.id}/', {
-    #         'Authorization': self.token,
-    #     }, format='json')
+    #     self.client.login(username='testuser', password='12345')
+    #     response = self.client.post(reverse('requestRental', args=[self.property.id]))
     #     self.assertEqual(response.status_code, 200)
 
     # def test_add_rating(self):
-    #     response = self.client.post(f'/addRating/{self.property.id}/', {
-    #         'stars': '5',
-    #         'token': self.token,
-    #     }, format='json')
+    #     self.client.login(username='testuser', password='12345')
+    #     response = self.client.post(reverse('rating', args=[self.property.id]), {'stars': 5, 'comment': 'Great!'})
+    #     self.assertEqual(response.status_code, 200)
+
+    # def test_check_group(self):
+    #     self.client.login(username='testuser', password='12345')
+    #     response = self.client.post(reverse('checkGroup', args=['admin']))
+    #     self.assertEqual(response.status_code, 200)
+
+    # def test_review_property(self):
+    #     self.client.login(username='testuser', password='12345')
+    #     response = self.client.post(reverse('review'), {'propertyID': self.property.id, 'status': 1})
     #     self.assertEqual(response.status_code, 200)

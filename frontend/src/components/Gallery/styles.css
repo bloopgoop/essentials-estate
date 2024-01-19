@@ -16,6 +16,10 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto;
 }
 .gallery > ul > li {
     height: 6rem;
@@ -34,6 +38,8 @@
     flex: 1;
 }
 .main-image > img {
+    height: 100%;
+    width: 100%;
     object-fit: contain;
 }
 

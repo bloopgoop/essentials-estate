@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
@@ -38,10 +38,7 @@ export function AuthProvider({ children }) {
           // Set tokens and user as decoded access token
           setAuthTokens(response.data);
           setUser(jwtDecode(response.data.access));
-          console.log(jwtDecode(response.data.access));
           localStorage.setItem("authTokens", JSON.stringify(response.data));
-          console.log("axios defautls")
-          console.log(axios.defaults.headers.common['Authorization']);
           return navigate("/");
         }
       })
@@ -52,13 +49,14 @@ export function AuthProvider({ children }) {
   };
 
   // Log out function removes tokens from local storage and sets user to null
-  const logoutUser = () => {
+  const logoutUser = useCallback(() => {
     setAuthTokens(null);
     setUser(null);
     localStorage.removeItem("authTokens");
-  };
+  }, []
+  );
 
-  const updateToken = async () => {
+  const updateToken = useCallback(async () => {
     console.log("Updating token")
     let body = {
       refresh: authTokens?.refresh,
@@ -83,7 +81,7 @@ export function AuthProvider({ children }) {
     if (loading) {
       setLoading(false);
     }
-  }
+  }, [authTokens, loading, logoutUser])
 
   const contextData = {
     loginUser: loginUser,
@@ -104,7 +102,7 @@ export function AuthProvider({ children }) {
       }
     }, 1000 * 60 * 59);
     return () => clearInterval(interval);
-  }, [authTokens, loading]);
+  }, [authTokens, loading, updateToken]);
 
   return (
     <AuthContext.Provider value={contextData}>

@@ -3,6 +3,7 @@
   padding-left: 3rem;
   padding-right: 3rem;
   margin-top: 2rem;
+  min-height: 101vh;
 }
 
 .grid {
@@ -16,9 +17,9 @@
 }
 
 .grid-item {
-  min-height: 500px;
-  border: 1px solid #ccc;
-  box-shadow: #ccc 0px 0px 15px;
+  height: 500px;
+  /* border: 1px solid #ccc;
+  box-shadow: #ccc 0px 0px 15px; */
 }
 
 #filter {

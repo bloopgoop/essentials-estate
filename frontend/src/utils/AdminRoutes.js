@@ -23,7 +23,7 @@ const AdminRoutes = ({ request }) => {
       console.log(`ERROR: ${error}`);
       setLoading(false);
     }
-  }, []);
+  }, [user.username, user.user_id]);
 
   if (loading) {
     return <p>Loading...</p>;

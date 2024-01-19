@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import propertyService from "services/property/propertyAPI";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "components/Navbar/Navbar";
 import Gallery from "components/Gallery";
 import "./Property.css";
@@ -11,18 +11,18 @@ import Footer from "components/Footer/Footer";
 import Loading from "components/Loading";
 
 const Property = () => {
+  const navigate = useNavigate();
+  const { id } = useParams();
   const auth = useContext(AuthContext);
 
-  const [requestStatus, setRequestStatus] = useState(null); // ["pending", "accepted", "none"]
   const [property, setProperty] = useState(null);
   const [stars, setStars] = useState(0);
   const [comment, setComment] = useState("");
   const [avgRating, setAvgRating] = useState(0);
   const [ratings, setRatings] = useState([]);
-
   const [isOwner, setIsOwner] = useState(false);
+  
   const { id } = useParams();
-
   let { user, logoutUser } = useContext(AuthContext);
 
   const capitalize = (str) => {
@@ -30,25 +30,26 @@ const Property = () => {
   };
 
   useEffect(() => {
+    // Get ratings and average rating 
+    // catch any errors and redirect to error page
     const request = axios.get(`property/rating/${id}`);
     request.then((response) => setAvgRating(response.data.average_value));
     request.then((response) => setRatings(response.data.ratings.reverse()));
 
+    // Get property info on load, changes after every update to property id or auth.user
     propertyService
       .getOne(id)
       .then((response) => {
-        setProperty(response);
+        setProperty(response.data);
         if (auth.user) {
-          setIsOwner(response.ownerID === auth.user.user_id);
+          setIsOwner(response.data.ownerID === auth.user.user_id);
         }
-        setRequestStatus(response.status);
-        console.log(requestStatus);
       })
       .catch((error) => {
-        alert(`Error fetching property: ${error}`);
-        return <h1>404 property not found</h1>;
+        console.error("Error making GET request:", error);
+        navigate("/error");
       });
-  }, []);
+  }, [id, auth.user, navigate]);
 
   const handleGet = (event) => {
     event.preventDefault();
@@ -119,7 +120,15 @@ const Property = () => {
       });
   };
 
-  console.log(ratings);
+  // REMOVE LATER, FOR TESTING checkGroup
+  //   const checkGroup = (event) => {
+  //     try {
+  //       const formData = new FormData();
+  //       const request = axios.post("property/checkGroup/admin", formData);
+  //       request.then((response) => console.log(response.data));
+  //     } catch (error) {
+  //       console.log(`ERROR: ${error}`);
+  //     }
 
   // REMOVE LATER, FOR TESTING checkGroup
   // const checkGroup = (event) => {
@@ -157,7 +166,7 @@ const Property = () => {
             <div className="split-container">
               <p>Owner: {property.owner}</p>
               {auth.user && !isOwner ? (
-                <RentalButton propertyID={id} status={requestStatus} />
+                <RentalButton propertyID={id} />
               ) : null}
             </div>
             <p>{property.description}</p>
@@ -248,6 +257,11 @@ const Property = () => {
                 )}
               </div>
             ))}
+            <textarea></textarea>
+            {/* <img src={property.photos[0]} alt="Property" /> */}
+            <label htmlFor="rating">Avg rating:</label>
+            <div id="rating">{avgRating}</div>
+
           </main>
           <Footer />
         </div>

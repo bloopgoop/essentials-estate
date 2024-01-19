@@ -20,13 +20,11 @@ def addPhoto(request):
     
     data = request.POST
     files = request.FILES
-
     descriptions = json.loads(data['descriptions'])
-    token_data = jwt.decode(data['token'], settings.SECRET_KEY, algorithms=['HS256'])
 
     # Check if user is owner of property
     property = Property.objects.get(id=data['propertyID'])
-    if token_data['user_id'] != property.owner.id:
+    if request.user != property.owner:
         return JsonResponse({'message': 'Unauthorized'}, status=403)
 
     for index, file in enumerate(files):
@@ -88,35 +86,37 @@ def properties(request):
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def getProperty(request, pk):
-    if request.method == 'GET':
-        """
-        Returns a JSON object containing the property data with the given id
-        """
-        property = Property.objects.get(id=pk)
-        return JsonResponse(property.serialize(), safe=False) 
-    
-    elif request.method == 'PUT':
-        property = Property.objects.get(id=pk)
-        property.address = request.data["address"]
-        property.city = request.data["city"]
-        property.state = request.data["state"] 
-        property.zip = request.data["zip"]
-        property.rent = request.data["rent"]
-        property.bedrooms = request.data["bedrooms"]
-        property.bathrooms = request.data["bathrooms"]
-        property.garage = request.data["garage"]
-        property.sqft = request.data["sqft"]
-        property.lotsize = request.data["lotsize"]
-        property.type = request.data["type"]
-        property.description = request.data["description"]
-        property.save()        
-        return JsonResponse({"message": "Property has been updated"}, status = 200)
-    
-    elif request.method == 'DELETE':
-        property = Property.objects.get(id=pk)
-        property.delete()
-        return JsonResponse({"message": "Property has been deleted"}, status = 200)   
+    try:
+        if request.method == 'GET':
+            """
+            Returns a JSON object containing the property data with the given id
+            """
+            property = Property.objects.get(id=pk)
+            return JsonResponse(property.serialize(), safe=False) 
 
+        elif request.method == 'PUT':
+            property = Property.objects.get(id=pk)
+            property.address = request.data["address"]
+            property.city = request.data["city"]
+            property.state = request.data["state"] 
+            property.zip = request.data["zip"]
+            property.rent = request.data["rent"]
+            property.bedrooms = request.data["bedrooms"]
+            property.bathrooms = request.data["bathrooms"]
+            property.garage = request.data["garage"]
+            property.sqft = request.data["sqft"]
+            property.lotsize = request.data["lotsize"]
+            property.type = request.data["type"]
+            property.description = request.data["description"]
+            property.save()        
+            return JsonResponse({"message": "Property has been updated"}, status = 200)
+
+        elif request.method == 'DELETE':
+            property = Property.objects.get(id=pk)
+            property.delete()
+            return JsonResponse({"message": "Property has been deleted"}, status = 200) 
+    except Property.DoesNotExist:
+        return JsonResponse({'message': 'Property does not exist'}, status=404)
 
 @api_view(['GET', 'POST'])
 @allowed_users(allowed_roles=['common_user','admin'])
