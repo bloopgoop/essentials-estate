@@ -9,6 +9,7 @@ import AuthContext from "context/AuthContext";
 import RentalButton from "./RentalButton";
 import Footer from "components/Footer/Footer";
 import Loading from "components/Loading";
+import star from "assets/star.svg";
 
 const Property = () => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const Property = () => {
   };
 
   useEffect(() => {
-    // Get ratings and average rating 
+    // Get ratings and average rating
     // catch any errors and redirect to error page
     const request = axios.get(`property/rating/${id}`);
     request.then((response) => setAvgRating(response.data.average_value));
@@ -102,15 +103,25 @@ const Property = () => {
                 Property type: {capitalize(property.type)} &nbsp;
                 <strong>{`City: ${property.city}`}</strong>
               </p>
-              <i>{property.stars}</i>
+
+              <i>
+              <img
+                src={star}
+                alt="star"
+                style={{
+                  height: "1rem",
+                  width: "1rem",
+                  marginRight: "0.25rem",
+                }}
+              />
+              {property.stars}
+              </i>
             </div>
             <Gallery photos={property.photos} />
 
             <div className="split-container">
               <p>Owner: {property.owner}</p>
-              {auth.user && !isOwner ? (
-                <RentalButton propertyID={id} />
-              ) : null}
+              {auth.user && !isOwner ? <RentalButton propertyID={id} /> : null}
             </div>
             <p>{property.description}</p>
 
@@ -162,15 +173,15 @@ const Property = () => {
               </tbody>
             </table>
 
-           {/* REMOVE LATER, FOR TESTING checkGroup */}
-          <button onClick={checkGroup}>Are You An Admin?</button>
-          <input
-            type="number"
-            min={0}
-            max={5}
-            onChange={(e) => setStars(e.target.value)}
-          ></input>
-          <textarea onChange={(e) => setComment(e.target.value)}></textarea>
+            {/* REMOVE LATER, FOR TESTING checkGroup */}
+            <button onClick={checkGroup}>Are You An Admin?</button>
+            <input
+              type="number"
+              min={0}
+              max={5}
+              onChange={(e) => setStars(e.target.value)}
+            ></input>
+            <textarea onChange={(e) => setComment(e.target.value)}></textarea>
             <button onClick={handleGet}>Get</button>
             <button onClick={handlePost}>Post</button>
             <textarea></textarea>
@@ -179,7 +190,6 @@ const Property = () => {
             <div id="rating">{avgRating}</div>
           </main>
           <Footer />
-
         </div>
       ) : (
         <Loading />
