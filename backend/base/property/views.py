@@ -83,20 +83,40 @@ def properties(request):
         
         except:
             return JsonResponse({'message': 'Error adding property'}, status=500)
-        
-        
 
-@api_view(['GET'])
+@api_view(['GET', 'PUT', 'DELETE'])
 def getProperty(request, pk):
-    """
-    Returns a JSON object containing the property data with the given id
-    """
     try:
-        property = Property.objects.get(id=pk)
+        if request.method == 'GET':
+            """
+            Returns a JSON object containing the property data with the given id
+            """
+            property = Property.objects.get(id=pk)
+            return JsonResponse(property.serialize(), safe=False) 
+
+        elif request.method == 'PUT':
+            property = Property.objects.get(id=pk)
+            property.address = request.data["address"]
+            property.city = request.data["city"]
+            property.state = request.data["state"] 
+            property.zip = request.data["zip"]
+            property.rent = request.data["rent"]
+            property.bedrooms = request.data["bedrooms"]
+            property.bathrooms = request.data["bathrooms"]
+            property.garage = request.data["garage"]
+            property.sqft = request.data["sqft"]
+            property.lotsize = request.data["lotsize"]
+            property.type = request.data["type"]
+            property.description = request.data["description"]
+            property.save()        
+            return JsonResponse({"message": "Property has been updated"}, status = 200)
+
+        elif request.method == 'DELETE':
+            property = Property.objects.get(id=pk)
+            property.delete()
+            return JsonResponse({"message": "Property has been deleted"}, status = 200) 
     except Property.DoesNotExist:
         return JsonResponse({'message': 'Property does not exist'}, status=404)
-    
-    return JsonResponse(property.serialize(), safe=False)
 
 @api_view(['GET', 'POST'])
 @allowed_users(allowed_roles=['common_user','admin'])
@@ -142,34 +162,75 @@ def requestRental(request, propertyID):
             return JsonResponse({'message': 'Error adding rental request'}, status=500)
             
     
-@api_view(['GET', 'POST'])
-def addRating(request, property_id):
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
+def ratings(request, property_id):
+    # Get user, issue if nonuser posting a comment
+    # BUT should take the nonuser to loggin page
+    try:
+        access_token = request.headers['Authorization']
+        token_data = jwt.decode(access_token, settings.SECRET_KEY, algorithms=['HS256'])
+        user_id = token_data['user_id']
+    except:
+        user_id = -1
+        return JsonResponse({'error': 'Issue with retriving User'}, status=400)
+    
     if request.method == 'GET':
         try:
             average_value = Rating.objects.filter(property=Property.objects.get(id=property_id)).aggregate(Avg('stars'))['stars__avg']
-            rating = [rating.serialize() for rating in Rating.objects.filter(property=Property.objects.get(id=property_id))]
+            rating = [rating.serialize(user_id) for rating in Rating.objects.filter(property=Property.objects.get(id=property_id))]
             return JsonResponse({'average_value': average_value,
                                  'ratings': rating})
         except ValueError:
             return JsonResponse({'error': 'Invalid propertyID'}, status=400)
         
     elif request.method == 'POST':
-        data = request.POST
-        payload = jwt.decode(data['token'], settings.SECRET_KEY, algorithms=['HS256'])
-
-        rating = Rating.objects.create(
-            property=Property.objects.get(id=property_id),
-            stars=data['stars'],
-            comment=data['comment'],
-            user=User.objects.get(id=payload['user_id'])
-        )
-
         try:
+            data = request.POST
+            payload = jwt.decode(data['token'], settings.SECRET_KEY, algorithms=['HS256'])
+            property=Property.objects.get(id=property_id)
+            rating = Rating.objects.create(
+                property=property,
+                stars=data['stars'],
+                comment=data['comment'],
+                user=User.objects.get(id=payload['user_id'])
+            )
             rating.save()
+
+            property.stars = Rating.objects.filter(property=Property.objects.get(id=property_id)).aggregate(Avg('stars'))['stars__avg']
+            property.save()
             id = rating.id
             return JsonResponse({'id': id, 'message': 'Rating has been posted'}, status=200)
         except:
             return JsonResponse({'message': 'Error adding property'}, status=400)
+    
+    elif request.method == 'PUT':
+        try:
+            # Checks if its the same user_id
+            # Will ideally make it so that the user can only see update on their own posts
+            if str(user_id) == request.data["userID"]:
+                rating = Rating.objects.get(id=request.data['id'], property=Property.objects.get(id=property_id))
+                rating.comment = request.data['comment']
+                rating.stars = request.data['stars']
+                rating.save()
+                return JsonResponse({'message': "Rating has been updated", "result": True}, status=200)
+            else: 
+                return JsonResponse({'message': "WRONG USER, Rating has not been updated", "result": False}, status=401)
+        except:
+            return JsonResponse({'error': 'Error updating rating'}, status=404)
+        
+    elif request.method == 'DELETE':
+        try:
+            rating_id = request.data['id']
+            # return JsonResponse({'message': 'Rating deleted successfully'}, status=200)
+            if user_id == request.data['user_id']:
+                rating = Rating.objects.get(id=rating_id, property=Property.objects.get(id=property_id))
+                rating.delete()
+                return JsonResponse({'message': 'Rating deleted successfully'}, status=200)
+            else:
+                return JsonResponse({'message': "WRONG USER, Rating has not been updated", "result": False}, status=401)
+        except:
+            return JsonResponse({'error': 'Error deleting rating'}, status=404)
+
 
 @api_view(['POST'])
 @allowed_users(allowed_roles=['admin'])

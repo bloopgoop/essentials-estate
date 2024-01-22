@@ -54,7 +54,7 @@ function StatusCard({ props, page }) {
           </div>
           <Link to={`/${page}/${props.id}`}>
             <button>View Property</button>
-          </Link>
+          </Link> 
         </div>
       </div>
     </>

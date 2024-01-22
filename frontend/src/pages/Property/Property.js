@@ -21,6 +21,8 @@ const Property = () => {
   const [avgRating, setAvgRating] = useState(0);
   const [ratings, setRatings] = useState([]);
   const [isOwner, setIsOwner] = useState(false);
+  
+  let { user, logoutUser } = useContext(AuthContext);
 
   const capitalize = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -51,8 +53,14 @@ const Property = () => {
   const handleGet = (event) => {
     event.preventDefault();
     const request = axios.get(`property/rating/${id}`);
-    request.then((response) => setAvgRating(response.data.average_value));
-    request.then((response) => setRatings(response.data.ratings.reverse()));
+    request
+      .then((response) => {
+        setAvgRating(response.data.average_value);
+        setRatings(response.data.ratings.reverse());
+      })
+      .catch((error) => {
+        console.error("Error making GET request:", error);
+      });
   };
 
   const handlePost = (event) => {
@@ -62,7 +70,6 @@ const Property = () => {
     formData.append("propertyID", id);
     formData.append("comment", comment);
     formData.append("token", auth.authTokens.access);
-
     const request = axios.post(`property/rating/${id}`, formData);
     request
       .then((response) => {
@@ -75,16 +82,65 @@ const Property = () => {
       });
   };
 
-  // REMOVE LATER, FOR TESTING checkGroup
-  const checkGroup = (event) => {
-    try {
-      const formData = new FormData();
-      const request = axios.post("property/checkGroup/admin", formData);
-      request.then((response) => console.log(response.data));
-    } catch (error) {
-      console.log(`ERROR: ${error}`);
-    }
+  const handlePut = (event, ratingId, userID) => {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append("id", ratingId);
+    formData.append("userID", userID);
+    formData.append("comment", comment);
+    formData.append("stars", stars);
+    const request = axios.put(`property/rating/${id}`, formData);
+    request
+      .then((response) => {
+        console.log("Success:", response.data);
+        // Updates any updated comments
+        handleGet(event);
+      })
+      .catch((error) => {
+        console.error("Error making PUT request:", error);
+      });
   };
+
+  const handleDelete = (event, ratingId, userID) => {
+    event.preventDefault();
+    const requestData = { id: ratingId, user_id: userID };
+    const request = axios.delete(`property/rating/${id}`, {
+      data: requestData,
+    });
+    request
+      .then((response) => {
+        console.log("Success:", response.data);
+        // Updates any updated comments
+        handleGet(event);
+      })
+      .catch((error) => {
+        console.log("Error making DELETE request:", error);
+        alert("CAN'T DELETE OTHER USERS COMMENTS!");
+      });
+  };
+
+  // REMOVE LATER, FOR TESTING checkGroup
+  //   const checkGroup = (event) => {
+  //     try {
+  //       const formData = new FormData();
+  //       const request = axios.post("property/checkGroup/admin", formData);
+  //       request.then((response) => console.log(response.data));
+  //     } catch (error) {
+  //       console.log(`ERROR: ${error}`);
+  //     }
+
+  // REMOVE LATER, FOR TESTING checkGroup
+  // const checkGroup = (event) => {
+  //   try {
+  //     const formData = new FormData();
+  //     formData.append("username", user.username);
+  //     formData.append("user_id", user.user_id);
+  //     const request = axios.post("property/checkGroup/admin", formData);
+  //     request.then((response) => console.log(response.data));
+  //   } catch (error) {
+  //     console.log(`ERROR: ${error}`);
+  //   }
+  // };
 
   return (
     <>
@@ -157,29 +213,56 @@ const Property = () => {
                 </tr>
                 <tr>
                   <td>Stars:</td>
-                  <td>{Math.round(ratings * 10) / 10}</td>
+                  <td>{Math.round(avgRating * 10) / 10}</td>
                 </tr>
               </tbody>
             </table>
 
-           {/* REMOVE LATER, FOR TESTING checkGroup */}
-          <button onClick={checkGroup}>Are You An Admin?</button>
-          <input
-            type="number"
-            min={0}
-            max={5}
-            onChange={(e) => setStars(e.target.value)}
-          ></input>
-          <textarea onChange={(e) => setComment(e.target.value)}></textarea>
-            <button onClick={handleGet}>Get</button>
+            {/* REMOVE LATER, FOR TESTING checkGroup */}
+            {/* <button onClick={checkGroup}>Are You An Admin?</button> */}
+            <input
+              type="number"
+              min={0}
+              max={5}
+              onChange={(e) => setStars(e.target.value)}
+            ></input>
+            <textarea onChange={(e) => setComment(e.target.value)}></textarea>
             <button onClick={handlePost}>Post</button>
+
+            {ratings.map((rating, key) => (
+              <div key={key}>
+                {rating.same_user ? (
+                  <>
+                    {rating.comment} - {rating.stars}*
+                    <button
+                      onClick={(event) =>
+                        handlePut(event, rating.id, rating.user)
+                      }
+                    >
+                      Update
+                    </button>
+                    <button
+                      onClick={(event) =>
+                        handleDelete(event, rating.id, rating.user)
+                      }
+                    >
+                      Delete
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    {rating.comment} - {rating.stars}*
+                  </>
+                )}
+              </div>
+            ))}
             <textarea></textarea>
             {/* <img src={property.photos[0]} alt="Property" /> */}
             <label htmlFor="rating">Avg rating:</label>
             <div id="rating">{avgRating}</div>
+
           </main>
           <Footer />
-
         </div>
       ) : (
         <Loading />

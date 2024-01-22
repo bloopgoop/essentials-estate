@@ -7,10 +7,17 @@ export default function Assets() {
   const [properties, setProperties] = useState([]);
 
   useEffect(() => {
-    propertyService.getAll().then((properties) => {
-      setProperties(properties);
-      console.log(propertyService);
-    });
+    propertyService
+      .getRange(properties.length, properties.length + 20)
+      .then((response) => {
+        if (response.status === 204) {
+          return;
+        }
+        setProperties(properties.concat(response.data));
+      })
+      .catch((error) => {
+        alert(`Error fetching properties: ${error}`);
+      });
   }, []);
 
   return (
@@ -19,7 +26,7 @@ export default function Assets() {
       <div id="searchsort">
         <input type="text" placeholder="Search.." />
         <div id="sortitem">
-          <label for="sort">Sort by:</label>
+          <label htmlFor="sort">Sort by:</label>
           <select name="sort" id="sort">
             <option value="recent">Recent</option>
             <option value="A-Z">A-Z</option>
@@ -31,7 +38,9 @@ export default function Assets() {
       <div id="asset-container">
         <div className="asset-item">
           {properties.map((property, key) => (
-            <div key={key}><AssetCard props={property}/></div>
+            <div key={key}>
+              <AssetCard props={property} />
+            </div>
           ))}
         </div>
       </div>
