@@ -28,7 +28,7 @@ function Navbar() {
         <Link to="/" className="nav-btn">
           <h3 id="nav-logo">Essentials Estate</h3>
         </Link>
-        <Link to="/payment" className="nav-btn">
+        <Link to="/add-property" className="nav-btn">
           List your property!
         </Link>
       </div>

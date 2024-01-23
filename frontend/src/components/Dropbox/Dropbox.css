@@ -3,9 +3,9 @@
 
     width: 600px;
     height: 600px;
-    margin: 100px auto;
+    margin-bottom: 10px;
     border: 1px dotted black;
-    background-color: rgb(189, 189, 189);
+    background-color: var(--secondary-color);
 }
 
 .bin {
@@ -40,4 +40,10 @@
 .dropbox-image {
     height: 100%;
     width: 100%;
+}
+
+#add-photos-btn {
+    position: absolute;
+    right: 3rem;
+    margin-top: 2rem;
 }

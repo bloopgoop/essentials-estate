@@ -2,7 +2,6 @@
     width: 100%;
     padding-left: 3rem;
     padding-right: 3rem;
-    min-width: 60rem;
 }
 #property-form {
     position: relative;
@@ -10,8 +9,24 @@
     min-width: fit-content;
     padding: 30px;
     background-color: var(--secondary-color);
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 167px auto;
     gap: 1rem;
-    text-align: center;
+    text-align: right;
+    align-items: center;
+}
+#property-form > input {
+    padding: 0.5rem;
+    margin-left: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid var(--primary-color);
+    font-size: 1rem;   
+}
+#property-form > label {
+    font-size: 1rem;
+}
+#add-property-btn{
+    position: absolute;
+    right: 3rem;
+    margin-top: 2rem;
 }

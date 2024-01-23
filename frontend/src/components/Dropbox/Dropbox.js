@@ -166,8 +166,8 @@ function Dropbox({ id }) {
       ) : null}
 
       {files.length > 0 ? (
-        <button type="button" onClick={handleSubmit}>
-          Upload
+        <button type="button" onClick={handleSubmit} id="add-photos-btn">
+          Finish
         </button>
       ) : null}
     </>

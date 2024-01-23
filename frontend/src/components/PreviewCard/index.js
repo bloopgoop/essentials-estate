@@ -1,5 +1,6 @@
 import "./styles.css";
 import star from "assets/star.svg";
+import imageNotFound from "assets/image-not-found.jpg";
 import { Link } from "react-router-dom";
 import { useEffect, useReducer } from "react";
 
@@ -28,7 +29,6 @@ export default function PreviewCard({ property }) {
     dispatch({ type: "reset", images: property.photos });
   }, [property]);
 
-
   return (
     <>
       {!property ? (
@@ -48,7 +48,7 @@ export default function PreviewCard({ property }) {
             )}
             {state.index < property.photos.length - 1 ? (
               <button
-                onClick={() => dispatch({ type: "next" })}
+                onClick={() => dispatch({ type: "next" })}  
                 className="preview-image-button button-right"
               >
                 &gt;
@@ -56,17 +56,25 @@ export default function PreviewCard({ property }) {
             ) : (
               <div></div>
             )}
-            {property.photos.length > 1 && (
+            {state.images.length > 1 && (
               <p className="preview-image-counter">
                 {state.index + 1}/{property.photos.length}
               </p>
             )}
             <Link to={`/property/${property.id}`} data-testid="preview-link">
-              <img
+              {state.images.length > 0 ? (
+                <img
                 src={state.images[state.index].photo}
                 alt="preview"
                 className="preview-image"
-              />
+                />
+              ) : (
+                <img
+                  src={imageNotFound}
+                  alt="preview"
+                  className="preview-image"
+                />
+              )}
             </Link>
           </div>
 
