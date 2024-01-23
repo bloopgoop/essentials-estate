@@ -11,6 +11,8 @@ function switchImage(state, action) {
     case "next":
       const nextIndex = state.index + 1;
       return { index: nextIndex, images: state.images };
+    case "reset":
+      return { index: 0, images: action.images };
     default:
       throw new Error("Invalid action type");
   }
@@ -21,6 +23,11 @@ export default function PreviewCard({ property }) {
     index: 0,
     images: property.photos,
   });
+
+  useEffect(() => {
+    dispatch({ type: "reset", images: property.photos });
+  }, [property]);
+
 
   return (
     <>

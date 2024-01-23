@@ -79,7 +79,6 @@ function Search() {
         unmatchedProperties.push(properties[i]);
       }
     }
-    console.log(filteredProperties, unmatchedProperties)
     setShownProperties([...filteredProperties, ...unmatchedProperties]);
   }, [searchTerm, properties]);
 
