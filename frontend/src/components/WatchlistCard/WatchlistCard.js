@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./WatchlistCard.css";
 
 export default function WatchlistCard(props) {
@@ -20,7 +21,9 @@ export default function WatchlistCard(props) {
           <p>
             {props.props.city}, {props.props.state}
           </p>
-          <button>See Property</button>
+          <Link to={`/property/${props.props.id}`}>
+            <button id="Watchlist-Button">See Property</button>
+          </Link>
         </div>
       </div>
     );

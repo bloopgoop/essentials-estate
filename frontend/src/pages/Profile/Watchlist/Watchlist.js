@@ -5,7 +5,8 @@ import propertyService from "services/property/propertyAPI";
 
 export default function Watchlist() {
   const [properties, setProperties] = useState([]);
-
+  const [recent, setRecent] = useState([]);
+  const [option, setOption] = useState("recent");
   useEffect(() => {
     propertyService
       .getRange(properties.length, properties.length + 20)
@@ -14,11 +15,34 @@ export default function Watchlist() {
           return;
         }
         setProperties(properties.concat(response.data));
+        setRecent(properties.concat(response.data));
       })
       .catch((error) => {
         alert(`Error fetching properties: ${error}`);
       });
   }, []);
+
+  // setSort is not working properly, fix 
+  const setSort = () => {
+    let sorted = properties;
+    switch (option) {
+      case "recent":
+        sorted = recent
+        break;
+      case "low-high":
+        sorted.sort((a, b) => Number(b.rent) - Number(a.rent));
+        break;
+      case "high-low":
+        sorted.sort((a, b) => Number(a.rent) - Number(b.rent));
+        break;
+    }
+    setProperties(sorted);
+  };
+
+  useEffect(() => {
+    setSort();
+  }, [option, properties]);
+  //
 
   return (
     <>
@@ -27,9 +51,12 @@ export default function Watchlist() {
         <input type="text" placeholder="Search.." />
         <div id="sortitem">
           <label htmlFor="sort">Sort by: </label>
-          <select name="sort" id="sort">
+          <select
+            name="sort"
+            id="sort"
+            onChange={(e) => setOption(e.target.value)}
+          >
             <option value="recent">Recent</option>
-            <option value="A-Z">A-Z</option>
             <option value="low-high">low-high</option>
             <option value="high-low">high-low</option>
           </select>
