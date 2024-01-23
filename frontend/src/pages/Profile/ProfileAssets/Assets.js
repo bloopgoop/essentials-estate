@@ -20,14 +20,18 @@ export default function Assets() {
       });
   }, []);
 
+
   return (
     <>
       <h1>Assets</h1>
       <div id="searchsort">
         <input type="text" placeholder="Search.." />
         <div id="sortitem">
-          <label htmlFor="sort">Sort by:</label>
-          <select name="sort" id="sort">
+          <label htmlFor="sort">Sort by: </label>
+          <select
+            name="sort"
+            id="sort"
+          >
             <option value="recent">Recent</option>
             <option value="A-Z">A-Z</option>
             <option value="low-high">low-high</option>

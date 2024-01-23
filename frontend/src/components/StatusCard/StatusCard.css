@@ -2,6 +2,7 @@
   display: flex;
   justify-content: space-between;
   margin: 1rem 0;
+  width: 100%;
 }
 .step-name {
   text-align: center;
@@ -12,7 +13,7 @@
   flex-direction: column;
   align-items: center;
   flex: 1;
-  
+
   @media (max-width: 768px) {
     font-size: 12px;
   }
@@ -79,36 +80,37 @@
 }
 
 #Status--container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 40rem;
-    background-color: var(--secondary-color);
-    padding: 30px;
-    align-items: center;
-    margin: 1rem;
-    width: 90%;
-    position: relative;
-    min-width: 820px;
+  display: flex;
+  flex-direction: row;
+  width: 40rem;
+  background-color: var(--secondary-color);
+  padding-left: 30px;
+  align-items: center;
+  margin: 1rem;
+  width: 90%;
+  position: relative;
+  min-width: 820px;
 }
 
 .Status--image {
-    border-radius: 9px;
+  border-radius: 9px;
 }
 
 #Status--info {
-    display: flex;
-    flex-direction: column;
-    margin: 3%;
+  display: flex;
+  flex-direction: column;
+  margin: 3%;
+  width: 100%;
 }
 
-#Status--info > h2, #Status--info > p {
-    margin: .5rem 0;
+#Status--info > h2,
+#Status--info > p {
+  margin: 0.5rem 0;
 }
 
-#Status--info > button {
-    position: absolute;
-    right: 1rem;
-    bottom: 1rem;
-    width: 10rem;
+#Status--info--button {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  width: 10rem;
 }

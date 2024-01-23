@@ -1,6 +1,5 @@
 import Sidebar from "../../components/Sidebar/Sidebar";
 import Navbar from "../../components/Navbar/Navbar";
-import Footer from "../../components/Footer/Footer";
 import "./Profile.css";
 import { Outlet } from "react-router-dom";
 
@@ -20,7 +19,7 @@ export default function Profile() {
             overflowY: "auto",
           }}
         />
-        <div>
+        <div style={{ width: "100%" }}>
           <Navbar />
           <div
             id="profile-content"

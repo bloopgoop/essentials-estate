@@ -4,24 +4,21 @@ import { Link } from "react-router-dom";
 
 function StatusCard({ props, page }) {
   if (!props) return <h1>Loading...</h1>;
+  console.log(props);
   const status = [
     "Submiting",
-    "In Review By Lease Agent",
-    "In Review By Head Of Lease",
-    "In Review By Country Manager",
+    "In Review",
     "Listing",
   ];
   const accepted = [
     "Submitted",
-    "Approved By Lease Agent",
-    "Approved By Head Of Lease",
-    "Approved By Country Manager",
+    "Approved",
     "Listed",
   ];
   const check = ["", "", "", "", ""];
-  const step = 2; // TEMPORARY VALUE TO TEST, REMOVE LATER AND MAKE IT INTO A PROP :D
+  const step = props.status + 1; // TEMPORARY VALUE TO TEST, REMOVE LATER AND MAKE IT INTO A PROP :D
 
-  const currentStatus = status.slice(0, step).concat(accepted.slice(2));
+  const currentStatus = accepted.slice(0, step).concat(status.slice(step));
   for (let i = 0; i < step; i++) {
     check[i] = "completed";
   }
@@ -32,15 +29,16 @@ function StatusCard({ props, page }) {
       <div id="Status--container">
         <div>
           <img
-            src={props.photos[0].img}
+            src={props.photos[0].photo}
             height={250}
+            width={250}
             className="Status--image"
             alt="property-img"
           />
         </div>
         <div id="Status--info">
           <h2>Property Name</h2>
-          <p>5 *****</p>
+          <p>{props.stars}*</p>
           <p>{props.description}</p>
           <p>New York, NY</p>
 
@@ -53,8 +51,8 @@ function StatusCard({ props, page }) {
             ))}
           </div>
           <Link to={`/${page}/${props.id}`}>
-            <button>View Property</button>
-          </Link> 
+            <button id="Status--info--button">View Property</button>
+          </Link>
         </div>
       </div>
     </>

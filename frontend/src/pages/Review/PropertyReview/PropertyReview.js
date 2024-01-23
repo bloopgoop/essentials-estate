@@ -22,7 +22,7 @@ function PropertyReview() {
     propertyService
       .getOne(id)
       .then((response) => {
-        setProperty(response);
+        setProperty(response.data);
         if (response.status === "Approved") {
           setCheck(true);
           // console.log(check)

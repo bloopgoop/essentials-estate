@@ -18,7 +18,7 @@ export default function Status() {
         <div id="searchsort">
           <input type="text" placeholder="Search..." />
           <div id="sortitem">
-            <label htmlFor="sort">Sort by:</label>
+            <label htmlFor="sort">Sort by: </label>
             <select name="sort" id="sort">
               <option value="A-Z">A-Z</option>
               <option value="approved">Approved</option>
@@ -30,7 +30,7 @@ export default function Status() {
       </div>
       {properties.map((property, key) => (
         <div key={key}>
-          <StatusCard props={property} page="property" />
+          <StatusCard props={property} page="property"/>
         </div>
       ))}
     </div>

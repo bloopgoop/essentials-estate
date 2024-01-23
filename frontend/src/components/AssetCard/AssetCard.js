@@ -9,6 +9,7 @@ export default function AssetCard(props) {
         <img
           src={props.props.photos[0].photo}
           height={250}
+          width={250}
           className="Assetcard--image"
           alt={props.title}
         />
