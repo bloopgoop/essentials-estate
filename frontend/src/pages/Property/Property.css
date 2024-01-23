@@ -26,3 +26,4 @@ td {
 tr:nth-child(even) {
     background-color: var(--secondary-color);
 }
+

@@ -1,15 +1,13 @@
+import { Link } from "react-router-dom";
 import "./AssetCard.css";
 
-export default function Card(props) {
-  console.log(props.owner);
-
+export default function AssetCard(props) {
   if (!props) return <h1>Loading...</h1>;
-
   return (
     <div id="Assetcard--container">
       <div>
         <img
-          // src={props.photos[0].img}
+          src={props.props.photos[0].photo}
           height={250}
           className="Assetcard--image"
           alt={props.title}
@@ -17,13 +15,15 @@ export default function Card(props) {
       </div>
       <div id="Assetcard--info">
         <h2>Property Name</h2>
-        <p>5 *****</p>
+        <p>{props.props.stars}</p>
+        <p>{props.props.description}</p>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis est
-          ipsum, vulputate ac tortor in, tempus ullamcorper est.
+          {props.props.city}, {props.props.state}
         </p>
-        <p>New York, NY</p>
       </div>
+      <Link to={`/profile/assets/${props.props.id}`}>
+        <button>Edit Property</button>
+      </Link>
     </div>
   );
 }
