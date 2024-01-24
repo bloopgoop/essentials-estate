@@ -19,7 +19,7 @@ export default function Profile() {
             overflowY: "auto",
           }}
         />
-        <div style={{ width: "100%" }}>
+        <div style={{ width: "100%", minHeight: "100vh" }}>
           <Navbar />
           <div
             id="profile-content"
