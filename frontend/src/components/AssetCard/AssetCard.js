@@ -15,16 +15,15 @@ export default function AssetCard(props) {
         />
       </div>
       <div id="Assetcard--info">
-        <h2>Property Name</h2>
-        <p>{props.props.stars}</p>
-        <p>{props.props.description}</p>
-        <p>
+        <h2>
           {props.props.city}, {props.props.state}
-        </p>
+        </h2>
+        <p>{props.props.stars}*</p>
+        <p>{props.props.description}</p>
+        <Link to={`/profile/assets/${props.props.id}`}>
+          <button id="Assetcard--button">Edit Property</button>
+        </Link>
       </div>
-      <Link to={`/profile/assets/${props.props.id}`}>
-        <button>Edit Property</button>
-      </Link>
     </div>
   );
 }

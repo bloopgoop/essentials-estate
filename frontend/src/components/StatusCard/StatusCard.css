@@ -89,7 +89,7 @@
   margin: 1rem;
   width: 90%;
   position: relative;
-  min-width: 820px;
+  /* min-width: 820px; */
 }
 
 .Status--image {

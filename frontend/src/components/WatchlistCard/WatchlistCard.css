@@ -2,12 +2,12 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 40rem;
     background-color: var(--secondary-color);
     padding: 30px;
     align-items: center;
     margin: 1rem;
     width: 90%;
+    min-width: 40%;
     position: relative;
 }
 

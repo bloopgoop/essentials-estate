@@ -15,12 +15,11 @@ export default function WatchlistCard(props) {
           />
         </div>
         <div id="Watchlistcard--info">
-          <h2>{props.props.title}</h2>
-          <p>5 *****</p>
-          <p>{props.props.description}</p>
-          <p>
+          <h2>
             {props.props.city}, {props.props.state}
-          </p>
+          </h2>
+          <p>{props.props.stars}*</p>
+          <p>{props.props.description}</p>
           <Link to={`/property/${props.props.id}`}>
             <button id="Watchlist-Button">See Property</button>
           </Link>

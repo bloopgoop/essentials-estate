@@ -21,7 +21,7 @@ const Property = () => {
   const [avgRating, setAvgRating] = useState(0);
   const [ratings, setRatings] = useState([]);
   const [isOwner, setIsOwner] = useState(false);
-  
+
   let { user, logoutUser } = useContext(AuthContext);
 
   const capitalize = (str) => {
@@ -29,7 +29,7 @@ const Property = () => {
   };
 
   useEffect(() => {
-    // Get ratings and average rating 
+    // Get ratings and average rating
     // catch any errors and redirect to error page
     const request = axios.get(`property/rating/${id}`);
     request.then((response) => setAvgRating(response.data.average_value));
@@ -164,9 +164,7 @@ const Property = () => {
 
             <div className="split-container">
               <p>Owner: {property.owner}</p>
-              {auth.user && !isOwner ? (
-                <RentalButton propertyID={id} />
-              ) : null}
+              {auth.user && !isOwner ? <RentalButton propertyID={id} /> : null}
             </div>
             <p>{property.description}</p>
 
@@ -256,11 +254,9 @@ const Property = () => {
                 )}
               </div>
             ))}
-            <textarea></textarea>
             {/* <img src={property.photos[0]} alt="Property" /> */}
             <label htmlFor="rating">Avg rating:</label>
             <div id="rating">{avgRating}</div>
-
           </main>
           <Footer />
         </div>

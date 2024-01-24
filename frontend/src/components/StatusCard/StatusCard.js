@@ -37,11 +37,9 @@ function StatusCard({ props, page }) {
           />
         </div>
         <div id="Status--info">
-          <h2>Property Name</h2>
+          <h2>{props.city}, {props.state}</h2>
           <p>{props.stars}*</p>
           <p>{props.description}</p>
-          <p>New York, NY</p>
-
           <div className="stepper-wrapper">
             {currentStatus.map((stat, index) => (
               <div key={index} className={`stepper-item ${check[index]}`}>
