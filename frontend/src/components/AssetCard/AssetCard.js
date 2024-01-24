@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import "./AssetCard.css";
 
 export default function AssetCard(props) {
-  if (!props) return <h1>Loading...</h1>;
   return (
     <div id="Assetcard--container">
       <div>

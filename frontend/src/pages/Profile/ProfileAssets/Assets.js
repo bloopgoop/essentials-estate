@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import AssetCard from "../../../components/AssetCard/AssetCard";
 import "./Assets.css";
 import propertyService from "services/property/propertyAPI";
+import Loading from "components/Loading";
 
 export default function Assets() {
   const [properties, setProperties] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     propertyService
@@ -14,12 +16,12 @@ export default function Assets() {
           return;
         }
         setProperties(properties.concat(response.data));
+        setLoading(false)
       })
       .catch((error) => {
         alert(`Error fetching properties: ${error}`);
       });
   }, []);
-
 
   return (
     <>
@@ -28,10 +30,7 @@ export default function Assets() {
         <input type="text" placeholder="Search.." />
         <div id="sortitem">
           <label htmlFor="sort">Sort by: </label>
-          <select
-            name="sort"
-            id="sort"
-          >
+          <select name="sort" id="sort">
             <option value="recent">Recent</option>
             <option value="A-Z">A-Z</option>
             <option value="low-high">low-high</option>
@@ -41,11 +40,17 @@ export default function Assets() {
       </div>
       <div id="asset-container">
         <div className="asset-item">
-          {properties.map((property, key) => (
-            <div key={key}>
-              <AssetCard props={property} />
-            </div>
-          ))}
+          {loading ? (
+            <Loading />
+          ) : properties.length > 0 ? (
+            properties.map((property, key) => (
+              <div key={key}>
+                <AssetCard props={property} />
+              </div>
+            ))
+          ) : (
+            <p>No properties available.</p>
+          )}
         </div>
       </div>
     </>

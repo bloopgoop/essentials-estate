@@ -15,8 +15,8 @@ function StatusCard({ props, page }) {
     "Approved",
     "Listed",
   ];
-  const check = ["", "", "", "", ""];
-  const step = props.status + 1; // TEMPORARY VALUE TO TEST, REMOVE LATER AND MAKE IT INTO A PROP :D
+  const check = ["", "", ""];
+  const step = props.status + 1; 
 
   const currentStatus = accepted.slice(0, step).concat(status.slice(step));
   for (let i = 0; i < step; i++) {

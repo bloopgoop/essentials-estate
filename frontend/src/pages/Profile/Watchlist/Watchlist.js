@@ -1,48 +1,52 @@
+import React, { useState, useEffect } from "react";
 import WatchlistCard from "../../../components/WatchlistCard/WatchlistCard";
 import "./Watchlist.css";
-import { useState, useEffect } from "react";
 import propertyService from "services/property/propertyAPI";
+import Loading from "components/Loading";
 
 export default function Watchlist() {
   const [properties, setProperties] = useState([]);
-  const [recent, setRecent] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [option, setOption] = useState("recent");
+
   useEffect(() => {
     propertyService
-      .getRange(properties.length, properties.length + 20)
+      .getRange(0, 20) // Fetch initial data, assuming starting from index 0
       .then((response) => {
         if (response.status === 204) {
           return;
         }
-        setProperties(properties.concat(response.data));
-        setRecent(properties.concat(response.data));
+        setProperties(response.data);
+        setLoading(false);
       })
       .catch((error) => {
         alert(`Error fetching properties: ${error}`);
       });
-  }, []);
+  }, []); // Empty dependency array ensures this effect runs only once
 
-  // setSort is not working properly, fix 
-  const setSort = () => {
-    let sorted = properties;
+  const sortProperties = (option) => {
     switch (option) {
       case "recent":
-        sorted = recent
+        // No need to sort for "recent," use the original order
         break;
       case "low-high":
-        sorted.sort((a, b) => Number(b.rent) - Number(a.rent));
+        setProperties(
+          [...properties].sort((a, b) => Number(b.rent) - Number(a.rent))
+        );
         break;
       case "high-low":
-        sorted.sort((a, b) => Number(a.rent) - Number(b.rent));
+        setProperties(
+          [...properties].sort((a, b) => Number(a.rent) - Number(b.rent))
+        );
+        break;
+      default:
         break;
     }
-    setProperties(sorted);
   };
 
   useEffect(() => {
-    setSort();
-  }, [option, properties]);
-  //
+    sortProperties(option);
+  }, [option]);
 
   return (
     <>
@@ -54,6 +58,7 @@ export default function Watchlist() {
           <select
             name="sort"
             id="sort"
+            value={option}
             onChange={(e) => setOption(e.target.value)}
           >
             <option value="recent">Recent</option>
@@ -62,12 +67,17 @@ export default function Watchlist() {
           </select>
         </div>
       </div>
-      {properties &&
-        properties.map((property, index) => (
-          <div key={index}>
+      {loading ? (
+        <Loading />
+      ) : properties.length > 0 ? (
+        properties.map((property, key) => (
+          <div key={key}>
             <WatchlistCard props={property} />
           </div>
-        ))}
+        ))
+      ) : (
+        <p>No properties available.</p>
+      )}
     </>
   );
 }
