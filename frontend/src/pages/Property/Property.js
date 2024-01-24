@@ -23,7 +23,7 @@ const Property = () => {
   const [ratings, setRatings] = useState([]);
   const [isOwner, setIsOwner] = useState(false);
   
-  let { user, logoutUser } = useContext(AuthContext);
+  // let { user, logoutUser } = useContext(AuthContext);
 
   const capitalize = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);

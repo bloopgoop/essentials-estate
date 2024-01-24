@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import propertyService from "services/property/propertyAPI";
 import axios from "services/axiosConfigs";
@@ -24,9 +24,9 @@ function AssetEdit() {
 
   useEffect(() => {
     getProperty();
-  }, [id]);
+  }, [id, getProperty]);
 
-  const getProperty = () => {
+  const getProperty = useCallback(() => {
     propertyService
       .getOne(id)
       .then((response) => {
@@ -48,7 +48,7 @@ function AssetEdit() {
         alert(`Error fetching property: ${error}`);
         return <h1>404 property not found</h1>;
       });
-  };
+  }, [id])
 
   const handlePut = (event) => {
     event.preventDefault();

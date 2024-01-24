@@ -18,7 +18,7 @@ export default function Watchlist() {
       .catch((error) => {
         alert(`Error fetching properties: ${error}`);
       });
-  }, []);
+  }, [properties]);
 
   return (
     <>
