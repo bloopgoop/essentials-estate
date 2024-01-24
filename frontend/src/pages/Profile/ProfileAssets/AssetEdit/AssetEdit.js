@@ -22,10 +22,6 @@ function AssetEdit() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    getProperty();
-  }, [id, getProperty]);
-
   const getProperty = useCallback(() => {
     propertyService
       .getOne(id)
@@ -49,6 +45,10 @@ function AssetEdit() {
         return <h1>404 property not found</h1>;
       });
   }, [id])
+
+  useEffect(() => {
+    getProperty();
+  }, [id, getProperty]);
 
   const handlePut = (event) => {
     event.preventDefault();
