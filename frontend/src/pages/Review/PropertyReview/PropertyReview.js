@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import propertyService from "services/property/propertyAPI";
 // import axios from "services/axiosConfigs";
 import "./PropertyReview.css";
+import Loading from "components/Loading";
 
 function PropertyReview() {
   const [property, setProperty] = useState(null);
@@ -14,6 +15,9 @@ function PropertyReview() {
     rent: "",
     sqft: "",
     type: "",
+    bedroom: "",
+    bathroom: "",
+    garage: "",
   });
   const { id } = useParams();
   const navigate = useNavigate();
@@ -22,7 +26,7 @@ function PropertyReview() {
     propertyService
       .getOne(id)
       .then((response) => {
-        setProperty(response);
+        setProperty(response.data);
         if (response.status === "Approved") {
           setCheck(true);
           // console.log(check)
@@ -83,25 +87,32 @@ function PropertyReview() {
       const formData = new FormData();
       formData.append("propertyID", id);
       formData.append("status", status);
-      
+
       // axios filepath will possible be changed
       // const request = axios.post("property/reviewProperty/", formData);
       // const request = axios.post("property/reviewProperty/", formData);
       //    request.then((response) => setProperties(response.data));
-      
     } catch (error) {
       console.log(`ERROR: ${error}`);
     }
   };
-
+  if (!property) return <Loading/>
   return (
-    <div>
-      {property ? (
-        <>
-          <div>Property Review</div>
-          <div>
-            <label>
-              Address Valid
+    <div id="review--wrapper">
+      <table id="review--table">
+        <tbody>
+          <tr>
+            <td>Owner:</td>
+            <td>{property.owner}</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Address:</td>
+            <td>
+              {property.address}, {property.city}, {property.state}{" "}
+              {property.zip}
+            </td>
+            <td>
               <input
                 type="checkbox"
                 defaultChecked={check}
@@ -109,62 +120,105 @@ function PropertyReview() {
                 value="valid"
                 onChange={(e) => handleValid("address", e.target.value)}
               />
-            </label>
-          </div>
-          <div>
-            <label>
-              Lotsize Valid
+            </td>
+          </tr>
+          <tr>
+            <td>Rent:</td>
+            <td>${property.rent}/month</td>
+            <td>
               <input
                 type="checkbox"
                 defaultChecked={check}
-                name="address"
-                value="valid"
-                onChange={(e) => handleValid("lotsize", e.target.value)}
-              />
-            </label>
-          </div>
-          <div>
-            <label>
-              Rent Valid
-              <input
-                type="checkbox"
-                defaultChecked={check}
-                name="address"
+                name="rent"
                 value="valid"
                 onChange={(e) => handleValid("rent", e.target.value)}
               />
-            </label>
-          </div>
-          <div>
-            <label>
-              Sqft Valid
+            </td>
+          </tr>
+          <tr>
+            <td>Bedrooms:</td>
+            <td>{property.bedrooms}</td>
+            <td>
               <input
                 type="checkbox"
                 defaultChecked={check}
-                name="address"
+                name="bedroom"
+                value="valid"
+                onChange={(e) => handleValid("bedroom", e.target.value)}
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>Bathrooms:</td>
+            <td>{property.bathrooms}</td>
+            <td>
+              <input
+                type="checkbox"
+                defaultChecked={check}
+                name="bathroom"
+                value="valid"
+                onChange={(e) => handleValid("bathroom", e.target.value)}
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>Garage:</td>
+            <td>{property.garage} car(s)</td>
+            <td>
+              <input
+                type="checkbox"
+                defaultChecked={check}
+                name="garage"
+                value="valid"
+                onChange={(e) => handleValid("garage", e.target.value)}
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>Square Footage:</td>
+            <td>{property.sqft} sqft</td>
+            <td>
+              <input
+                type="checkbox"
+                defaultChecked={check}
+                name="sqft"
                 value="valid"
                 onChange={(e) => handleValid("sqft", e.target.value)}
               />
-            </label>
-          </div>
-          <div>
-            <label>
-              Type Valid
+            </td>
+          </tr>
+          <tr>
+            <td>Lot Size:</td>
+            <td>{property.lotsize} acres</td>
+            <td>
               <input
                 type="checkbox"
                 defaultChecked={check}
-                name="address"
+                name="lotsize"
+                value="valid"
+                onChange={(e) => handleValid("lotsize", e.target.value)}
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>Type:</td>
+            <td>{property.type}</td>
+            <td>
+              <input
+                type="checkbox"
+                defaultChecked={check}
+                name="type"
                 value="valid"
                 onChange={(e) => handleValid("type", e.target.value)}
               />
-            </label>
-          </div>
-          <button onClick={accept}>Accept</button>
-          <button onClick={reject}>Reject</button>
-        </>
-      ) : (
-        <h1>Loading...</h1>
-      )}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div id="review--button">
+        <button onClick={accept}>Accept</button>
+        <button onClick={reject}>Reject</button>
+      </div>
     </div>
   );
 }

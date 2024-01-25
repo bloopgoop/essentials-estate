@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import ReactPaginate from "react-paginate";
 import propertyService from "services/property/propertyAPI";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "components/Navbar/Navbar";
@@ -9,6 +10,7 @@ import AuthContext from "context/AuthContext";
 import RentalButton from "./RentalButton";
 import Footer from "components/Footer/Footer";
 import Loading from "components/Loading";
+import Comment from "components/Comment/Comment";
 import star from "assets/star.svg";
 
 const Property = () => {
@@ -22,7 +24,10 @@ const Property = () => {
   const [avgRating, setAvgRating] = useState(0);
   const [ratings, setRatings] = useState([]);
   const [isOwner, setIsOwner] = useState(false);
-  
+
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 5;
+
   // let { user, logoutUser } = useContext(AuthContext);
 
   const capitalize = (str) => {
@@ -142,7 +147,13 @@ const Property = () => {
   //     console.log(`ERROR: ${error}`);
   //   }
   // };
-
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * 5) % 100;
+    console.log(
+      `User requested page number ${event.selected}, which is offset ${newOffset}`
+    );
+    setItemOffset(newOffset);
+  };
   return (
     <>
       <Navbar />
@@ -161,16 +172,16 @@ const Property = () => {
               </p>
 
               <i>
-              <img
-                src={star}
-                alt="star"
-                style={{
-                  height: "1rem",
-                  width: "1rem",
-                  marginRight: "0.25rem",
-                }}
-              />
-              {property.stars}
+                <img
+                  src={star}
+                  alt="star"
+                  style={{
+                    height: "1rem",
+                    width: "1rem",
+                    marginRight: "0.25rem",
+                  }}
+                />
+                {property.stars}
               </i>
             </div>
             <Gallery photos={property.photos} />
@@ -231,47 +242,53 @@ const Property = () => {
 
             {/* REMOVE LATER, FOR TESTING checkGroup */}
             {/* <button onClick={checkGroup}>Are You An Admin?</button> */}
-            <input
-              type="number"
-              min={0}
-              max={5}
-              onChange={(e) => setStars(e.target.value)}
-            ></input>
-            <textarea onChange={(e) => setComment(e.target.value)}></textarea>
-            <button onClick={handlePost}>Post</button>
-
-            {ratings.map((rating, key) => (
-              <div key={key}>
-                {rating.same_user ? (
-                  <>
-                    {rating.comment} - {rating.stars}*
-                    <button
-                      onClick={(event) =>
-                        handlePut(event, rating.id, rating.user)
-                      }
-                    >
-                      Update
-                    </button>
-                    <button
-                      onClick={(event) =>
-                        handleDelete(event, rating.id, rating.user)
-                      }
-                    >
-                      Delete
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    {rating.comment} - {rating.stars}*
-                  </>
-                )}
+            <div className="post--box">
+              <div className="post--rating">
+                <h1>Overall Rating:</h1>
+                <input
+                  className="post--input"
+                  type="number"
+                  min={0}
+                  max={5}
+                  onChange={(e) => setStars(e.target.value)}
+                ></input>
               </div>
-            ))}
-            <textarea></textarea>
-            {/* <img src={property.photos[0]} alt="Property" /> */}
-            <label htmlFor="rating">Avg rating:</label>
-            <div id="rating">{avgRating}</div>
+              <textarea
+                maxLength="255"
+                onChange={(e) => setComment(e.target.value)}
+              ></textarea>
+              <button onClick={handlePost}>Post</button>
+            </div>
 
+            {ratings
+              .slice(itemOffset, itemOffset + itemsPerPage)
+              .map((rating, key) => (
+                <div key={key}>
+                  {console.log(rating)}
+                  <Comment
+                    props={rating}
+                    handlePut={handlePut}
+                    handleDelete={handleDelete}
+                  />
+                </div>
+              ))}
+            <ReactPaginate
+              breakLabel="..."
+              nextLabel="Next >"
+              onPageChange={handlePageClick}
+              pageRangeDisplayed={5}
+              pageCount={Math.ceil(ratings.length / itemsPerPage)}
+              previousLabel="< Previous"
+              renderOnZeroPageCount={null}
+              containerClassName="pagination"
+              activeClassName="active"
+              pageLinkClassName="page-link"
+              previousLinkClassName="prev-link"
+              nextLinkClassName="next-link"
+            />
+            {/* <img src={property.photos[0]} alt="Property" /> */}
+            {/* <label htmlFor="rating">Avg rating:</label>
+            <div id="rating">{avgRating}</div> */}
           </main>
           <Footer />
         </div>

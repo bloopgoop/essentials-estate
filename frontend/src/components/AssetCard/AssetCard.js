@@ -3,8 +3,6 @@ import imageNotFound from "assets/image-not-found.jpg";
 import "./AssetCard.css";
 
 export default function AssetCard(props) {
-  console.log(props);
-  if (!props) return <h1>Loading...</h1>;
   return (
     <div id="Assetcard--container">
       <div>
@@ -19,22 +17,23 @@ export default function AssetCard(props) {
           <img
             src={props.props.photos[0].photo}
             height={250}
+            width={250}
             className="Assetcard--image"
-            alt={props.title}
+            alt="property-img"
+            style={{ objectFit: "cover" }}
           />
         )}
       </div>
       <div id="Assetcard--info">
-        <h2>Property Name</h2>
-        <p>{props.props.stars}</p>
-        <p>{props.props.description}</p>
-        <p>
+        <h2>
           {props.props.city}, {props.props.state}
-        </p>
+        </h2>
+        <p>{props.props.stars}*</p>
+        <p>{props.props.description}</p>
+        <Link to={`/profile/assets/${props.props.id}`}>
+          <button id="Assetcard--button">Edit Property</button>
+        </Link>
       </div>
-      <Link to={`/profile/assets/${props.props.id}`}>
-        <button>Edit Property</button>
-      </Link>
     </div>
   );
 }

@@ -1,29 +1,95 @@
 #main-content {
-    margin: 2rem 3rem;
+  margin: 2rem 3rem;
 }
 
 .split-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 tbody {
-    background-color: #dddcdc;
+  background-color: #dddcdc;
 }
 
 td {
-    padding: 0.5rem;
-    border: 1px solid #ccc;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
 }
 
 tr:nth-child(even) {
-    background-color: var(--secondary-color);
+  background-color: var(--secondary-color);
 }
 
+.post--box {
+  margin: 2rem auto;
+  padding: 10px;
+  width: 100%;
+  overflow: hidden;
+  background-color: #dddcdc;
+  border-radius: 20px;
+}
+
+.post--input {
+  background-color: #eee;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 0 1px #0003;
+}
+
+.post--rating {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.post--box > textarea {
+  background-color: #eee;
+  width: 100%;
+  height: 152px;
+  margin: 10px 0;
+  border-radius: 5px;
+  box-shadow: 0 0 0 1px #0003;
+}
+
+.post--box > button {
+  margin: 1rem 1rem 0 0;
+  width: 5rem;
+  float: right;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination li {
+  margin: 0 5px;
+  cursor: pointer;
+  display: inline-block;
+  padding: 8px;
+  border: 1px solid #ccc;
+}
+
+.pagination li.active {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: 1px solid var(--secondary-color);
+
+}
+
+.pagination li.page-link,
+.pagination li.prev-link,
+.pagination li.next-link {
+  text-decoration: none;
+  color: #333;
+}

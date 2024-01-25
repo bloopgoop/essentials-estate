@@ -19,11 +19,11 @@ export default function Profile() {
             overflowY: "auto",
           }}
         />
-        <div>
+        <div style={{ width: "100%", minHeight: "100vh", minWidth: "820px" }}>
           <Navbar />
           <div
             id="profile-content"
-            style={{ width: "100%", paddingLeft: "2rem", paddingRight: "3rem" }}
+            style={{ paddingLeft: "2rem", paddingRight: "3rem" }}
           >
             <Outlet></Outlet>
           </div>

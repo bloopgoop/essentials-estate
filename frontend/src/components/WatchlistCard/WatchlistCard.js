@@ -1,27 +1,29 @@
+import { Link } from "react-router-dom";
 import "./WatchlistCard.css";
 
-export default function WatchlistCard({ props }) {
+export default function WatchlistCard(props) {
   if (!props) return <h1>Loading...</h1>;
-
     return (
       <div id="Watchlistcard--container">
         <div>
           <img
-            src={props.photos[0].img}
+            src={props.props.photos[0].photo}
             height={250}
             width={250}
-            alt="Property"
+            alt="property-img"
             className="Watchlistcard--image"
+            style={{ objectFit: "cover" }}
           />
         </div>
         <div id="Watchlistcard--info">
-          <h2>{props.title}</h2>
-          <p>5 *****</p>
-          <p>{props.description}</p>
-          <p>
-            {props.city}, {props.state}
-          </p>
-          <button>See Property</button>
+          <h2>
+            {props.props.city}, {props.props.state}
+          </h2>
+          <p>{props.props.stars}*</p>
+          <p>{props.props.description}</p>
+          <Link to={`/property/${props.props.id}`}>
+            <button id="Watchlist-Button">See Property</button>
+          </Link>
         </div>
       </div>
     );

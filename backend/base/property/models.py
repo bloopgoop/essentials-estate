@@ -34,11 +34,11 @@ class Property(models.Model):
         return self.title
     
     def serialize(self):
-        status = {
-            0 : "Pending", 
-            1 : "Approved",
-            2 : "Rejected",
-        }
+        # status = {
+        #     0 : "Pending", 
+        #     1 : "Approved",
+        #     2 : "Rejected",
+        # }
 
         return {
             'id': self.id,
@@ -59,7 +59,7 @@ class Property(models.Model):
             'stars': self.stars,
             'type': self.type,
             'photos': [photo.serialize() for photo in self.photos.all()],
-            'status': status[self.status],
+            'status': self.status,
             'is_rentable': self.is_rentable,
         }
     
@@ -98,10 +98,12 @@ class Rating(models.Model):
     def serialize(self, user_id=False):
         return {
             'id' : self.id,
-            'user': self.user.id,
+            'user': self.user.username,
+            'userID': self.user.id,
             'property': self.property.id,
             'stars': self.stars,
             'comment': self.comment,
+            'date': self.date,
             'same_user': self.user.id == user_id,
         }
 

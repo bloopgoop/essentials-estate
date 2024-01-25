@@ -82,7 +82,6 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 40rem;
   background-color: var(--secondary-color);
   padding: 30px;
   align-items: center;
@@ -90,6 +89,7 @@
   width: 90%;
   position: relative;
   min-width: 820px;
+  height: 40vh;
 }
 
 .Status--image {

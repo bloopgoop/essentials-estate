@@ -26,19 +26,19 @@ function AssetEdit() {
     propertyService
       .getOne(id)
       .then((response) => {
-        setProperty(response);
-        setAddress(response.address);
-        setCity(response.city);
-        setState(response.state);
-        setZip(response.zip);
-        setRent(response.rent);
-        setBedrooms(response.bedrooms);
-        setBathrooms(response.bathrooms);
-        setGarage(response.garage);
-        setSqft(response.sqft);
-        setLotsize(response.lotsize);
-        setType(response.type);
-        setDescription(response.description);
+        setProperty(response.data);
+        setAddress(response.data.address);
+        setCity(response.data.city);
+        setState(response.data.state);
+        setZip(response.data.zip);
+        setRent(response.data.rent);
+        setBedrooms(response.data.bedrooms);
+        setBathrooms(response.data.bathrooms);
+        setGarage(response.data.garage);
+        setSqft(response.data.sqft);
+        setLotsize(response.data.lotsize);
+        setType(response.data.type);
+        setDescription(response.data.description);
       })
       .catch((error) => {
         alert(`Error fetching property: ${error}`);

@@ -1,0 +1,46 @@
+#comment--wrapper {
+  margin: auto;
+  padding: 10px;
+  width: 100%;
+  overflow: hidden;
+  border-top: 2px solid #ccc;
+  min-height: 7rem;
+}
+
+#comment--heading {
+  display: flex;
+  align-items: center;
+}
+
+#comment--heading > img {
+  height: 50px;
+  width: 50px;
+  border-radius: 100%;
+  margin-right: 2rem;
+}
+
+#comment--user {
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+#comment--date {
+  font-size: 12px;
+}
+
+#comment--buttons {
+  margin-right: 1rem;
+}
+
+#comment--buttons > button {
+  width: 5rem;
+}
+
+#comment--post--wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+#comment--post {
+    width: 80%;
+}
