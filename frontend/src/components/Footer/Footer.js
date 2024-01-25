@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import "./Footer.css";
 import githubIcon from "assets/github-icon.svg";
 import linkedinIcon from "assets/linkedin-icon.svg";
