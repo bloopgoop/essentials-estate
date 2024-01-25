@@ -1,0 +1,10 @@
+#review--table {
+  width: 50%;
+  margin: 1rem auto;
+}
+
+#review--wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

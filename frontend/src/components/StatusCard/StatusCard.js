@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 
 function StatusCard({ props, page }) {
   if (!props) return <h1>Loading...</h1>;
-  console.log(props);
   const status = [
     "Submiting",
     "In Review",
