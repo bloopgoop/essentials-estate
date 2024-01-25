@@ -9,7 +9,7 @@ function Review() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const request = axios.get(`property/reviewProperty`);
+    const request = axios.get(`property/reviewProperty/1`);
     request.then((response) => {
       setProperties(response.data);
       setLoading(false)

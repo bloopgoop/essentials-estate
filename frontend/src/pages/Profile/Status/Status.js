@@ -12,7 +12,7 @@ export default function Status() {
   const itemsPerPage = 5;
 
   useEffect(() => {
-    const request = axios.get(`property/reviewProperty`);
+    const request = axios.get(`property/reviewProperty/0`);
     request.then((response) => setProperties(response.data));
     setLoading(false);
   }, []);

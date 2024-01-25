@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import AssetCard from "../../../components/AssetCard/AssetCard";
 import "./Assets.css";
-import propertyService from "services/property/propertyAPI";
 import Loading from "components/Loading";
 import ReactPaginate from "react-paginate";
+import axios from "services/axiosConfigs";
 
 export default function Assets() {
   const [properties, setProperties] = useState([]);
@@ -12,19 +12,16 @@ export default function Assets() {
   const itemsPerPage = 5;
 
   useEffect(() => {
-    propertyService
-      .getRange(properties.length, properties.length + 20)
+    const request = axios.get(`property/userProperty`);
+    request
       .then((response) => {
-        if (response.status === 204) {
-          return;
-        }
-        setProperties(properties.concat(response.data));
+        setProperties(response.data.properties);
         setLoading(false);
       })
       .catch((error) => {
         alert(`Error fetching properties: ${error}`);
       });
-  }, [properties]);
+  }, []);
 
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % 100;

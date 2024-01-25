@@ -242,10 +242,16 @@ def checkGroup(request, group_name):
         return JsonResponse({'message': 'Error'}, status=400)
     
 @api_view(['GET', 'POST'])
-def reviewProperty(request):
+def reviewProperty(request, admin):
   try:
+    access_token = request.headers['Authorization']
+    token_data = jwt.decode(access_token, settings.SECRET_KEY, algorithms=['HS256'])
+    user_id = token_data['user_id']
     if request.method == 'GET':
-        return JsonResponse([property.serialize() for property in Property.objects.all() if property.status == 0], safe=False)
+        if admin == 0:
+            return JsonResponse([property.serialize() for property in Property.objects.filter(owner_id=user_id) if property.status == 0], safe=False)
+        elif admin == 1:
+            return JsonResponse([property.serialize() for property in Property.objects.all() if property.status == 0], safe=False)
     
     elif request.method == 'POST':
         data = request.POST
@@ -255,3 +261,17 @@ def reviewProperty(request):
         return JsonResponse([property.serialize() for property in Property.objects.all() if property.status == 0], safe=False)
   except:
     return JsonResponse({'message': 'Error adding property'}, status=400)
+
+@api_view(['GET'])
+def getUserProperty(request):
+    try:
+        access_token = request.headers['Authorization']
+        token_data = jwt.decode(access_token, settings.SECRET_KEY, algorithms=['HS256'])
+        user_id = token_data['user_id']
+        if request.method == 'GET':
+            userProperties = [property.serialize() for property in Property.objects.filter(owner_id=user_id)]
+            return JsonResponse({'properties': userProperties}, status=200)
+
+    except:
+        return JsonResponse({'message': 'Error getting user\'s property'}, status=400)
+
