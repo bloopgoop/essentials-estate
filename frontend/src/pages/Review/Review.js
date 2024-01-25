@@ -18,18 +18,21 @@ function Review() {
 
   return (
     <>
-      <h1>This is the Review Page :D</h1>
-      {loading ? (
-        <Loading />
-      ) : properties.length > 0 ? (
-        properties.map((property, key) => (
-          <div key={key}>
-            <StatusCard props={property} page="review" />
-          </div>
-        ))
-      ) : (
-        <p>No properties available.</p>
-      )}
+      <h1 id="Review--Header">Admin Review Page</h1>
+      <div id="Review--Wrapper">
+        {loading ? (
+          <Loading />
+        ) : properties.length > 0 ? (
+          properties.map((property, key) => (
+            <div key={key}>
+              <StatusCard props={property} page="review" />
+            </div>
+          ))
+        ) : (
+          <p>No properties available.</p>
+        )}
+      </div>
+      <div id="Review--Spacer"></div>
     </>
   );
 }
