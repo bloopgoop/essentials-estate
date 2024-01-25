@@ -1,7 +1,8 @@
 import "./styles.css";
 import star from "assets/star.svg";
+import imageNotFound from "assets/image-not-found.jpg";
 import { Link } from "react-router-dom";
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 
 function switchImage(state, action) {
   switch (action.type) {
@@ -11,6 +12,8 @@ function switchImage(state, action) {
     case "next":
       const nextIndex = state.index + 1;
       return { index: nextIndex, images: state.images };
+    case "reset":
+      return { index: 0, images: action.images };
     default:
       throw new Error("Invalid action type");
   }
@@ -21,6 +24,10 @@ export default function PreviewCard({ property }) {
     index: 0,
     images: property.photos,
   });
+
+  useEffect(() => {
+    dispatch({ type: "reset", images: property.photos });
+  }, [property]);
 
   return (
     <>
@@ -41,7 +48,7 @@ export default function PreviewCard({ property }) {
             )}
             {state.index < property.photos.length - 1 ? (
               <button
-                onClick={() => dispatch({ type: "next" })}
+                onClick={() => dispatch({ type: "next" })}  
                 className="preview-image-button button-right"
               >
                 &gt;
@@ -49,17 +56,25 @@ export default function PreviewCard({ property }) {
             ) : (
               <div></div>
             )}
-            {property.photos.length > 1 && (
+            {state.images.length > 1 && (
               <p className="preview-image-counter">
                 {state.index + 1}/{property.photos.length}
               </p>
             )}
             <Link to={`/property/${property.id}`} data-testid="preview-link">
-              <img
+              {state.images.length > 0 ? (
+                <img
                 src={state.images[state.index].photo}
                 alt="preview"
                 className="preview-image"
-              />
+                />
+              ) : (
+                <img
+                  src={imageNotFound}
+                  alt="preview"
+                  className="preview-image"
+                />
+              )}
             </Link>
           </div>
 

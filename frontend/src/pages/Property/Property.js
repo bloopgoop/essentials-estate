@@ -9,6 +9,7 @@ import AuthContext from "context/AuthContext";
 import RentalButton from "./RentalButton";
 import Footer from "components/Footer/Footer";
 import Loading from "components/Loading";
+import star from "assets/star.svg";
 
 const Property = () => {
   const navigate = useNavigate();
@@ -22,14 +23,14 @@ const Property = () => {
   const [ratings, setRatings] = useState([]);
   const [isOwner, setIsOwner] = useState(false);
   
-  let { user, logoutUser } = useContext(AuthContext);
+  // let { user, logoutUser } = useContext(AuthContext);
 
   const capitalize = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
 
   useEffect(() => {
-    // Get ratings and average rating 
+    // Get ratings and average rating
     // catch any errors and redirect to error page
     const request = axios.get(`property/rating/${id}`);
     request.then((response) => setAvgRating(response.data.average_value));
@@ -158,15 +159,25 @@ const Property = () => {
                 Property type: {capitalize(property.type)} &nbsp;
                 <strong>{`City: ${property.city}`}</strong>
               </p>
-              <i>{property.stars}</i>
+
+              <i>
+              <img
+                src={star}
+                alt="star"
+                style={{
+                  height: "1rem",
+                  width: "1rem",
+                  marginRight: "0.25rem",
+                }}
+              />
+              {property.stars}
+              </i>
             </div>
             <Gallery photos={property.photos} />
 
             <div className="split-container">
               <p>Owner: {property.owner}</p>
-              {auth.user && !isOwner ? (
-                <RentalButton propertyID={id} />
-              ) : null}
+              {auth.user && !isOwner ? <RentalButton propertyID={id} /> : null}
             </div>
             <p>{property.description}</p>
 

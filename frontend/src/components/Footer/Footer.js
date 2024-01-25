@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Footer.css";
+import githubIcon from "assets/github-icon.svg";
+import linkedinIcon from "assets/linkedin-icon.svg";
 
 const Footer = () => {
   return (
@@ -9,52 +11,67 @@ const Footer = () => {
         <div className="footer-section">
           <h4>About Us</h4>
           <p>
-            We are a website dedicated to providing information about properties
-            and real estate. Our goal is to help you find your dream home.
+            This is a demo website created to showcase a real estate website
+            based on requirements given by a Systems Analysis and Design course.
+            Built using Django, React, and PostgreSQL.
           </p>
         </div>
         <div className="footer-section">
-          <h4>Contact Us</h4>
-          <p>Email: info@property.com</p>
-          <p>Phone: 123-456-7890</p>
+          <h4>Collaborators</h4>
+          <p>Kevin Zhu</p>
+          <p>Joan Guzman</p>
         </div>
         <div className="footer-section">
-          <h4>Connect with Us</h4>
+          <h4>Kevin Zhu</h4>
           <ul>
             <li>
-              <Link to="/">Facebook</Link>
+              <a href="https://github.com/bloopgoop">
+                <img src={githubIcon} alt="github icon" />
+                GitHub
+              </a>
             </li>
             <li>
-              <Link to="/">Twitter</Link>
+              <a href="https://www.linkedin.com/in/kevin-zhu-8b1741238/">
+                <img src={linkedinIcon} alt="linkedin icon" />
+                LinkedIn
+              </a>
             </li>
             <li>
-              <Link to="/">Instagram</Link>
+              <div>zhu.kevin12@gmail.com</div>
             </li>
           </ul>
         </div>
         <div className="footer-section">
-          <h4>Resources</h4>
+          <h4>Joan Guzman</h4>
           <ul>
             <li>
-              <Link to="/">Blog</Link>
+              <Link to="/">
+                <img src={githubIcon} alt="github icon" />
+                GitHub
+              </Link>
             </li>
             <li>
-              <Link to="/">FAQs</Link>
+              <Link to="/">
+                <img src={linkedinIcon} alt="linkedin icon" />
+                LinkedIn
+              </Link>
             </li>
             <li>
-              <Link to="/">Terms of Use</Link>
-            </li>
-            <li>
-              <Link to="/">Privacy Policy</Link>
+              <div>email</div>
             </li>
           </ul>
         </div>
         <div className="footer-section">
-          <h4>Support</h4>
-          <p>
-            If you have any questions or concerns, please don't hesitate to
-            contact us.
-          </p>
+          <h4>GitHub Repository</h4>
+          <ul>
+            <li>
+              <a href="https://github.com/bloopgoop/property-management">
+                <img src={githubIcon} alt="github icon" />
+                Essentials Estate
+              </a>
+            </li>
+
+          </ul>
         </div>
       </div>
       <div className="footer-bottom">

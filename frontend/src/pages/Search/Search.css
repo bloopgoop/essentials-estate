@@ -23,25 +23,14 @@
 }
 
 #filter {
+  margin: 3rem 0 2rem 0;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
-}
-#filter > * {
-  display: flex;
-  width: 30%;
-  align-items: center;
+  flex-flow: column wrap;
 }
 #searchTerm {
-  flex: 1;
+  padding: 1rem;
+  width: 50%;
   margin-left: 1rem;
+  border-radius: 100px;
 }
-#filterType {
-  font-size: 16px; /* Updated font size */
-  margin-left: 1rem;
-}
-#filterTypeContainer {
-  justify-content: flex-end;
-}
-  
