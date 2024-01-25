@@ -20,6 +20,8 @@
     padding: 0;
     margin: 0;
     overflow-y: auto;
+    border-right: 1px dotted var(--secondary-text-color);
+    padding-right: 28px;
 }
 .gallery > ul > li {
     height: 6rem;

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import imageNotFound from "assets/image-not-found.jpg";
 import "./styles.css";
 
 export default function Gallery({ photos }) {
@@ -12,6 +13,7 @@ export default function Gallery({ photos }) {
   };
 
   useEffect(() => {
+    if (photos.length === 0) return;
     if (!mainImage) {
       setMainImage(photos[0].photo);
       setMainDescription(photos[0].description);
@@ -25,9 +27,18 @@ export default function Gallery({ photos }) {
 
   return (
     <>
-      {!photos ? (
+      {photos.length === 0 ? (
         <div className="gallery-card">
-          <h1>No Photos</h1>
+          <div className="gallery">
+            <ul>
+              <li>
+                <img src={imageNotFound} alt="no-images" />
+              </li>
+            </ul>
+          </div>
+          <div className="main-image">
+            <img src={imageNotFound} alt="no-images" />
+          </div>
         </div>
       ) : (
         <div className="gallery-card">

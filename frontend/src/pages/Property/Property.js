@@ -9,6 +9,7 @@ import AuthContext from "context/AuthContext";
 import RentalButton from "./RentalButton";
 import Footer from "components/Footer/Footer";
 import Loading from "components/Loading";
+import star from "assets/star.svg";
 
 const Property = () => {
   const navigate = useNavigate();
@@ -21,8 +22,8 @@ const Property = () => {
   const [avgRating, setAvgRating] = useState(0);
   const [ratings, setRatings] = useState([]);
   const [isOwner, setIsOwner] = useState(false);
-
-  let { user, logoutUser } = useContext(AuthContext);
+  
+  // let { user, logoutUser } = useContext(AuthContext);
 
   const capitalize = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -158,7 +159,19 @@ const Property = () => {
                 Property type: {capitalize(property.type)} &nbsp;
                 <strong>{`City: ${property.city}`}</strong>
               </p>
-              <i>{property.stars}</i>
+
+              <i>
+              <img
+                src={star}
+                alt="star"
+                style={{
+                  height: "1rem",
+                  width: "1rem",
+                  marginRight: "0.25rem",
+                }}
+              />
+              {property.stars}
+              </i>
             </div>
             <Gallery photos={property.photos} />
 

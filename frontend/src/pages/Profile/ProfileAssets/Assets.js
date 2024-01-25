@@ -21,7 +21,7 @@ export default function Assets() {
       .catch((error) => {
         alert(`Error fetching properties: ${error}`);
       });
-  }, []);
+  }, [properties]);
 
   return (
     <>
