@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import propertyService from "services/property/propertyAPI";
-// import axios from "services/axiosConfigs";
+import axios from "services/axiosConfigs";
 import "./PropertyReview.css";
 import Loading from "components/Loading";
 
@@ -89,9 +89,8 @@ function PropertyReview() {
       formData.append("status", status);
 
       // axios filepath will possible be changed
-      // const request = axios.post("property/reviewProperty/", formData);
-      // const request = axios.post("property/reviewProperty/", formData);
-      //    request.then((response) => setProperties(response.data));
+      const request = axios.post("property/reviewProperty/2", formData);
+         request.then((response) => setProperty(response.data));
     } catch (error) {
       console.log(`ERROR: ${error}`);
     }
