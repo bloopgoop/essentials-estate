@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import ReactPaginate from "react-paginate";
 import propertyService from "services/property/propertyAPI";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "components/Navbar/Navbar";
@@ -23,6 +24,9 @@ const Property = () => {
   const [avgRating, setAvgRating] = useState(0);
   const [ratings, setRatings] = useState([]);
   const [isOwner, setIsOwner] = useState(false);
+
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 5;
 
   // let { user, logoutUser } = useContext(AuthContext);
 
@@ -143,7 +147,13 @@ const Property = () => {
   //     console.log(`ERROR: ${error}`);
   //   }
   // };
-
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * 5) % 100;
+    console.log(
+      `User requested page number ${event.selected}, which is offset ${newOffset}`
+    );
+    setItemOffset(newOffset);
+  };
   return (
     <>
       <Navbar />
@@ -243,20 +253,39 @@ const Property = () => {
                   onChange={(e) => setStars(e.target.value)}
                 ></input>
               </div>
-              <textarea maxLength="255" onChange={(e) => setComment(e.target.value)}></textarea>
+              <textarea
+                maxLength="255"
+                onChange={(e) => setComment(e.target.value)}
+              ></textarea>
               <button onClick={handlePost}>Post</button>
             </div>
 
-            {ratings.map((rating, key) => (
-              <div key={key}>
-                {console.log(rating)}
-                <Comment
-                  props={rating}
-                  handlePut={handlePut}
-                  handleDelete={handleDelete}
-                />
-              </div>
-            ))}
+            {ratings
+              .slice(itemOffset, itemOffset + itemsPerPage)
+              .map((rating, key) => (
+                <div key={key}>
+                  {console.log(rating)}
+                  <Comment
+                    props={rating}
+                    handlePut={handlePut}
+                    handleDelete={handleDelete}
+                  />
+                </div>
+              ))}
+            <ReactPaginate
+              breakLabel="..."
+              nextLabel="Next >"
+              onPageChange={handlePageClick}
+              pageRangeDisplayed={5}
+              pageCount={Math.ceil(ratings.length / itemsPerPage)}
+              previousLabel="< Previous"
+              renderOnZeroPageCount={null}
+              containerClassName="pagination"
+              activeClassName="active"
+              pageLinkClassName="page-link"
+              previousLinkClassName="prev-link"
+              nextLinkClassName="next-link"
+            />
             {/* <img src={property.photos[0]} alt="Property" /> */}
             {/* <label htmlFor="rating">Avg rating:</label>
             <div id="rating">{avgRating}</div> */}

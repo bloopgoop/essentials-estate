@@ -64,3 +64,32 @@ tr:nth-child(even) {
   width: 5rem;
   float: right;
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination li {
+  margin: 0 5px;
+  cursor: pointer;
+  display: inline-block;
+  padding: 8px;
+  border: 1px solid #ccc;
+}
+
+.pagination li.active {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: 1px solid var(--secondary-color);
+
+}
+
+.pagination li.page-link,
+.pagination li.prev-link,
+.pagination li.next-link {
+  text-decoration: none;
+  color: #333;
+}
