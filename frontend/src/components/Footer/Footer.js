@@ -45,19 +45,19 @@ const Footer = () => {
           <h4>Joan Guzman</h4>
           <ul>
             <li>
-              <Link to="/">
+              <a href="https://github.com/JoanG5">
                 <img src={githubIcon} alt="github icon" />
                 GitHub
-              </Link>
+              </a>
             </li>
             <li>
-              <Link to="/">
+              <a href="https://www.linkedin.com/in/jguzman5/">
                 <img src={linkedinIcon} alt="linkedin icon" />
                 LinkedIn
-              </Link>
+              </a>
             </li>
             <li>
-              <div>email</div>
+              <div>Joanguzman553@gmail.com</div>
             </li>
           </ul>
         </div>
@@ -70,7 +70,6 @@ const Footer = () => {
                 Essentials Estate
               </a>
             </li>
-
           </ul>
         </div>
       </div>
