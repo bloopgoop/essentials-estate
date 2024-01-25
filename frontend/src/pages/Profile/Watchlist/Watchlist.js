@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import WatchlistCard from "../../../components/WatchlistCard/WatchlistCard";
 import "./Watchlist.css";
 import propertyService from "services/property/propertyAPI";
@@ -24,25 +24,25 @@ export default function Watchlist() {
       });
   }, []); // Empty dependency array ensures this effect runs only once
 
-  const sortProperties = useCallback((option) => {
-    switch (option) {
-      case "recent":
-        // No need to sort for "recent," use the original order
-        break;
-      case "low-high":
-        setProperties(
-          [...properties].sort((a, b) => Number(b.rent) - Number(a.rent))
-        );
-        break;
-      case "high-low":
-        setProperties(
-          [...properties].sort((a, b) => Number(a.rent) - Number(b.rent))
-        );
-        break;
-      default:
-        break;
-    }
-  }, [option]);
+  // const sortProperties = useCallback((option) => {
+  //   switch (option) {
+  //     case "recent":
+  //       // No need to sort for "recent," use the original order
+  //       break;
+  //     case "low-high":
+  //       setProperties(
+  //         [...properties].sort((a, b) => Number(b.rent) - Number(a.rent))
+  //       );
+  //       break;
+  //     case "high-low":
+  //       setProperties(
+  //         [...properties].sort((a, b) => Number(a.rent) - Number(b.rent))
+  //       );
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // }, [option]);
 
   return (
     <>
