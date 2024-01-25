@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import propertyService from "services/property/propertyAPI";
 // import axios from "services/axiosConfigs";
 import "./PropertyReview.css";
+import Loading from "components/Loading";
 
 function PropertyReview() {
   const [property, setProperty] = useState(null);
@@ -95,7 +96,7 @@ function PropertyReview() {
       console.log(`ERROR: ${error}`);
     }
   };
-
+  if (!property) return <Loading/>
   return (
     <div id="review--wrapper">
       <table id="review--table">
