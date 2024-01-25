@@ -1,0 +1,8 @@
+#comment--wrapper {
+  margin: 2rem auto;
+  padding: 10px;
+  width: 100%;
+  overflow: hidden;
+  background-color: #dddcdc;
+  border-radius: 20px;
+}

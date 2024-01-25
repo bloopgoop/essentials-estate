@@ -9,6 +9,7 @@ import AuthContext from "context/AuthContext";
 import RentalButton from "./RentalButton";
 import Footer from "components/Footer/Footer";
 import Loading from "components/Loading";
+import Comment from "components/Comment/Comment";
 import star from "assets/star.svg";
 
 const Property = () => {
@@ -231,10 +232,10 @@ const Property = () => {
 
             {/* REMOVE LATER, FOR TESTING checkGroup */}
             {/* <button onClick={checkGroup}>Are You An Admin?</button> */}
-            <div className="comment--box">
-              <div className="comment--rating">
+            <div className="post--box">
+              <div className="post--rating">
                 <h1>Overal Rating:</h1>
-                <input className="comment--input"
+                <input className="post--input"
                   type="number"
                   min={0}
                   max={5}
@@ -244,6 +245,8 @@ const Property = () => {
               <textarea onChange={(e) => setComment(e.target.value)}></textarea>
               <button onClick={handlePost}>Post</button>
             </div>
+            
+            <Comment props={ratings[0]}/>
 
             {ratings.map((rating, key) => (
               <div key={key}>

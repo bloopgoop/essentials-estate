@@ -98,7 +98,8 @@ class Rating(models.Model):
     def serialize(self, user_id=False):
         return {
             'id' : self.id,
-            'user': self.user.id,
+            'user': self.user.username,
+            'userID': self.user.id,
             'property': self.property.id,
             'stars': self.stars,
             'comment': self.comment,
