@@ -232,12 +232,14 @@ def ratings(request, property_id):
             return JsonResponse({'error': 'Error deleting rating'}, status=404)
 
 
-@api_view(['POST'])
-@allowed_users(allowed_roles=['admin'])
+@api_view(['GET'])
+# @allowed_users(allowed_roles=['admin'])
 def checkGroup(request, group_name):
-    print("in checkGroup, the user is:", request.user)
+    access_token = request.headers['Authorization']
+    token_data = jwt.decode(access_token, settings.SECRET_KEY, algorithms=['HS256'])
+    user_id = token_data['user_id']
     try: 
-        return JsonResponse({'group': group_name })
+        return JsonResponse({'isSuper': User.objects.get(id=user_id).is_superuser })
     except:
         return JsonResponse({'message': 'Error'}, status=400)
     

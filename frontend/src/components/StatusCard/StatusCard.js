@@ -21,9 +21,7 @@ function StatusCard({ props, page }) {
       check[i] = "completed";
     }
   }
-  console.log(props);
-  console.log(currentStatus);
-
+  
   return (
     <>
       <div id="Status--container">

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Review.css";
 import axios from "services/axiosConfigs";
 import StatusCard from "../../components/StatusCard/StatusCard";
+import Navbar from "components/Navbar/Navbar";
 import Loading from "components/Loading";
 
 function Review() {
@@ -18,7 +19,7 @@ function Review() {
 
   return (
     <>
-      <h3 id="Review--Header">Admin Review Page</h3>
+      <Navbar/>
       <div id="Review--Wrapper">
         {loading ? (
           <Loading />
