@@ -18,7 +18,7 @@ function Review() {
 
   return (
     <>
-      <h1 id="Review--Header">Admin Review Page</h1>
+      <h3 id="Review--Header">Admin Review Page</h3>
       <div id="Review--Wrapper">
         {loading ? (
           <Loading />
