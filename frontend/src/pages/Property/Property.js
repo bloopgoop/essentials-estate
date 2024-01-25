@@ -148,12 +148,10 @@ const Property = () => {
   //   }
   // };
   const handlePageClick = (event) => {
-    const newOffset = (event.selected * 5) % 100;
-    console.log(
-      `User requested page number ${event.selected}, which is offset ${newOffset}`
-    );
+    const newOffset = (event.selected * itemsPerPage) % 100;
     setItemOffset(newOffset);
-  };
+  }; 
+
   return (
     <>
       <Navbar />
@@ -276,7 +274,7 @@ const Property = () => {
               breakLabel="..."
               nextLabel="Next >"
               onPageChange={handlePageClick}
-              pageRangeDisplayed={5}
+              pageRangeDisplayed={itemsPerPage}
               pageCount={Math.ceil(ratings.length / itemsPerPage)}
               previousLabel="< Previous"
               renderOnZeroPageCount={null}

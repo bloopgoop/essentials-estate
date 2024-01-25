@@ -3,16 +3,24 @@ import "./Status.css";
 import StatusCard from "../../../components/StatusCard/StatusCard";
 import axios from "services/axiosConfigs";
 import Loading from "components/Loading";
+import ReactPaginate from "react-paginate";
 
 export default function Status() {
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 5;
 
   useEffect(() => {
     const request = axios.get(`property/reviewProperty`);
     request.then((response) => setProperties(response.data));
     setLoading(false);
   }, []);
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % 100;
+    setItemOffset(newOffset);
+  };
 
   return (
     <div>
@@ -34,14 +42,30 @@ export default function Status() {
       {loading ? (
         <Loading />
       ) : properties.length > 0 ? (
-        properties.map((property, key) => (
-          <div key={key}>
-            <StatusCard props={property} page="property" />
-          </div>
-        ))
+        properties
+          .slice(itemOffset, itemOffset + itemsPerPage)
+          .map((property, key) => (
+            <div key={key}>
+              <StatusCard props={property} page="property" />
+            </div>
+          ))
       ) : (
         <Loading />
       )}
+      <ReactPaginate
+        breakLabel="..."
+        nextLabel="Next >"
+        onPageChange={handlePageClick}
+        pageRangeDisplayed={itemsPerPage}
+        pageCount={Math.ceil(properties.length / itemsPerPage)}
+        previousLabel="< Previous"
+        renderOnZeroPageCount={null}
+        containerClassName="pagination"
+        activeClassName="active"
+        pageLinkClassName="page-link"
+        previousLinkClassName="prev-link"
+        nextLinkClassName="next-link"
+      />
     </div>
   );
 }

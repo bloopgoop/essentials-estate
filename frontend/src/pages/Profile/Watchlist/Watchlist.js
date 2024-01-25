@@ -3,11 +3,14 @@ import WatchlistCard from "../../../components/WatchlistCard/WatchlistCard";
 import "./Watchlist.css";
 import propertyService from "services/property/propertyAPI";
 import Loading from "components/Loading";
+import ReactPaginate from "react-paginate";
 
 export default function Watchlist() {
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [option, setOption] = useState("recent");
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 5;
 
   useEffect(() => {
     propertyService
@@ -44,6 +47,11 @@ export default function Watchlist() {
   //   }
   // }, [option]);
 
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % 100;
+    setItemOffset(newOffset);
+  };
+
   return (
     <>
       <h1>Watchlist</h1>
@@ -66,14 +74,30 @@ export default function Watchlist() {
       {loading ? (
         <Loading />
       ) : properties.length > 0 ? (
-        properties.map((property, key) => (
-          <div key={key}>
-            <WatchlistCard props={property} />
-          </div>
-        ))
+        properties
+          .slice(itemOffset, itemOffset + itemsPerPage)
+          .map((property, key) => (
+            <div key={key}>
+              <WatchlistCard props={property} />
+            </div>
+          ))
       ) : (
         <p>No properties available.</p>
       )}
+      <ReactPaginate
+        breakLabel="..."
+        nextLabel="Next >"
+        onPageChange={handlePageClick}
+        pageRangeDisplayed={itemsPerPage}
+        pageCount={Math.ceil(properties.length / itemsPerPage)}
+        previousLabel="< Previous"
+        renderOnZeroPageCount={null}
+        containerClassName="pagination"
+        activeClassName="active"
+        pageLinkClassName="page-link"
+        previousLinkClassName="prev-link"
+        nextLinkClassName="next-link"
+      />
     </>
   );
 }
