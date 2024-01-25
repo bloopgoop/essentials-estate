@@ -234,50 +234,32 @@ const Property = () => {
             {/* <button onClick={checkGroup}>Are You An Admin?</button> */}
             <div className="post--box">
               <div className="post--rating">
-                <h1>Overal Rating:</h1>
-                <input className="post--input"
+                <h1>Overall Rating:</h1>
+                <input
+                  className="post--input"
                   type="number"
                   min={0}
                   max={5}
                   onChange={(e) => setStars(e.target.value)}
                 ></input>
               </div>
-              <textarea onChange={(e) => setComment(e.target.value)}></textarea>
+              <textarea maxLength="255" onChange={(e) => setComment(e.target.value)}></textarea>
               <button onClick={handlePost}>Post</button>
             </div>
-            
-            <Comment props={ratings[0]}/>
 
             {ratings.map((rating, key) => (
               <div key={key}>
-                {rating.same_user ? (
-                  <>
-                    {rating.comment} - {rating.stars}*
-                    <button
-                      onClick={(event) =>
-                        handlePut(event, rating.id, rating.user)
-                      }
-                    >
-                      Update
-                    </button>
-                    <button
-                      onClick={(event) =>
-                        handleDelete(event, rating.id, rating.user)
-                      }
-                    >
-                      Delete
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    {rating.comment} - {rating.stars}*
-                  </>
-                )}
+                {console.log(rating)}
+                <Comment
+                  props={rating}
+                  handlePut={handlePut}
+                  handleDelete={handleDelete}
+                />
               </div>
             ))}
             {/* <img src={property.photos[0]} alt="Property" /> */}
-            <label htmlFor="rating">Avg rating:</label>
-            <div id="rating">{avgRating}</div>
+            {/* <label htmlFor="rating">Avg rating:</label>
+            <div id="rating">{avgRating}</div> */}
           </main>
           <Footer />
         </div>

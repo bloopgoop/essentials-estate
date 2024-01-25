@@ -103,6 +103,7 @@ class Rating(models.Model):
             'property': self.property.id,
             'stars': self.stars,
             'comment': self.comment,
+            'date': self.date,
             'same_user': self.user.id == user_id,
         }
 
