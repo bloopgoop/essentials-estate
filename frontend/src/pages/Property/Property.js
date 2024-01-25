@@ -22,7 +22,7 @@ const Property = () => {
   const [avgRating, setAvgRating] = useState(0);
   const [ratings, setRatings] = useState([]);
   const [isOwner, setIsOwner] = useState(false);
-  
+
   // let { user, logoutUser } = useContext(AuthContext);
 
   const capitalize = (str) => {
@@ -161,16 +161,16 @@ const Property = () => {
               </p>
 
               <i>
-              <img
-                src={star}
-                alt="star"
-                style={{
-                  height: "1rem",
-                  width: "1rem",
-                  marginRight: "0.25rem",
-                }}
-              />
-              {property.stars}
+                <img
+                  src={star}
+                  alt="star"
+                  style={{
+                    height: "1rem",
+                    width: "1rem",
+                    marginRight: "0.25rem",
+                  }}
+                />
+                {property.stars}
               </i>
             </div>
             <Gallery photos={property.photos} />
@@ -231,14 +231,19 @@ const Property = () => {
 
             {/* REMOVE LATER, FOR TESTING checkGroup */}
             {/* <button onClick={checkGroup}>Are You An Admin?</button> */}
-            <input
-              type="number"
-              min={0}
-              max={5}
-              onChange={(e) => setStars(e.target.value)}
-            ></input>
-            <textarea onChange={(e) => setComment(e.target.value)}></textarea>
-            <button onClick={handlePost}>Post</button>
+            <div className="comment--box">
+              <div className="comment--rating">
+                <h1>Overal Rating:</h1>
+                <input className="comment--input"
+                  type="number"
+                  min={0}
+                  max={5}
+                  onChange={(e) => setStars(e.target.value)}
+                ></input>
+              </div>
+              <textarea onChange={(e) => setComment(e.target.value)}></textarea>
+              <button onClick={handlePost}>Post</button>
+            </div>
 
             {ratings.map((rating, key) => (
               <div key={key}>
