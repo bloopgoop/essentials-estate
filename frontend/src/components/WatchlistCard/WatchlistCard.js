@@ -10,8 +10,9 @@ export default function WatchlistCard(props) {
             src={props.props.photos[0].photo}
             height={250}
             width={250}
-            alt="Property"
+            alt="property-img"
             className="Watchlistcard--image"
+            style={{ objectFit: "cover" }}
           />
         </div>
         <div id="Watchlistcard--info">

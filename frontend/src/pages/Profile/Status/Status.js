@@ -11,7 +11,7 @@ export default function Status() {
   useEffect(() => {
     const request = axios.get(`property/reviewProperty`);
     request.then((response) => setProperties(response.data));
-    // setLoading(false);
+    setLoading(false);
   }, []);
 
   return (
@@ -40,7 +40,7 @@ export default function Status() {
           </div>
         ))
       ) : (
-        <p>No properties available.</p>
+        <Loading />
       )}
     </div>
   );

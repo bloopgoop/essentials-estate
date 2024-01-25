@@ -34,6 +34,7 @@ function StatusCard({ props, page }) {
             width={250}
             className="Status--image"
             alt="property-img"
+            style={{objectFit: "cover"}}
           />
         </div>
         <div id="Status--info">

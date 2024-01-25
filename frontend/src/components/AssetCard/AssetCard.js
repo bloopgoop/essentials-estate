@@ -10,7 +10,8 @@ export default function AssetCard(props) {
           height={250}
           width={250}
           className="Assetcard--image"
-          alt={props.title}
+          alt="property-img"
+          style={{ objectFit: "cover" }}
         />
       </div>
       <div id="Assetcard--info">
