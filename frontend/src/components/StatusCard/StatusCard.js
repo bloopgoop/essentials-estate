@@ -21,7 +21,7 @@ function StatusCard({ props, page }) {
       check[i] = "completed";
     }
   }
-  
+
   return (
     <>
       <div id="Status--container">
@@ -37,10 +37,11 @@ function StatusCard({ props, page }) {
         </div>
         <div id="Status--info">
           <h2>
+            {`${props.address} `}
             {props.city}, {props.state}
           </h2>
-          <p>{props.stars}*</p>
-          <p>{props.description}</p>
+          <h4>Rent: ${props.rent}</h4>
+          <p>{props.description} </p>
           <div className="stepper-wrapper">
             {props.status === 2
               ? currentStatus.map((stat, index) => (

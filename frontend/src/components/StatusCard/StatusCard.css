@@ -104,6 +104,11 @@
 }
 
 #Status--info > h2,
+#Status--info > h4 {
+  margin: 0.5rem 0;
+  text-transform: capitalize;
+}
+
 #Status--info > p {
   margin: 0.5rem 0;
 }
@@ -115,7 +120,8 @@
   width: 10rem;
 }
 
-.stepper-item.rejected .step-counter, .stepper-item.last-rejected .step-counter {
+.stepper-item.rejected .step-counter,
+.stepper-item.last-rejected .step-counter {
   background-color: #be0000;
   outline: 3px solid #9e0000;
 }
