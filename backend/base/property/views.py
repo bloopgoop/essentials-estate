@@ -46,7 +46,7 @@ def properties(request):
         # Get properties in range [start, end], if not specified, give first 50
         start = int(request.GET.get('start', 0))
         end = int(request.GET.get('end', start + 50))
-        property = [property.serialize() for property in Property.objects.all().order_by('id')[start:end]]
+        property = [property.serialize() for property in Property.objects.all().order_by('id')[start:end] if property.status == 1]
         if len(property) == 0:
             return JsonResponse({"message": "No more content"}, status=204)
         
