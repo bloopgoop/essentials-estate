@@ -13,5 +13,6 @@ urlpatterns = [
   
     path('requestRental/<int:propertyID>/', views.requestRental, name='requestRental'),
 
+    path('getRequest/', views.getRequest, name="getRequest" ),
     path('user/', views.getUser, name='user'),
 ]

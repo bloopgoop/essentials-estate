@@ -298,3 +298,18 @@ def getUser(request):
             return JsonResponse({'user_data': user_data})
     except:
         return JsonResponse({'message': 'Error getting User data'}, status=400)
+    
+@api_view(['GET'])
+def getRequest(request):
+    try:
+        access_token = request.headers['Authorization']
+        token_data = jwt.decode(access_token, settings.SECRET_KEY, algorithms=['HS256'])
+        user_id = token_data['user_id']
+
+        rental_request = RentalRequest.objects.filter(user_id=user_id)
+        properties = [request.property.serialize() for request in rental_request]
+
+        return JsonResponse({'properties': properties})
+    except:
+        return JsonResponse({'message': 'Error getting Requested Rentals'}, status=400)
+    

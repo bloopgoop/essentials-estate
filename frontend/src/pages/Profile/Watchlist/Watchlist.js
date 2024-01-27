@@ -4,6 +4,7 @@ import "./Watchlist.css";
 import propertyService from "services/property/propertyAPI";
 import Loading from "components/Loading";
 import ReactPaginate from "react-paginate";
+import axios from "services/axiosConfigs";
 
 export default function Watchlist() {
   const [properties, setProperties] = useState([]);
@@ -13,19 +14,12 @@ export default function Watchlist() {
   const itemsPerPage = 5;
 
   useEffect(() => {
-    propertyService
-      .getRange(0, 20) // Fetch initial data, assuming starting from index 0
-      .then((response) => {
-        if (response.status === 204) {
-          return;
-        }
-        setProperties(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        alert(`Error fetching properties: ${error}`);
-      });
-  }, []); // Empty dependency array ensures this effect runs only once
+    const request = axios.get("property/getRequest");
+    request.then((response) => {
+      setProperties(response.data.properties);
+      setLoading(false);
+    });
+  }, []);
 
   // const sortProperties = useCallback((option) => {
   //   switch (option) {
