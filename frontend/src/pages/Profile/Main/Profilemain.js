@@ -1,5 +1,4 @@
 import "./Profilemain.css";
-import Notification from "../../../components/Notification/Notification";
 import Loading from "components/Loading";
 import axios from "services/axiosConfigs";
 import { useEffect, useState } from "react";
