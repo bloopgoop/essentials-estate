@@ -34,7 +34,7 @@ export default function Profilemain() {
         <Loading />
       ) : (
         <div id="profile-box">
-          <img src={""} height={260} width={260} alt="profile" />
+          <img src={""} height={200} width={200} alt="profile" />
           <div className="profile-items">
             <h1>{`${userData.first_name} ${userData.last_name}`}</h1>
             <p>Joined On: {date

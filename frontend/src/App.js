@@ -23,7 +23,7 @@ import Status from "pages/Profile/Status/Status";
 import Review from "pages/Review/Review";
 import AdminRoutes from "./utils/AdminRoutes";
 import PropertyReview from "pages/Review/PropertyReview/PropertyReview";
-import Profilemain from "pages/Profile/Main/Profilemain";
+// import Profilemain from "pages/Profile/Main/Profilemain";
 
 function App() {
   return (
@@ -33,7 +33,7 @@ function App() {
           <Routes>
             <Route element={<LoggedInRoutes />}>
               <Route element={<Profile />} path="/profile/">
-                <Route element={<Profilemain />} path="" />
+                {/* <Route element={<Profilemain />} path="" /> */}
                 <Route element={<Assets />} path="assets" />
                 <Route element={<AssetEdit />} path="assets/:id" />
                 <Route element={<Watchlist />} path="watchlist" />

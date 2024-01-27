@@ -98,120 +98,127 @@ function AssetEdit() {
   if (!property) return <h1>Loading...</h1>;
   return (
     <>
-      <h1>EDIT ASSET</h1>
-      <table>
-        <tbody>
-          <tr>
-            <td>Owner:</td>
-            <td>{property.owner}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Address:</td>
-            <td>{property.address}</td>
-            <td>
-              <input
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>City:</td>
-            <td>{property.city}</td>
-            <td>
-              <input value={city} onChange={(e) => setCity(e.target.value)} />
-            </td>
-          </tr>
-          <tr>
-            <td>State:</td>
-            <td>{property.state}</td>
-            <td>
-              <input value={state} onChange={(e) => setState(e.target.value)} />
-            </td>
-          </tr>
-          <tr>
-            <td>Zip:</td>
-            <td>{property.zip}</td>
-            <td>
-              <input value={zip} onChange={(e) => setZip(e.target.value)} />
-            </td>
-          </tr>
-          <tr>
-            <td>Rent:</td>
-            <td>${property.rent}/month</td>
-            <td>
-              <input value={rent} onChange={(e) => setRent(e.target.value)} />
-            </td>
-          </tr>
-          <tr>
-            <td>Bedrooms:</td>
-            <td>{property.bedrooms}</td>
-            <td>
-              <input
-                value={bedrooms}
-                onChange={(e) => setBedrooms(e.target.value)}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>Bathrooms:</td>
-            <td>{property.bathrooms}</td>
-            <td>
-              <input
-                value={bathrooms}
-                onChange={(e) => setBathrooms(e.target.value)}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>Garage:</td>
-            <td>{property.garage}</td>
-            <td>
-              <input
-                value={garage}
-                onChange={(e) => setGarage(e.target.value)}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>Square Footage:</td>
-            <td>{property.sqft} sqft</td>
-            <td>
-              <input value={sqft} onChange={(e) => setSqft(e.target.value)} />
-            </td>
-          </tr>
-          <tr>
-            <td>Lot Size:</td>
-            <td>{property.lotsize} acres</td>
-            <td>
-              <input
-                value={lotsize}
-                onChange={(e) => setLotsize(e.target.value)}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>Type:</td>
-            <td>{property.type}</td>
-            <td>
-              <input value={type} onChange={(e) => setType(e.target.value)} />
-            </td>
-          </tr>
-          <tr>
-            <td>Description:</td>
-            <td>{property.description}</td>
-            <td>
-              <textarea
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <button onClick={handlePut}>Update</button>
-      <button onClick={handleDelete}>Delete</button>
+      <div id="editAssets--wrapper">
+        <h1>Edit Asset</h1>
+        <table>
+          <tbody>
+            <tr>
+              <td>Owner:</td>
+              <td>{property.owner}</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Address:</td>
+              <td>{property.address}</td>
+              <td>
+                <input
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>City:</td>
+              <td>{property.city}</td>
+              <td>
+                <input value={city} onChange={(e) => setCity(e.target.value)} />
+              </td>
+            </tr>
+            <tr>
+              <td>State:</td>
+              <td>{property.state}</td>
+              <td>
+                <input
+                  value={state}
+                  onChange={(e) => setState(e.target.value)}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>Zip:</td>
+              <td>{property.zip}</td>
+              <td>
+                <input value={zip} onChange={(e) => setZip(e.target.value)} />
+              </td>
+            </tr>
+            <tr>
+              <td>Rent:</td>
+              <td>${property.rent}/month</td>
+              <td>
+                <input value={rent} onChange={(e) => setRent(e.target.value)} />
+              </td>
+            </tr>
+            <tr>
+              <td>Bedrooms:</td>
+              <td>{property.bedrooms}</td>
+              <td>
+                <input
+                  value={bedrooms}
+                  onChange={(e) => setBedrooms(e.target.value)}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>Bathrooms:</td>
+              <td>{property.bathrooms}</td>
+              <td>
+                <input
+                  value={bathrooms}
+                  onChange={(e) => setBathrooms(e.target.value)}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>Garage:</td>
+              <td>{property.garage}</td>
+              <td>
+                <input
+                  value={garage}
+                  onChange={(e) => setGarage(e.target.value)}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>Square Footage:</td>
+              <td>{property.sqft} sqft</td>
+              <td>
+                <input value={sqft} onChange={(e) => setSqft(e.target.value)} />
+              </td>
+            </tr>
+            <tr>
+              <td>Lot Size:</td>
+              <td>{property.lotsize} acres</td>
+              <td>
+                <input
+                  value={lotsize}
+                  onChange={(e) => setLotsize(e.target.value)}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>Type:</td>
+              <td>{property.type}</td>
+              <td>
+                <input value={type} onChange={(e) => setType(e.target.value)} />
+              </td>
+            </tr>
+            <tr>
+              <td>Description:</td>
+              <td>{property.description}</td>
+              <td>
+                <textarea
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div id="editAssets--buttons">
+          <button onClick={handlePut}>Update</button>
+          <button onClick={handleDelete}>Delete</button>
+        </div>
+      </div>
     </>
   );
 }

@@ -5,6 +5,7 @@ import propertyService from "services/property/propertyAPI";
 import Loading from "components/Loading";
 import ReactPaginate from "react-paginate";
 import axios from "services/axiosConfigs";
+import Profilemain from "../Main/Profilemain";
 
 export default function Watchlist() {
   const [properties, setProperties] = useState([]);
@@ -48,21 +49,26 @@ export default function Watchlist() {
 
   return (
     <>
-      <h1>Watchlist</h1>
-      <div id="searchsort">
-        <input type="text" placeholder="Search.." />
-        <div id="sortitem">
-          <label htmlFor="sort">Sort by: </label>
-          <select
-            name="sort"
-            id="sort"
-            value={option}
-            onChange={(e) => setOption(e.target.value)}
-          >
-            <option value="recent">Recent</option>
-            <option value="low-high">low-high</option>
-            <option value="high-low">high-low</option>
-          </select>
+      <Profilemain />
+      <div id="profile--headers">
+        <h1>Watchlist</h1>
+        <div id="profile--sort">
+          <div id="searchsort">
+            <input type="text" placeholder="Search.." />
+            <div id="sortitem">
+              <label htmlFor="sort">Sort by: </label>
+              <select
+                name="sort"
+                id="sort"
+                value={option}
+                onChange={(e) => setOption(e.target.value)}
+              >
+                <option value="recent">Recent</option>
+                <option value="low-high">low-high</option>
+                <option value="high-low">high-low</option>
+              </select>
+            </div>
+          </div>
         </div>
       </div>
       {loading ? (

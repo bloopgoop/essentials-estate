@@ -4,6 +4,7 @@ import "./Assets.css";
 import Loading from "components/Loading";
 import ReactPaginate from "react-paginate";
 import axios from "services/axiosConfigs";
+import Profilemain from "../Main/Profilemain";
 
 export default function Assets() {
   const [properties, setProperties] = useState([]);
@@ -38,15 +39,20 @@ export default function Assets() {
 
   return (
     <>
-      <h1>Assets</h1>
-      <div id="searchsort">
-        <input type="text" placeholder="Search.." />
-        <div id="sortitem">
-          <label htmlFor="sort">Sort by: </label>
-          <select name="sort" id="sort">
-            <option value="low-high">Low - High</option>
-            <option value="high-low">High - Low</option>
-          </select>
+      <Profilemain />
+      <div id="profile--headers">
+        <h1>Assets</h1>
+        <div id="profile--sort">
+          <div id="searchsort">
+            <input type="text" placeholder="Search.." />
+            <div id="sortitem">
+              <label htmlFor="sort">Sort by: </label>
+              <select name="sort" id="sort">
+                <option value="recent">Low - High</option>
+                <option value="low-high">High - Low</option>
+              </select>
+            </div>
+          </div>
         </div>
       </div>
       <div id="asset-container">
