@@ -9,23 +9,11 @@ function Navbar() {
   let { user, logoutUser } = useContext(AuthContext);
   const navbar = useRef();
 
-  // Add scroll function on first load
-  // Hide navbar on scroll down, show on scroll up
   useEffect(() => {
     const request = axios.get("property/checkGroup/admin");
     request.then((response) => setIsSuper(response.data.isSuper));
-
-    var prevScrollpos = window.scrollY;
-    window.onscroll = function () {
-      var currentScrollPos = window.scrollY;
-      if (prevScrollpos > currentScrollPos) {
-        navbar.current.style.top = "0";
-      } else {
-        navbar.current.style.top = "-4rem";
-      }
-      prevScrollpos = currentScrollPos;
-    };
   }, []);
+
 
   return (
     <nav id="navbar" ref={navbar}>
