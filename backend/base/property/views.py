@@ -91,7 +91,7 @@ def properties(request):
         # Get properties in range [start, end], if not specified, give first 50
         start = int(request.GET.get('start', 0))
         end = int(request.GET.get('end', start + 50))
-        property = [property.serialize() for property in Property.objects.all().order_by('id')[start:end]]
+        property = [property.serialize() for property in Property.objects.filter(status=1).order_by('id')[start:end]]
         if len(property) == 0:
             return JsonResponse({"message": "No more content"}, status=204)
         
@@ -281,20 +281,28 @@ def ratings(request, property_id):
             return JsonResponse({'error': 'Error deleting rating'}, status=404)
 
 
-@api_view(['POST'])
-@allowed_users(allowed_roles=['admin'])
+@api_view(['GET'])
+# @allowed_users(allowed_roles=['admin'])
 def checkGroup(request, group_name):
-    print("in checkGroup, the user is:", request.user)
+    access_token = request.headers['Authorization']
+    token_data = jwt.decode(access_token, settings.SECRET_KEY, algorithms=['HS256'])
+    user_id = token_data['user_id']
     try: 
-        return JsonResponse({'group': group_name })
+        return JsonResponse({'isSuper': User.objects.get(id=user_id).is_superuser })
     except:
         return JsonResponse({'message': 'Error'}, status=400)
     
 @api_view(['GET', 'POST'])
-def reviewProperty(request):
+def reviewProperty(request, admin):
   try:
+    access_token = request.headers['Authorization']
+    token_data = jwt.decode(access_token, settings.SECRET_KEY, algorithms=['HS256'])
+    user_id = token_data['user_id']
     if request.method == 'GET':
-        return JsonResponse([property.serialize() for property in Property.objects.all() if property.status == 0], safe=False)
+        if admin == 0:
+            return JsonResponse([property.serialize() for property in Property.objects.filter(owner_id=user_id)], safe=False)
+        elif admin == 1:
+            return JsonResponse([property.serialize() for property in Property.objects.all()], safe=False)
     
     elif request.method == 'POST':
         data = request.POST
@@ -304,3 +312,53 @@ def reviewProperty(request):
         return JsonResponse([property.serialize() for property in Property.objects.all() if property.status == 0], safe=False)
   except:
     return JsonResponse({'message': 'Error adding property'}, status=400)
+
+@api_view(['GET'])
+def getUserProperty(request):
+    try:
+        access_token = request.headers['Authorization']
+        token_data = jwt.decode(access_token, settings.SECRET_KEY, algorithms=['HS256'])
+        user_id = token_data['user_id']
+        if request.method == 'GET':
+            userProperties = [property.serialize() for property in Property.objects.filter(owner_id=user_id)]
+            return JsonResponse({'properties': userProperties}, status=200)
+
+    except:
+        return JsonResponse({'message': 'Error getting user\'s property'}, status=400)
+
+@api_view(['GET'])
+def getUser(request):
+    try:
+        access_token = request.headers['Authorization']
+        token_data = jwt.decode(access_token, settings.SECRET_KEY, algorithms=['HS256'])
+        user_id = token_data['user_id']
+        if request.method == 'GET':
+            user = User.objects.get(id=user_id)
+            user_data = {
+                'id': user.id,
+                'username': user.username,
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'date_joined': user.date_joined,
+                'is_superuser': user.is_superuser,
+                'last_login': user.last_login,
+                'email': user.email,
+            }
+            return JsonResponse({'user_data': user_data})
+    except:
+        return JsonResponse({'message': 'Error getting User data'}, status=400)
+    
+@api_view(['GET'])
+def getRequest(request):
+    try:
+        access_token = request.headers['Authorization']
+        token_data = jwt.decode(access_token, settings.SECRET_KEY, algorithms=['HS256'])
+        user_id = token_data['user_id']
+
+        rental_request = RentalRequest.objects.filter(user_id=user_id)
+        properties = [request.property.serialize() for request in rental_request]
+
+        return JsonResponse({'properties': properties})
+    except:
+        return JsonResponse({'message': 'Error getting Requested Rentals'}, status=400)
+    

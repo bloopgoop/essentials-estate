@@ -8,14 +8,21 @@ function StatusCard({ props, page }) {
   if (!props) return <h1>Loading...</h1>;
   const status = ["Submiting", "In Review", "Listing"];
   const accepted = ["Submitted", "Approved", "Listed"];
-  const check = ["", "", ""];
-  const step = props.status + 1;
-
-  const currentStatus = accepted.slice(0, step).concat(status.slice(step));
-  for (let i = 0; i < step; i++) {
-    check[i] = "completed";
-  }
+  let check = ["", "", ""];
+  let step = props.status + 1;
+  let currentStatus;
   check[step] = "active";
+
+  if (props.status === 2) {
+    check = ["rejected", "rejected", "last-rejected"];
+    currentStatus = ["Submitted", "Rejected", "Not Listed"];
+  } else {
+    if (step === 2) step = 3;
+    currentStatus = accepted.slice(0, step).concat(status.slice(step));
+    for (let i = 0; i < step; i++) {
+      check[i] = "completed";
+    }
+  }
 
   return (
     <>
@@ -34,17 +41,25 @@ function StatusCard({ props, page }) {
         </div>
         <div id="Status--info">
           <h2>
+            {`${props.address} `}
             {props.city}, {props.state}
           </h2>
-          <p>{props.stars}*</p>
-          <p>{props.description}</p>
+          <h4>Rent: ${props.rent}</h4>
+          <p>{props.description} </p>
           <div className="stepper-wrapper">
-            {currentStatus.map((stat, index) => (
-              <div key={index} className={`stepper-item ${check[index]}`}>
-                <div className="step-counter"></div>
-                <div className="step-name">{stat}</div>
-              </div>
-            ))}
+            {props.status === 2
+              ? currentStatus.map((stat, index) => (
+                  <div key={index} className={`stepper-item ${check[index]}`}>
+                    <div className="step-counter"></div>
+                    <div className="step-name">{stat}</div>
+                  </div>
+                ))
+              : currentStatus.map((stat, index) => (
+                  <div key={index} className={`stepper-item ${check[index]}`}>
+                    <div className="step-counter"></div>
+                    <div className="step-name">{stat}</div>
+                  </div>
+                ))}
           </div>
           <Link to={`/${page}/${props.id}`}>
             <button id="Status--info--button">View Property</button>

@@ -32,6 +32,11 @@
 }
 
 #Assetcard--info > h2,
+#Assetcard--info > h4 {
+  margin: 0.5rem 0;
+  text-transform: capitalize;
+}
+
 #Assetcard--info > p {
   margin: 0.5rem 0;
 }

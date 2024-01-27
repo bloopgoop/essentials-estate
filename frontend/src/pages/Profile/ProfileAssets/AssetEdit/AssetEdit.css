@@ -1,0 +1,11 @@
+#editAssets--wrapper {
+    margin: 1rem;
+    margin-bottom: 5rem;
+}
+
+#editAssets--buttons {
+    float: right;
+}
+#editAssets--buttons > button {
+    width: 10rem;
+}

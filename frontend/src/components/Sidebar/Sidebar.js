@@ -15,9 +15,9 @@ function Sidebar() {
       <nav>
         <ul>
           <div>
-            <li>
+            {/* <li>
               <Link to="/profile">Profile</Link>
-            </li>
+            </li> */}
             <li>
               <Link to="/profile/assets">Assets</Link>
             </li>

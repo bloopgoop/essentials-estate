@@ -10,13 +10,9 @@ const AdminRoutes = ({ request }) => {
 
   useEffect(() => {
     try {
-      const formData = new FormData();
-      formData.append("username", user.username);
-      formData.append("user_id", user.user_id);
-
-      const request = axios.post("property/checkGroup/admin", formData);
+      const request = axios.get("property/checkGroup/admin");
       request.then((response) => {
-        setIsAdmin(response.data.group === "admin");
+        setIsAdmin(response.data.isSuper);
         setLoading(false);
       });
     } catch (error) {
