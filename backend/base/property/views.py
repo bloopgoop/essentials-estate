@@ -211,6 +211,18 @@ def requestRental(request, propertyID):
 def ratings(request, property_id):
     # Get user, issue if nonuser posting a comment
     # BUT should take the nonuser to loggin page
+
+    # Unauthenticated user should be able to see ratings for a property
+    if request.method == 'GET':
+        try:
+            average_value = Rating.objects.filter(property=Property.objects.get(id=property_id)).aggregate(Avg('stars'))['stars__avg']
+            rating = [rating.serialize(-1) for rating in Rating.objects.filter(property=Property.objects.get(id=property_id))]
+            return JsonResponse({'average_value': average_value,
+                                 'ratings': rating})
+        except ValueError:
+            return JsonResponse({'error': 'Invalid propertyID'}, status=400)
+
+
     try:
         access_token = request.headers['Authorization']
         token_data = jwt.decode(access_token, settings.SECRET_KEY, algorithms=['HS256'])
@@ -219,16 +231,8 @@ def ratings(request, property_id):
         user_id = -1
         return JsonResponse({'error': 'Issue with retriving User'}, status=400)
     
-    if request.method == 'GET':
-        try:
-            average_value = Rating.objects.filter(property=Property.objects.get(id=property_id)).aggregate(Avg('stars'))['stars__avg']
-            rating = [rating.serialize(user_id) for rating in Rating.objects.filter(property=Property.objects.get(id=property_id))]
-            return JsonResponse({'average_value': average_value,
-                                 'ratings': rating})
-        except ValueError:
-            return JsonResponse({'error': 'Invalid propertyID'}, status=400)
         
-    elif request.method == 'POST':
+    if request.method == 'POST':
         try:
             data = request.POST
             payload = jwt.decode(data['token'], settings.SECRET_KEY, algorithms=['HS256'])
