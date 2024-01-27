@@ -20,7 +20,6 @@ function Dropbox({ id }) {
   const descriptionInputRef = useRef();
 
   useEffect(() => {
-
     // set the image state to the url of file to display preview
     if (files.length > 0) {
       const reader = new FileReader();
@@ -139,32 +138,35 @@ function Dropbox({ id }) {
         <div>{files.length} images selected</div>
       </label>
 
-      {files.length > 0 ? (
-        <div>
-          <label htmlFor="description-input" className="description">
-            Description:
-          </label>
-          <input
-            id="description-input"
-            type="textarea"
-            ref={descriptionInputRef}
-            value={descriptions[index]}
-            onChange={handleDescriptionChange}
-          />
+      <div id="description-container">
+        {files.length > 0 ? (
+          <div id="description-input-box">
+            <label htmlFor="description-input" className="description">
+              Description:
+            </label>
+            <input
+              id="description-input"
+              type="textarea"
+              ref={descriptionInputRef}
+              value={descriptions[index]}
+              onChange={handleDescriptionChange}
+            />
+          </div>
+        ) : null}
+
+        <div id="description-button-container">
+          {index > 0 ? (
+            <button type="button" onClick={() => setIndex(index - 1)}>
+              Previous
+            </button>
+          ) : <div></div>}
+          {index < files.length - 1 ? (
+            <button type="button" onClick={() => setIndex(index + 1)}>
+              Next
+            </button>
+          ) : null}
         </div>
-      ) : null}
-
-      {index > 0 ? (
-        <button type="button" onClick={() => setIndex(index - 1)}>
-          Previous
-        </button>
-      ) : null}
-      {index < files.length - 1 ? (
-        <button type="button" onClick={() => setIndex(index + 1)}>
-          Next
-        </button>
-      ) : null}
-
+      </div>
       {files.length > 0 ? (
         <button type="button" onClick={handleSubmit} id="add-photos-btn">
           Finish

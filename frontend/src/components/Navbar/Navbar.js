@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useEffect } from "react";
+import React, { useContext, useRef } from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "context/AuthContext";
 import "./Navbar.css";
@@ -9,18 +9,18 @@ function Navbar() {
 
   // Add scroll function on first load
   // Hide navbar on scroll down, show on scroll up
-  useEffect(() => {
-    var prevScrollpos = window.scrollY;
-    window.onscroll = function () {
-      var currentScrollPos = window.scrollY;
-      if (prevScrollpos > currentScrollPos) {
-        navbar.current.style.top = "0";
-      } else {
-        navbar.current.style.top = "-4rem";
-      }
-      prevScrollpos = currentScrollPos;
-    };
-  }, []);
+  // useEffect(() => {
+  //   var prevScrollpos = window.scrollY;
+  //   window.onscroll = function () {
+  //     var currentScrollPos = window.scrollY;
+  //     if (prevScrollpos > currentScrollPos) {
+  //       navbar.current.style.top = "0";
+  //     } else {
+  //       navbar.current.style.top = "-4rem";
+  //     }
+  //     prevScrollpos = currentScrollPos;
+  //   };
+  // }, []);
 
   return (
     <nav id="navbar" ref={navbar}>

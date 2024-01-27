@@ -11,11 +11,11 @@ from django.contrib.auth.models import Group
 from .decorators import allowed_users
 from .models import Property, PropertyPhoto, Rating, RentalRequest
 
-@api_view(['POST', 'DELETE'])
+@api_view(['POST'])
 @allowed_users(allowed_roles=['common_user','admin'])
 def photo(request):
 
-    if request.method == "POST":    
+    if request.method == 'POST':
         data = request.POST
         files = request.FILES
         descriptions = json.loads(data['descriptions'])
@@ -33,18 +33,23 @@ def photo(request):
             )
             try:
                 photo.save()
+                
             except:
                 return JsonResponse({'message': 'Error adding photo'}, status=400)
+            
+        return JsonResponse({'message': 'Photo(s) added successfully'}, status=200)
         
-    if request.method == "DELETE":
+    elif request.method == "DELETE":
+        print("i rant")
+        data = request.DELETE
+        print(data)
 
         # Check if user is owner of property
         property = Property.objects.get(id=data['propertyID'])
         if request.user != property.owner:
             return JsonResponse({'message': 'Unauthorized'}, status=403)
         
-        data = request.POST
-        ids = data['ids']
+        ids = data['photos']
         
         try:
             for id in ids:
@@ -56,6 +61,29 @@ def photo(request):
 
 
     return JsonResponse({"error": "Invalid  request method."}, status=400)
+
+@api_view(['DELETE'])
+@allowed_users(allowed_roles=['common_user','admin'])
+def deletePhoto(request, photo_id):
+        
+    if request.method != "DELETE":
+        return JsonResponse({"error": "Invalid  request method."}, status=400)
+
+    photo = PropertyPhoto.objects.get(id=photo_id)
+
+
+    # Check if user is owner of property
+    property = Property.objects.get(id=photo.property.id)
+    if request.user != property.owner:
+        return JsonResponse({'message': 'Unauthorized'}, status=403)
+    
+    try:
+        photo.delete()
+        return JsonResponse({'message': 'Photo(s) deleted successfully'}, status=200)
+    except:
+        return JsonResponse({'message': 'Error deleting photo'}, status=400)
+
+
 
 @api_view(['GET', 'POST'])
 def properties(request):
