@@ -36,8 +36,7 @@ export default function Profilemain() {
           <img src={""} height={200} width={200} alt="profile" />
           <div className="profile-items">
             <h1>{`${userData.first_name} ${userData.last_name}`}</h1>
-            <p>Joined On: {date
-            }</p>
+            <p>Joined On: {date}</p>
             {/* <p>Lives In New York</p> */}
           </div>
         </div>

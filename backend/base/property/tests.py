@@ -7,14 +7,16 @@ from .models import Property, PropertyPhoto, Rating, RentalRequest
 import jwt
 import json
 
+
 class DatabaseTestCase(TestCase):
     def setUp(self):
         self.client = Client()
-        
-        # Create users
-        self.user1 = User.objects.create_user(username='testuser1', password='12345')
-        self.user2 = User.objects.create_user(username='testuser2', password='12345')
 
+        # Create users
+        self.user1 = User.objects.create_user(
+            username='testuser1', password='12345')
+        self.user2 = User.objects.create_user(
+            username='testuser2', password='12345')
 
         # Create properties
         self.property1 = Property.objects.create(
@@ -59,8 +61,10 @@ class DatabaseTestCase(TestCase):
         )
 
         # Create tokens
-        self.token1 = jwt.encode({'user_id': self.user1.id}, 'secret', algorithm='HS256')
-        self.token2 = jwt.encode({'user_id': self.user2.id}, 'secret', algorithm='HS256')
+        self.token1 = jwt.encode(
+            {'user_id': self.user1.id}, 'secret', algorithm='HS256')
+        self.token2 = jwt.encode(
+            {'user_id': self.user2.id}, 'secret', algorithm='HS256')
 
     def test_property_count(self):
         """ Test that the user has 2 properties """
@@ -101,15 +105,14 @@ class DatabaseTestCase(TestCase):
             stars=3,
         )
         self.assertTrue(rating.is_valid_rating())
-        
 
     def test_invalid_rating(self):
         """ Test that rating is invalid """
         rating = Rating.objects.create(
-                property=self.property1,
-                user=self.user1,
-                stars=1,
-                )
+            property=self.property1,
+            user=self.user1,
+            stars=1,
+        )
         self.assertFalse(rating.is_valid_rating())
 
     def test_rental_request(self):
@@ -128,10 +131,12 @@ class DatabaseTestCase(TestCase):
         )
         self.assertFalse(rental.is_valid_rental_request())
 
+
 class ViewTestCase(TestCase):
     def setUp(self):
         self.client = APIClient()
-        self.user = User.objects.create_user(username='testuser', password='12345')
+        self.user = User.objects.create_user(
+            username='testuser', password='12345')
         self.property = Property.objects.create(
             owner=self.user,
             address='123 Test St',
@@ -150,40 +155,11 @@ class ViewTestCase(TestCase):
             type='house',
         )
 
-    # def log_in(self, username, password):
-    #     response = self.client.post(reverse('token_obtain_pair'), {'username': username, 'password': password})
-    #     return response.data['token']
-
-    # def test_add_photo(self):
-    #     self.client.login(username='testuser', password='12345')
-    #     with open('path/to/your/test/image.jpg', 'rb') as img:
-    #         response = self.client.post(reverse('addPhoto'), {'propertyID': self.property.id, 'descriptions': json.dumps(['Test Description']), 'file': img}, format='multipart')
-    #     self.assertEqual(response.status_code, 200)
-
     def test_properties(self):
         response = self.client.get(reverse('properties'))
         self.assertEqual(response.status_code, 200)
 
     def test_get_property(self):
-        response = self.client.get(reverse('property', args=[self.property.id]))
+        response = self.client.get(
+            reverse('property', args=[self.property.id]))
         self.assertEqual(response.status_code, 200)
-
-    # def test_request_rental(self):
-    #     self.client.login(username='testuser', password='12345')
-    #     response = self.client.post(reverse('requestRental', args=[self.property.id]))
-    #     self.assertEqual(response.status_code, 200)
-
-    # def test_add_rating(self):
-    #     self.client.login(username='testuser', password='12345')
-    #     response = self.client.post(reverse('rating', args=[self.property.id]), {'stars': 5, 'comment': 'Great!'})
-    #     self.assertEqual(response.status_code, 200)
-
-    # def test_check_group(self):
-    #     self.client.login(username='testuser', password='12345')
-    #     response = self.client.post(reverse('checkGroup', args=['admin']))
-    #     self.assertEqual(response.status_code, 200)
-
-    # def test_review_property(self):
-    #     self.client.login(username='testuser', password='12345')
-    #     response = self.client.post(reverse('review'), {'propertyID': self.property.id, 'status': 1})
-    #     self.assertEqual(response.status_code, 200)

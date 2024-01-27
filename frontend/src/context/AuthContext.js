@@ -53,11 +53,10 @@ export function AuthProvider({ children }) {
     setAuthTokens(null);
     setUser(null);
     localStorage.removeItem("authTokens");
-  }, []
-  );
+  }, []);
 
   const updateToken = useCallback(async () => {
-    console.log("Updating token")
+    console.log("Updating token");
     let body = {
       refresh: authTokens?.refresh,
     };
@@ -81,13 +80,14 @@ export function AuthProvider({ children }) {
     if (loading) {
       setLoading(false);
     }
-  }, [authTokens, loading, logoutUser])
+  }, [authTokens, loading, logoutUser]);
 
   const contextData = {
     loginUser: loginUser,
     logoutUser: logoutUser,
     user: user,
     authTokens: authTokens,
+    isAdmin: user?.is_admin,
   };
 
   // Eventually make axios calls refresh tokens instead of having timer

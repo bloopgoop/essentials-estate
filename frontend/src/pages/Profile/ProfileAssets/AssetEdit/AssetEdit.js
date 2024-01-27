@@ -44,7 +44,7 @@ function AssetEdit() {
         alert(`Error fetching property: ${error}`);
         return <h1>404 property not found</h1>;
       });
-  }, [id])
+  }, [id]);
 
   useEffect(() => {
     getProperty();

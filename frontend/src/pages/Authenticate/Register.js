@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Authenticate.css";
-import img from "./register-background.jpg";
+import registerBackground from "assets/register-background.jpg";
 import axios from "services/axiosConfigs.js";
 /*
 not finished
@@ -51,7 +51,7 @@ const Register = () => {
   return (
     <div id="authenticate">
       <div id="image-container">
-        <img id="img" src={img} alt="background" />
+        <img id="img" src={registerBackground} alt="background" />
       </div>
 
       <div className="auth-container">

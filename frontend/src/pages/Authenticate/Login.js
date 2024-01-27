@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import React, { useContext } from "react";
 import AuthContext from "context/AuthContext";
 import "./Authenticate.css";
-import img from "./login-background.jpg";
+import loginBackground from "assets/login-background.jpg";
 
 const Login = () => {
   let { loginUser } = useContext(AuthContext);
@@ -10,7 +10,7 @@ const Login = () => {
   return (
     <div id="authenticate">
       <div id="image-container">
-        <img id="img" src={img} alt="background" />
+        <img id="img" src={loginBackground} alt="background" />
       </div>
 
       <div className="auth-container">

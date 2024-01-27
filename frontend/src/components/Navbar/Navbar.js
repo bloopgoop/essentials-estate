@@ -1,19 +1,11 @@
-import React, { useContext, useRef, useEffect, useState } from "react";
+import React, { useContext, useRef} from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "context/AuthContext";
 import "./Navbar.css";
-import axios from "services/axiosConfigs";
 
 function Navbar() {
-  const [isSuper, setIsSuper] = useState(false);
   let { user, logoutUser } = useContext(AuthContext);
   const navbar = useRef();
-
-  useEffect(() => {
-    const request = axios.get("property/checkGroup/admin");
-    request.then((response) => setIsSuper(response.data.isSuper));
-  }, []);
-
 
   return (
     <nav id="navbar" ref={navbar}>
@@ -24,7 +16,7 @@ function Navbar() {
         <Link to="/add-property" className="nav-btn">
           List your property!
         </Link>
-        {isSuper ? (
+        {(user && user.is_staff) ? (
           <Link to="/review" className="nav-btn">
             Review
           </Link>

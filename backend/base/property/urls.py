@@ -11,9 +11,10 @@ urlpatterns = [
     path('rating/<int:property_id>', views.ratings, name='rating'),
     path('checkGroup/<str:group_name>', views.checkGroup, name='checkGroup'),
     path('reviewProperty/<int:admin>', views.reviewProperty, name='review'),
-  
-    path('requestRental/<int:propertyID>/', views.requestRental, name='requestRental'),
 
-    path('getRequest/', views.getRequest, name="getRequest" ),
+    path('requestRental/<int:propertyID>/',
+         views.requestRental, name='requestRental'),
+
+    path('getRequest/', views.getRequest, name="getRequest"),
     path('user/', views.getUser, name='user'),
 ]
