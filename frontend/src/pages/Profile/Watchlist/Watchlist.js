@@ -26,7 +26,7 @@ export default function Watchlist() {
           alert(`Error fetching properties: ${error}`);
         });
     }
-  }, []);
+  }, [loading]);
 
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % 100;
