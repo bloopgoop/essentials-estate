@@ -26,7 +26,7 @@ export default function Status() {
           alert(`Error fetching properties: ${error}`);
         });
     }
-  }, [properties]);
+  }, []);
 
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % 100;
@@ -52,7 +52,6 @@ export default function Status() {
         }
       });
     }
-    console.log(filteredProperties)
     setProperties(filteredProperties);
   };
 

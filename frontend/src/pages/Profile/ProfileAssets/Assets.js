@@ -27,7 +27,7 @@ export default function Assets() {
           alert(`Error fetching properties: ${error}`);
         });
     }
-  }, [properties]);
+  }, []);
 
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % 100;
