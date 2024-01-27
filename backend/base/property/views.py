@@ -13,32 +13,77 @@ from .models import Property, PropertyPhoto, Rating, RentalRequest
 
 @api_view(['POST'])
 @allowed_users(allowed_roles=['common_user','admin'])
-def addPhoto(request):
+def photo(request):
 
-    if request.method != "POST":
-        return JsonResponse({"error": "POST request required."}, status=400)
-    
-    data = request.POST
-    files = request.FILES
-    descriptions = json.loads(data['descriptions'])
+    if request.method == 'POST':
+        data = request.POST
+        files = request.FILES
+        descriptions = json.loads(data['descriptions'])
+
+        # Check if user is owner of property
+        property = Property.objects.get(id=data['propertyID'])
+        if request.user != property.owner:
+            return JsonResponse({'message': 'Unauthorized'}, status=403)
+
+        for index, file in enumerate(files):
+            photo = PropertyPhoto.objects.create(
+                property=Property.objects.get(id=data['propertyID']),
+                photo=files[file],
+                description=descriptions[index]
+            )
+            try:
+                photo.save()
+                
+            except:
+                return JsonResponse({'message': 'Error adding photo'}, status=400)
+            
+        return JsonResponse({'message': 'Photo(s) added successfully'}, status=200)
+        
+    elif request.method == "DELETE":
+        print("i rant")
+        data = request.DELETE
+        print(data)
+
+        # Check if user is owner of property
+        property = Property.objects.get(id=data['propertyID'])
+        if request.user != property.owner:
+            return JsonResponse({'message': 'Unauthorized'}, status=403)
+        
+        ids = data['photos']
+        
+        try:
+            for id in ids:
+                photo = PropertyPhoto.objects.get(id=id)
+                photo.delete()
+            return JsonResponse({'message': 'Photo(s) deleted successfully'}, status=200)
+        except:
+            return JsonResponse({'message': 'Error deleting photo'}, status=400)
+
+
+    return JsonResponse({"error": "Invalid  request method."}, status=400)
+
+@api_view(['DELETE'])
+@allowed_users(allowed_roles=['common_user','admin'])
+def deletePhoto(request, photo_id):
+        
+    if request.method != "DELETE":
+        return JsonResponse({"error": "Invalid  request method."}, status=400)
+
+    photo = PropertyPhoto.objects.get(id=photo_id)
+
 
     # Check if user is owner of property
-    property = Property.objects.get(id=data['propertyID'])
+    property = Property.objects.get(id=photo.property.id)
     if request.user != property.owner:
         return JsonResponse({'message': 'Unauthorized'}, status=403)
+    
+    try:
+        photo.delete()
+        return JsonResponse({'message': 'Photo(s) deleted successfully'}, status=200)
+    except:
+        return JsonResponse({'message': 'Error deleting photo'}, status=400)
 
-    for index, file in enumerate(files):
-        photo = PropertyPhoto.objects.create(
-            property=Property.objects.get(id=data['propertyID']),
-            photo=files[file],
-            description=descriptions[index]
-        )
-        try:
-            photo.save()
-        except:
-            return JsonResponse({'message': 'Error adding photo'}, status=400)
-        
-    return JsonResponse({'message': 'Photo(s) added successfully'}, status=200)
+
 
 @api_view(['GET', 'POST'])
 def properties(request):
@@ -166,6 +211,18 @@ def requestRental(request, propertyID):
 def ratings(request, property_id):
     # Get user, issue if nonuser posting a comment
     # BUT should take the nonuser to loggin page
+
+    # Unauthenticated user should be able to see ratings for a property
+    if request.method == 'GET':
+        try:
+            average_value = Rating.objects.filter(property=Property.objects.get(id=property_id)).aggregate(Avg('stars'))['stars__avg']
+            rating = [rating.serialize(-1) for rating in Rating.objects.filter(property=Property.objects.get(id=property_id))]
+            return JsonResponse({'average_value': average_value,
+                                 'ratings': rating})
+        except ValueError:
+            return JsonResponse({'error': 'Invalid propertyID'}, status=400)
+
+
     try:
         access_token = request.headers['Authorization']
         token_data = jwt.decode(access_token, settings.SECRET_KEY, algorithms=['HS256'])
@@ -174,16 +231,8 @@ def ratings(request, property_id):
         user_id = -1
         return JsonResponse({'error': 'Issue with retriving User'}, status=400)
     
-    if request.method == 'GET':
-        try:
-            average_value = Rating.objects.filter(property=Property.objects.get(id=property_id)).aggregate(Avg('stars'))['stars__avg']
-            rating = [rating.serialize(user_id) for rating in Rating.objects.filter(property=Property.objects.get(id=property_id))]
-            return JsonResponse({'average_value': average_value,
-                                 'ratings': rating})
-        except ValueError:
-            return JsonResponse({'error': 'Invalid propertyID'}, status=400)
         
-    elif request.method == 'POST':
+    if request.method == 'POST':
         try:
             data = request.POST
             payload = jwt.decode(data['token'], settings.SECRET_KEY, algorithms=['HS256'])

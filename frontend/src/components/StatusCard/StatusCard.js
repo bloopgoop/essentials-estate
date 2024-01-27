@@ -1,8 +1,10 @@
 import React from "react";
 import "./StatusCard.css";
 import { Link } from "react-router-dom";
+import imageNotFound from "assets/image-not-found.jpg";
 
 function StatusCard({ props, page }) {
+  console.log(props);
   if (!props) return <h1>Loading...</h1>;
   const status = ["Submiting", "In Review", "Listing"];
   const accepted = ["Submitted", "Approved", "Listed"];
@@ -27,7 +29,9 @@ function StatusCard({ props, page }) {
       <div id="Status--container">
         <div>
           <img
-            src={props.photos[0].photo}
+            src={
+              props.photos.length > 0 ? props.photos[0].photo : imageNotFound
+            }
             height={250}
             width={250}
             className="Status--image"
