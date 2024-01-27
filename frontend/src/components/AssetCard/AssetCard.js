@@ -1,8 +1,16 @@
 import { Link } from "react-router-dom";
 import imageNotFound from "assets/image-not-found.jpg";
 import "./AssetCard.css";
+import { useNavigate } from "react-router-dom";
 
 export default function AssetCard(props) {
+  const navigate = useNavigate();
+  console.log(props)
+
+  const dropboxRedirect = () => {
+    navigate("/add-photo", { state: { id: props.props.id } });
+  }
+
   return (
     <div id="Assetcard--container">
       <div>
@@ -30,9 +38,14 @@ export default function AssetCard(props) {
         </h2>
         <p>{props.props.stars}*</p>
         <p>{props.props.description}</p>
+        
         <Link to={`/profile/assets/${props.props.id}`}>
           <button id="Assetcard--button">Edit Property</button>
         </Link>
+        <Link to={`/profile/assets/photo/${props.props.id}`}>
+          <button id="Assetcard--button" style={{bottom:"7rem"}}>Delete Photo</button>
+        </Link>
+        <button id="Assetcard--button" style={{bottom:"4rem"}} onClick={dropboxRedirect}>Add Photos</button>
       </div>
     </div>
   );

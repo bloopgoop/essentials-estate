@@ -1,0 +1,67 @@
+.grid {
+  display: grid;
+  grid-gap: 2rem;
+
+  /* define the number of grid columns */
+  /* minmax is the min width and max width of each column */
+  /* auto-fit will fit as many columns as possible */
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+}
+
+.grid-item {
+  display: block;
+  position: relative;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 20px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  height: 500px;
+  /* border: 1px solid #ccc;
+    box-shadow: #ccc 0px 0px 15px; */
+}
+
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.preview-image-container {
+  height: 80%;
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  object-fit: cover;
+  position: relative;
+  transition: 0.3s all;
+}
+
+.preview-image {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  transition: 0.3s all;
+}
+.preview-image > img:hover {
+  cursor: pointer;
+}
+
+#delete-button {
+    border-radius: 100px;
+    width: 100%;
+    height: 3rem;
+    background-color: #dd0606;
+    color: var(--secondary-color);
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    margin-left: auto;
+}

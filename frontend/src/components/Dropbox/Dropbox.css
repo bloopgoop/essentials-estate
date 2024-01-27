@@ -1,4 +1,6 @@
 #dropbox {
+    margin:auto;
+
     position: relative;
 
     width: 600px;
@@ -32,9 +34,8 @@
 
 #file-input-button {
     color: transparent;
-    width: 110px;
     overflow: none;
-    padding: 10px 10px;
+    margin-left: 10px;
 }
 
 .dropbox-image {
@@ -46,4 +47,41 @@
     position: absolute;
     right: 3rem;
     margin-top: 2rem;
+    width: 10rem;
+}
+
+#description-container {
+    margin: 1rem;
+    width: 100%;
+}
+#description-input-box {
+    display: flex;
+    flex-direction: column;
+    border: #ccc;
+    align-items: center;
+    width: 100%;
+
+}
+#description-input {
+    width: 100%;
+    height: 150px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    font-size: 16px;
+    resize: none;
+    max-width: 800px;
+}
+#description-button-container {
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    max-width: 800px;
+}
+#description-button-container > button {
+    margin-top: 1rem;
+    width: 10rem;
 }
