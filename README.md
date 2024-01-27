@@ -31,8 +31,6 @@ This is a web application designed to streamline tenant and owner rental interac
 
 ### Built With
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
-
 * [![React][React.js]][React-url]
 * [![Django][Django]][Django-url]
 * [![PostgreSQL][PostgreSQL]][PostgreSQL-url]
@@ -63,8 +61,6 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
-
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
 
 * [Choose an Open Source License](https://choosealicense.com)
 * [Django Project](https://www.djangoproject.com/)

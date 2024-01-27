@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./WatchlistCard.css";
+import imageNotFound from "assets/image-not-found.jpg";
 import star from "assets/star.svg";
 
 export default function WatchlistCard(props) {
@@ -18,7 +19,11 @@ export default function WatchlistCard(props) {
     <div id="Watchlistcard--container">
       <div>
         <img
-          src={props.props.photos[0].photo}
+          src={
+            props.props.photos.length > 0
+              ? props.props.photos[0].photo
+              : imageNotFound
+          }
           height={250}
           width={250}
           alt="property-img"

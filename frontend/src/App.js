@@ -18,6 +18,7 @@ import AddProperty from "./pages/AddProperty/AddProperty";
 import AddPhotos from "pages/AddPhotos/AddPhotos";
 import Assets from "./pages/Profile/ProfileAssets/Assets";
 import AssetEdit from "./pages/Profile/ProfileAssets/AssetEdit/AssetEdit"
+import PhotoDelete from "./pages/Profile/ProfileAssets/PhotoDelete/PhotoDelete"
 import Watchlist from "pages/Profile/Watchlist/Watchlist";
 import Status from "pages/Profile/Status/Status";
 import Review from "pages/Review/Review";
@@ -36,6 +37,7 @@ function App() {
                 {/* <Route element={<Profilemain />} path="" /> */}
                 <Route element={<Assets />} path="assets" />
                 <Route element={<AssetEdit />} path="assets/:id" />
+                <Route element={<PhotoDelete />} path="assets/photo/:id/" />
                 <Route element={<Watchlist />} path="watchlist" />
                 <Route element={<Status />} path="status" />
               </Route>
