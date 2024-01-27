@@ -46,7 +46,7 @@ function Navbar() {
       </div>
 
       <div id="nav-right">
-        <Link to="/profile" className="nav-btn">
+        <Link to="/profile/assets" className="nav-btn">
           Profile
         </Link>
         {user ? (

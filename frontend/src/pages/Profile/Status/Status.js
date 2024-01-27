@@ -8,19 +8,52 @@ import Profilemain from "../Main/Profilemain";
 
 export default function Status() {
   const [properties, setProperties] = useState([]);
+  const [propertiesStart, setPropertiesStart] = useState([]);
   const [loading, setLoading] = useState(true);
   const [itemOffset, setItemOffset] = useState(0);
   const itemsPerPage = 5;
 
   useEffect(() => {
-    const request = axios.get(`property/reviewProperty/0`);
-    request.then((response) => setProperties(response.data));
-    setLoading(false);
-  }, []);
+    if (loading) {
+      const request = axios.get(`property/reviewProperty/0`);
+      request
+        .then((response) => {
+          setProperties(response.data);
+          setPropertiesStart(response.data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          alert(`Error fetching properties: ${error}`);
+        });
+    }
+  }, [properties]);
 
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % 100;
     setItemOffset(newOffset);
+  };
+
+  const sortArray = (event) => {
+    let filteredProperties = [];
+
+    if (event === "all") {
+      filteredProperties = propertiesStart;
+    } else {
+      filteredProperties = propertiesStart.filter((property) => {
+        switch (event) {
+          case "pending":
+            return property.status === 0;
+          case "approved":
+            return property.status === 1;
+          case "rejected":
+            return property.status === 2;
+          default:
+            return true;
+        }
+      });
+    }
+    console.log(filteredProperties)
+    setProperties(filteredProperties);
   };
 
   return (
@@ -33,10 +66,15 @@ export default function Status() {
             <input type="text" placeholder="Search.." />
             <div id="sortitem">
               <label htmlFor="sort">Sort by: </label>
-              <select name="sort" id="sort">
-                <option value="recent">Pending</option>
-                <option value="low-high">Approved</option>
-                <option value="high-low">Rejected</option>
+              <select
+                name="sort"
+                id="sort"
+                onChange={(event) => sortArray(event.target.value)}
+              >
+                <option value="all">All</option>
+                <option value="pending">Pending</option>
+                <option value="approved">Approved</option>
+                <option value="rejected">Rejected</option>
               </select>
             </div>
           </div>
@@ -53,7 +91,7 @@ export default function Status() {
             </div>
           ))
       ) : (
-        <Loading />
+        <h1>No Properties Available</h1>
       )}
       <ReactPaginate
         breakLabel="..."

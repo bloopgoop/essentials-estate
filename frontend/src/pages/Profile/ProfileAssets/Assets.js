@@ -8,33 +8,44 @@ import Profilemain from "../Main/Profilemain";
 
 export default function Assets() {
   const [properties, setProperties] = useState([]);
+  const [propertiesStart, setPropertiesStart] = useState([]);
   const [loading, setLoading] = useState(true);
   const [itemOffset, setItemOffset] = useState(0);
-  
-  const [sortOption, setSortOption] = useState("recent");
 
   const itemsPerPage = 5;
 
   useEffect(() => {
-    const request = axios.get(`property/userProperty`);
-    request
-      .then((response) => {
-        setProperties(response.data.properties);
-        setLoading(false);
-      })
-      .catch((error) => {
-        alert(`Error fetching properties: ${error}`);
-      });
-  }, []);
+    if (loading) {
+      const request = axios.get(`property/userProperty`);
+      request
+        .then((response) => {
+          setProperties(response.data.properties);
+          setPropertiesStart(response.data.properties);
+          setLoading(false);
+        })
+        .catch((error) => {
+          alert(`Error fetching properties: ${error}`);
+        });
+    }
+  }, [properties]);
 
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % 100;
     setItemOffset(newOffset);
   };
 
-  const sortArray = () => {
-    const newProperty = properties.sort((a, b) => a.rent - b.rent);
-    setProperties(newProperty);
+  const sortArray = (event) => {
+    if (event === "recent") {
+      setProperties(propertiesStart);
+    } else if (event === "low-high") {
+      setProperties((prevProperties) => {
+        return [...prevProperties].sort((a, b) => a.rent - b.rent);
+      });
+    } else if (event === "high-low") {
+      setProperties((prevProperties) => {
+        return [...prevProperties].sort((a, b) => b.rent - a.rent);
+      });
+    }
   };
 
   return (
@@ -47,9 +58,14 @@ export default function Assets() {
             <input type="text" placeholder="Search.." />
             <div id="sortitem">
               <label htmlFor="sort">Sort by: </label>
-              <select name="sort" id="sort">
-                <option value="recent">Low - High</option>
-                <option value="low-high">High - Low</option>
+              <select
+                name="sort"
+                id="sort"
+                onChange={(event) => sortArray(event.target.value)}
+              >
+                <option value="recent">Recent</option>
+                <option value="low-high">Low - High</option>
+                <option value="high-low">High - Low</option>
               </select>
             </div>
           </div>
@@ -68,7 +84,7 @@ export default function Assets() {
                 </div>
               ))
           ) : (
-            <p>No properties available.</p>
+            <h1>No Properties Available</h1>
           )}
           <ReactPaginate
             breakLabel="..."

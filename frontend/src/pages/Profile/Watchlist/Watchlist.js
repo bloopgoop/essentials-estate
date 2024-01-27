@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import WatchlistCard from "../../../components/WatchlistCard/WatchlistCard";
 import "./Watchlist.css";
-import propertyService from "services/property/propertyAPI";
 import Loading from "components/Loading";
 import ReactPaginate from "react-paginate";
 import axios from "services/axiosConfigs";
@@ -9,42 +8,43 @@ import Profilemain from "../Main/Profilemain";
 
 export default function Watchlist() {
   const [properties, setProperties] = useState([]);
+  const [propertiesStart, setPropertiesStart] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [option, setOption] = useState("recent");
   const [itemOffset, setItemOffset] = useState(0);
   const itemsPerPage = 5;
 
   useEffect(() => {
-    const request = axios.get("property/getRequest");
-    request.then((response) => {
-      setProperties(response.data.properties);
-      setLoading(false);
-    });
-  }, []);
-
-  // const sortProperties = useCallback((option) => {
-  //   switch (option) {
-  //     case "recent":
-  //       // No need to sort for "recent," use the original order
-  //       break;
-  //     case "low-high":
-  //       setProperties(
-  //         [...properties].sort((a, b) => Number(b.rent) - Number(a.rent))
-  //       );
-  //       break;
-  //     case "high-low":
-  //       setProperties(
-  //         [...properties].sort((a, b) => Number(a.rent) - Number(b.rent))
-  //       );
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // }, [option]);
+    if (loading) {
+      const request = axios.get("property/getRequest");
+      request
+        .then((response) => {
+          setProperties(response.data.properties);
+          setPropertiesStart(response.data.properties);
+          setLoading(false);
+        })
+        .catch((error) => {
+          alert(`Error fetching properties: ${error}`);
+        });
+    }
+  }, [properties]);
 
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % 100;
     setItemOffset(newOffset);
+  };
+
+  const sortArray = (event) => {
+    if (event === "recent") {
+      setProperties(propertiesStart);
+    } else if (event === "low-high") {
+      setProperties((prevProperties) => {
+        return [...prevProperties].sort((a, b) => a.rent - b.rent);
+      });
+    } else if (event === "high-low") {
+      setProperties((prevProperties) => {
+        return [...prevProperties].sort((a, b) => b.rent - a.rent);
+      });
+    }
   };
 
   return (
@@ -60,12 +60,11 @@ export default function Watchlist() {
               <select
                 name="sort"
                 id="sort"
-                value={option}
-                onChange={(e) => setOption(e.target.value)}
+                onChange={(event) => sortArray(event.target.value)}
               >
                 <option value="recent">Recent</option>
-                <option value="low-high">low-high</option>
-                <option value="high-low">high-low</option>
+                <option value="low-high">Low - High</option>
+                <option value="high-low">High - Low</option>
               </select>
             </div>
           </div>
@@ -82,7 +81,7 @@ export default function Watchlist() {
             </div>
           ))
       ) : (
-        <p>No properties available.</p>
+        <h1>No Properties Available</h1>
       )}
       <ReactPaginate
         breakLabel="..."
