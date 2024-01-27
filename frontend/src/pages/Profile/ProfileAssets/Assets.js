@@ -55,7 +55,6 @@ export default function Assets() {
         <h1>Assets</h1>
         <div id="profile--sort">
           <div id="searchsort">
-            <input type="text" placeholder="Search.." />
             <div id="sortitem">
               <label htmlFor="sort">Sort by: </label>
               <select

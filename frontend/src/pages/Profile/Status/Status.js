@@ -63,7 +63,6 @@ export default function Status() {
         <h1>Status</h1>
         <div id="profile--sort">
           <div id="searchsort">
-            <input type="text" placeholder="Search.." />
             <div id="sortitem">
               <label htmlFor="sort">Sort by: </label>
               <select

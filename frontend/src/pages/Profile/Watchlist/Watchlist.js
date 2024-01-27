@@ -54,7 +54,6 @@ export default function Watchlist() {
         <h1>Watchlist</h1>
         <div id="profile--sort">
           <div id="searchsort">
-            <input type="text" placeholder="Search.." />
             <div id="sortitem">
               <label htmlFor="sort">Sort by: </label>
               <select
