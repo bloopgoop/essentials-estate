@@ -24,8 +24,9 @@
 
 .description-box {
   background-color: rgb(240, 240, 240);
-  outline: 3px solid gray;
+  outline: 2px solid gray;
   margin: 2rem 0;
+  border-radius: 5px;
 }
 
 .description-box h1 {

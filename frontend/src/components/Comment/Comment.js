@@ -16,6 +16,13 @@ function Comment({ props, handlePut, handleDelete }) {
     return starImages;
   };
 
+  const originalDate = new Date(props.date);
+  const formattedDate = new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(originalDate);
+
   return (
     <>
       {props.same_user ? (
@@ -24,7 +31,7 @@ function Comment({ props, handlePut, handleDelete }) {
             <img src={Person} alt="person" />
             <div>
               <div id="comment--user">{props.user}</div>
-              <div id="comment--date">{props.date}</div>
+              <div id="comment--date">{formattedDate}</div>
             </div>
           </div>
           <div id="comment--rating">{renderStars()}</div>
@@ -50,7 +57,7 @@ function Comment({ props, handlePut, handleDelete }) {
             <img src={Person} alt="person" />
             <div>
               <div id="comment--user">{props.user}</div>
-              <div id="comment--date">{props.date}</div>
+              <div id="comment--date">{formattedDate}</div>
             </div>
           </div>
           <div id="comment--rating">{renderStars()}</div>

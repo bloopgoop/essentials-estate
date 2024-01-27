@@ -9,6 +9,9 @@ export default function Assets() {
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [itemOffset, setItemOffset] = useState(0);
+  
+  const [sortOption, setSortOption] = useState("recent");
+
   const itemsPerPage = 5;
 
   useEffect(() => {
@@ -28,6 +31,11 @@ export default function Assets() {
     setItemOffset(newOffset);
   };
 
+  const sortArray = () => {
+    const newProperty = properties.sort((a, b) => a.rent - b.rent);
+    setProperties(newProperty);
+  };
+
   return (
     <>
       <h1>Assets</h1>
@@ -36,10 +44,8 @@ export default function Assets() {
         <div id="sortitem">
           <label htmlFor="sort">Sort by: </label>
           <select name="sort" id="sort">
-            <option value="recent">Recent</option>
-            <option value="A-Z">A-Z</option>
-            <option value="low-high">low-high</option>
-            <option value="high-low">high-low</option>
+            <option value="low-high">Low - High</option>
+            <option value="high-low">High - Low</option>
           </select>
         </div>
       </div>

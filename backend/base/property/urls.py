@@ -12,4 +12,6 @@ urlpatterns = [
     path('reviewProperty/<int:admin>', views.reviewProperty, name='review'),
   
     path('requestRental/<int:propertyID>/', views.requestRental, name='requestRental'),
+
+    path('user/', views.getUser, name='user'),
 ]

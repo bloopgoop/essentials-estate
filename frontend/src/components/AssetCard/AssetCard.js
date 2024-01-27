@@ -4,7 +4,6 @@ import "./AssetCard.css";
 import star from "assets/star.svg";
 
 export default function AssetCard(props) {
-  console.log(props);
 
   const renderStars = () => {
     const starImages = [];
