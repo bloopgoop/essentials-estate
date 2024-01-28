@@ -278,9 +278,11 @@ def reviewProperty(request, admin):
         user_id = token_data['user_id']
         if request.method == 'GET':
             if admin == 0:
-                return JsonResponse([property.serialize() for property in Property.objects.filter(owner_id=user_id)], safe=False)
+                properties = Property.objects.filter(owner_id=user_id).order_by('status')
+                return JsonResponse([property.serialize() for property in properties], safe=False)
             elif admin == 1:
-                return JsonResponse([property.serialize() for property in Property.objects.all()], safe=False)
+                properties = Property.objects.all().order_by('status')
+                return JsonResponse([property.serialize() for property in properties], safe=False)
 
         elif request.method == 'POST':
             data = request.POST
