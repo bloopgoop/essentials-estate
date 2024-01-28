@@ -17,8 +17,8 @@ import Payment from "./pages/Payment/Payment";
 import AddProperty from "./pages/AddProperty/AddProperty";
 import AddPhotos from "pages/AddPhotos/AddPhotos";
 import Assets from "./pages/Profile/ProfileAssets/Assets";
-import AssetEdit from "./pages/Profile/ProfileAssets/AssetEdit/AssetEdit"
-import PhotoDelete from "./pages/Profile/ProfileAssets/PhotoDelete/PhotoDelete"
+import AssetEdit from "./pages/Profile/ProfileAssets/AssetEdit/AssetEdit";
+import PhotoDelete from "./pages/Profile/ProfileAssets/PhotoDelete/PhotoDelete";
 import Watchlist from "pages/Profile/Watchlist/Watchlist";
 import Status from "pages/Profile/Status/Status";
 import Review from "pages/Review/Review";

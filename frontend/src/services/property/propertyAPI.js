@@ -7,7 +7,7 @@ const baseURL = "/property";
 // returns response instead of response.data
 const getRange = (start, end) => {
   const request = axios.get(`${baseURL}/?start=${start}&end=${end}`);
-  return request.then((response) => (response));
+  return request.then((response) => response);
 };
 
 const getOne = (id) => {
@@ -33,14 +33,20 @@ const update = (id, newObject) => {
 const getPropertyRentalStatus = (id) => {
   const request = axios.get(`${baseURL}/requestRental/${id}/`);
   return request.then((response) => response);
-}
+};
 
 const requestPropertyRental = (id) => {
   const request = axios.post(`${baseURL}/requestRental/${id}/`);
   return request.then((response) => response.data);
-}
+};
 
-
-
-const propertyService = { getRange, getOne, create, update, addPhoto, requestPropertyRental, getPropertyRentalStatus };
+const propertyService = {
+  getRange,
+  getOne,
+  create,
+  update,
+  addPhoto,
+  requestPropertyRental,
+  getPropertyRentalStatus,
+};
 export default propertyService;

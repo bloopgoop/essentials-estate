@@ -58,5 +58,4 @@ test("renders correctly without title", () => {
 
   // Check if the image source is correct
   expect(screen.getByAltText("preview").src).toContain("photo1.jpg");
-
 });

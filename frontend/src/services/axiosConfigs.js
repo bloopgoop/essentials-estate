@@ -13,8 +13,8 @@ instance.interceptors.request.use(function (config) {
   if (token) {
     access = JSON.parse(token).access;
   }
-  config.headers.Authorization =  access;
-   
+  config.headers.Authorization = access;
+
   return config;
 });
 
