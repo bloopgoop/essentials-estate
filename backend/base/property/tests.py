@@ -153,6 +153,7 @@ class ViewTestCase(TestCase):
             lotsize=100,
             stars=0,
             type='house',
+            status=1,
         )
 
     def test_properties(self):
