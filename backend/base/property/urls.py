@@ -9,7 +9,6 @@ urlpatterns = [
     path('photo/delete/<int:photo_id>/', views.deletePhoto, name='deletePhoto'),
 
     path('rating/<int:property_id>', views.ratings, name='rating'),
-    path('checkGroup/<str:group_name>', views.checkGroup, name='checkGroup'),
     path('reviewProperty/<int:admin>', views.reviewProperty, name='review'),
 
     path('requestRental/<int:propertyID>/',

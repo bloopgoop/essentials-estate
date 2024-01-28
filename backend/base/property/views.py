@@ -196,17 +196,6 @@ def ratings(request, property_id):
     # BUT should take the nonuser to loggin page
 
     # Unauthenticated user should be able to see ratings for a property
-    if request.method == 'GET':
-        try:
-            average_value = Rating.objects.filter(property=Property.objects.get(
-                id=property_id)).aggregate(Avg('stars'))['stars__avg']
-            rating = [rating.serialize(-1) for rating in Rating.objects.filter(
-                property=Property.objects.get(id=property_id))]
-            return JsonResponse({'average_value': average_value,
-                                 'ratings': rating})
-        except ValueError:
-            return JsonResponse({'error': 'Invalid propertyID'}, status=400)
-
     try:
         access_token = request.headers['Authorization']
         token_data = jwt.decode(
@@ -214,7 +203,17 @@ def ratings(request, property_id):
         user_id = token_data['user_id']
     except:
         user_id = -1
-        return JsonResponse({'error': 'Issue with retriving User'}, status=400)
+
+    if request.method == 'GET':
+        try:
+            average_value = Rating.objects.filter(property=Property.objects.get(
+                id=property_id)).aggregate(Avg('stars'))['stars__avg']
+            rating = [rating.serialize(user_id) for rating in Rating.objects.filter(
+                property=Property.objects.get(id=property_id))]
+            return JsonResponse({'average_value': average_value,
+                                 'ratings': rating})
+        except ValueError:
+            return JsonResponse({'error': 'Invalid propertyID'}, status=400)
 
     if request.method == 'POST':
         try:
@@ -269,23 +268,6 @@ def ratings(request, property_id):
             return JsonResponse({'error': 'Error deleting rating'}, status=404)
 
 
-@api_view(['GET'])
-# @allowed_users(allowed_roles=['admin'])
-def checkGroup(request, group_name):
-    try:
-        access_token = request.headers['Authorization']
-    except KeyError:
-        return JsonResponse({'message': 'No Token'}, status=401)
-    
-    token_data = jwt.decode(
-        access_token, settings.SECRET_KEY, algorithms=['HS256'])
-    user_id = token_data['user_id']
-    try:
-        return JsonResponse({'isSuper': User.objects.get(id=user_id).is_superuser})
-    except:
-        return JsonResponse({'message': 'Error'}, status=400)
-
-
 @api_view(['GET', 'POST'])
 def reviewProperty(request, admin):
     try:
@@ -295,9 +277,11 @@ def reviewProperty(request, admin):
         user_id = token_data['user_id']
         if request.method == 'GET':
             if admin == 0:
-                return JsonResponse([property.serialize() for property in Property.objects.filter(owner_id=user_id)], safe=False)
+                properties = Property.objects.filter(owner_id=user_id).order_by('status')
+                return JsonResponse([property.serialize() for property in properties], safe=False)
             elif admin == 1:
-                return JsonResponse([property.serialize() for property in Property.objects.all()], safe=False)
+                properties = Property.objects.all().order_by('status')
+                return JsonResponse([property.serialize() for property in properties], safe=False)
 
         elif request.method == 'POST':
             data = request.POST
