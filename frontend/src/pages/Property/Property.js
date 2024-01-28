@@ -150,7 +150,7 @@ const Property = () => {
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % 100;
     setItemOffset(newOffset);
-  }; 
+  };
 
   return (
     <>

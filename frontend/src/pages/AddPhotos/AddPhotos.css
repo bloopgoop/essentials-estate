@@ -1,10 +1,10 @@
 #add-photos {
-    width: 100%;
-    padding-left: 3rem;
-    padding-right: 3rem;
+  width: 100%;
+  padding-left: 3rem;
+  padding-right: 3rem;
 }
 #add-photos > h1 {
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
 }

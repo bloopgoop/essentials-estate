@@ -13,13 +13,13 @@ function Review() {
     const request = axios.get(`property/reviewProperty/1`);
     request.then((response) => {
       setProperties(response.data);
-      setLoading(false)
+      setLoading(false);
     });
   }, []);
 
   return (
     <>
-      <Navbar/>
+      <Navbar />
       <div id="Review--Wrapper">
         {loading ? (
           <Loading />

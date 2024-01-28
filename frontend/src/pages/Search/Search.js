@@ -35,7 +35,6 @@ function Search() {
     propertyService
       .getRange(properties.length, properties.length + 20)
       .then((response) => {
-
         if (response.status === 204) {
           // no more properties to fetch
           setHasMore(false);
@@ -61,18 +60,23 @@ function Search() {
     let filteredProperties = [];
     let unmatchedProperties = [];
     for (let i = 0; i < properties.length; i++) {
-      let hasSearchTerm = Object.keys(properties[i]).some(key => {
+      let hasSearchTerm = Object.keys(properties[i]).some((key) => {
         if (!searchTerms.includes(key)) {
           return false;
         }
-    
+
         if (typeof properties[i][key] === "number") {
-          return properties[i][key].toString().toLowerCase().includes(searchTerm.toLowerCase());
+          return properties[i][key]
+            .toString()
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase());
         }
-    
-        return properties[i][key].toLowerCase().includes(searchTerm.toLowerCase());
+
+        return properties[i][key]
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
       });
-    
+
       if (hasSearchTerm) {
         filteredProperties.push(properties[i]);
       } else {
@@ -86,13 +90,14 @@ function Search() {
     <>
       <Navbar />
       <div id="search">
-
         <div id="filter">
           <input
             id="searchTerm"
             type="text"
             placeholder="Search by location, owner, type..."
-            onChange={(event) => setSearchTerm(event.target.value.toLowerCase())}
+            onChange={(event) =>
+              setSearchTerm(event.target.value.toLowerCase())
+            }
           />
         </div>
 
@@ -100,9 +105,11 @@ function Search() {
           dataLength={properties.length}
           next={fetchData}
           hasMore={hasMore}
-          loader={<Loading/>}
+          loader={<Loading />}
           endMessage={
-            <p style={{ textAlign: "center", margin:"auto", marginTop:"3rem" }}>
+            <p
+              style={{ textAlign: "center", margin: "auto", marginTop: "3rem" }}
+            >
               <b>Yay! You have seen it all</b>
             </p>
           }

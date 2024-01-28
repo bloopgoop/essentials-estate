@@ -27,7 +27,7 @@ export default function Profile() {
           >
             <Outlet></Outlet>
           </div>
-          <div style={{height:"3rem"}}></div>
+          <div style={{ height: "3rem" }}></div>
         </div>
       </div>
     </>

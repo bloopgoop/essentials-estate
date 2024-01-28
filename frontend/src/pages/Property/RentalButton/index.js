@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import propertyService from "services/property/propertyAPI";
-import "./styles.css"
+import "./styles.css";
 
 const RentalButton = ({ propertyID }) => {
   // status = ["pending", "accepted", "none", "owner"]

@@ -12,7 +12,7 @@ const AddProperty = () => {
   const [form, setForm] = useState({
     address: "",
     city: "",
-    state: "",  
+    state: "",
     zip: "",
     title: "",
     rent: 0,
@@ -65,130 +65,127 @@ const AddProperty = () => {
       <Navbar />
       <div className="page-body">
         <h1>Add Property</h1>
-        <div>
-            You will be registered as the owner of this property.
-        </div>
+        <div>You will be registered as the owner of this property.</div>
         <form onSubmit={handleSubmit} id="property-form">
+          <label htmlFor="address">Address:</label>
+          <input
+            type="text"
+            id="address"
+            name="address"
+            value={form.address}
+            onChange={(e) => setForm({ ...form, address: e.target.value })}
+          />
 
-            <label htmlFor="address">Address:</label>
-            <input
-              type="text"
-              id="address"
-              name="address"
-              value={form.address}
-              onChange={(e) => setForm({...form, address: e.target.value})}
-            />
+          <label htmlFor="city">City:</label>
+          <input
+            type="text"
+            id="city"
+            name="city"
+            value={form.city}
+            onChange={(e) => setForm({ ...form, city: e.target.value })}
+          />
 
-            <label htmlFor="city">City:</label>
-            <input
-              type="text"
-              id="city"
-              name="city"
-              value={form.city}
-              onChange={(e) => setForm({...form, city: e.target.value})}
-            />
+          <label htmlFor="state">State:</label>
+          <input
+            type="text"
+            id="state"
+            name="state"
+            value={form.state}
+            onChange={(e) => setForm({ ...form, state: e.target.value })}
+          />
 
-            <label htmlFor="state">State:</label>
-            <input
-              type="text"
-              id="state"
-              name="state"
-              value={form.state}
-              onChange={(e) => setForm({...form, state: e.target.value})}
-            />
+          <label htmlFor="zip">Zip:</label>
+          <input
+            type="text"
+            id="zip"
+            name="zip"
+            value={form.zip}
+            onChange={(e) => setForm({ ...form, zip: e.target.value })}
+          />
 
-            <label htmlFor="zip">Zip:</label>
-            <input
-              type="text"
-              id="zip"
-              name="zip"
-              value={form.zip}
-              onChange={(e) => setForm({...form, zip: e.target.value})}
-            />
+          <label htmlFor="title">Title:</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            value={form.title}
+            onChange={(e) => setForm({ ...form, title: e.target.value })}
+          />
 
-            <label htmlFor="title">Title:</label>
-            <input
-              type="text"
-              id="title"
-              name="title"
-              value={form.title}
-              onChange={(e) => setForm({...form, title: e.target.value})}
-            />
+          <label htmlFor="rent">Rent:</label>
+          <input
+            type="number"
+            id="rent"
+            name="rent"
+            value={form.rent}
+            onChange={(e) => setForm({ ...form, rent: e.target.value })}
+          />
 
-            <label htmlFor="rent">Rent:</label>
-            <input
-              type="number"
-              id="rent"
-              name="rent"
-              value={form.rent}
-              onChange={(e) => setForm({...form, rent: e.target.value})}
-            />
+          <label htmlFor="description">Description:</label>
+          <input
+            type="text"
+            id="description"
+            name="description"
+            value={form.description}
+            onChange={(e) => setForm({ ...form, description: e.target.value })}
+          />
 
-            <label htmlFor="description">Description:</label>
-            <input
-              type="text"
-              id="description"
-              name="description"
-              value={form.description}
-              onChange={(e) => setForm({...form, description: e.target.value})}
-            />
+          <label htmlFor="bedrooms">Bedrooms:</label>
+          <input
+            type="number"
+            id="bedrooms"
+            name="bedrooms"
+            value={form.bedrooms}
+            onChange={(e) => setForm({ ...form, bedrooms: e.target.value })}
+          />
 
-            <label htmlFor="bedrooms">Bedrooms:</label>
-            <input
-              type="number"
-              id="bedrooms"
-              name="bedrooms"
-              value={form.bedrooms}
-              onChange={(e) => setForm({...form, bedrooms: e.target.value})}
-            />
+          <label htmlFor="bathrooms">Bathrooms:</label>
+          <input
+            type="number"
+            id="bathrooms"
+            name="bathrooms"
+            value={form.bathrooms}
+            onChange={(e) => setForm({ ...form, bathrooms: e.target.value })}
+          />
 
-            <label htmlFor="bathrooms">Bathrooms:</label>
-            <input
-              type="number"
-              id="bathrooms"
-              name="bathrooms"
-              value={form.bathrooms}
-              onChange={(e) => setForm({...form, bathrooms: e.target.value})}
-            />
+          <label htmlFor="garage">Garage:</label>
+          <input
+            type="number"
+            id="garage"
+            name="garage"
+            value={form.garages}
+            onChange={(e) => setForm({ ...form, garages: e.target.value })}
+          />
 
-            <label htmlFor="garage">Garage:</label>
-            <input
-              type="number"
-              id="garage"
-              name="garage"
-              value={form.garages}
-              onChange={(e) => setForm({...form, garages: e.target.value})}
-            />
+          <label htmlFor="sqft">Sqft:</label>
+          <input
+            type="number"
+            id="sqft"
+            name="sqft"
+            value={form.sqft}
+            onChange={(e) => setForm({ ...form, sqft: e.target.value })}
+          />
 
-            <label htmlFor="sqft">Sqft:</label>
-            <input
-              type="number"
-              id="sqft"
-              name="sqft"
-              value={form.sqft}
-              onChange={(e) => setForm({...form, sqft: e.target.value})}
-            />
+          <label htmlFor="lotsize">Lot Size:</label>
+          <input
+            type="number"
+            id="lotsize"
+            name="lotsize"
+            value={form.lotsize}
+            onChange={(e) => setForm({ ...form, lotsize: e.target.value })}
+          />
 
-            <label htmlFor="lotsize">Lot Size:</label>
-            <input
-              type="number"
-              id="lotsize"
-              name="lotsize"
-              value={form.lotsize}
-              onChange={(e) => setForm({...form, lotsize: e.target.value})}
-            />
-
-            <label htmlFor="type">Type of property:</label>
-            <input
-              type="text"
-              id="type"
-              name="type"
-              value={form.type}
-              onChange={(e) => setForm({...form, type: e.target.value})}
-            />
+          <label htmlFor="type">Type of property:</label>
+          <input
+            type="text"
+            id="type"
+            name="type"
+            value={form.type}
+            onChange={(e) => setForm({ ...form, type: e.target.value })}
+          />
         </form>
         <button type="button" onClick={handleSubmit} id="add-property-btn">
-            Add Property
+          Add Property
         </button>
       </div>
       <Footer />

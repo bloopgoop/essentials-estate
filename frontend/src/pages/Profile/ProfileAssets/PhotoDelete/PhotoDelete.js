@@ -77,7 +77,12 @@ function PhotoDelete() {
                     </div>
                   ))}
                 </div>
-                <input type="button" value="Delete" onClick={handleSubmit} id="delete-button"/>
+                <input
+                  type="button"
+                  value="Delete"
+                  onClick={handleSubmit}
+                  id="delete-button"
+                />
               </form>
               <table>
                 <tbody>

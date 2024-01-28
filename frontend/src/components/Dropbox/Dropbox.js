@@ -159,7 +159,9 @@ function Dropbox({ id }) {
             <button type="button" onClick={() => setIndex(index - 1)}>
               Previous
             </button>
-          ) : <div></div>}
+          ) : (
+            <div></div>
+          )}
           {index < files.length - 1 ? (
             <button type="button" onClick={() => setIndex(index + 1)}>
               Next

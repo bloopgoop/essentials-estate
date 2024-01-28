@@ -4,7 +4,6 @@ import "./AssetCard.css";
 import star from "assets/star.svg";
 
 export default function AssetCard(props) {
-
   const renderStars = () => {
     const starImages = [];
     for (let i = 0; i < props.props.stars; i++) {
@@ -19,7 +18,7 @@ export default function AssetCard(props) {
 
   const dropboxRedirect = () => {
     navigate("/add-photo", { state: { id: props.props.id } });
-  }
+  };
 
   return (
     <div id="Assetcard--container">
@@ -55,9 +54,17 @@ export default function AssetCard(props) {
           <button id="Assetcard--button">Edit Property</button>
         </Link>
         <Link to={`/profile/assets/photo/${props.props.id}`}>
-          <button id="Assetcard--button" style={{bottom:"7rem"}}>Delete Photo</button>
+          <button id="Assetcard--button" style={{ bottom: "7rem" }}>
+            Delete Photo
+          </button>
         </Link>
-        <button id="Assetcard--button" style={{bottom:"4rem"}} onClick={dropboxRedirect}>Add Photos</button>
+        <button
+          id="Assetcard--button"
+          style={{ bottom: "4rem" }}
+          onClick={dropboxRedirect}
+        >
+          Add Photos
+        </button>
       </div>
     </div>
   );

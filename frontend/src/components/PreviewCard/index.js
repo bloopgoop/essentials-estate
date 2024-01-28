@@ -48,7 +48,7 @@ export default function PreviewCard({ property }) {
             )}
             {state.index < property.photos.length - 1 ? (
               <button
-                onClick={() => dispatch({ type: "next" })}  
+                onClick={() => dispatch({ type: "next" })}
                 className="preview-image-button button-right"
               >
                 &gt;
@@ -64,9 +64,9 @@ export default function PreviewCard({ property }) {
             <Link to={`/property/${property.id}`} data-testid="preview-link">
               {state.images.length > 0 ? (
                 <img
-                src={state.images[state.index].photo}
-                alt="preview"
-                className="preview-image"
+                  src={state.images[state.index].photo}
+                  alt="preview"
+                  className="preview-image"
                 />
               ) : (
                 <img

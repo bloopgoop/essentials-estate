@@ -90,12 +90,12 @@ function PropertyReview() {
 
       // axios filepath will possible be changed
       const request = axios.post("property/reviewProperty/2", formData);
-         request.then((response) => setProperty(response.data));
+      request.then((response) => setProperty(response.data));
     } catch (error) {
       console.log(`ERROR: ${error}`);
     }
   };
-  if (!property) return <Loading/>
+  if (!property) return <Loading />;
   return (
     <div id="review--wrapper">
       <table id="review--table">
