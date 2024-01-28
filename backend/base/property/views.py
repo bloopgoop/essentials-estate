@@ -196,17 +196,6 @@ def ratings(request, property_id):
     # BUT should take the nonuser to loggin page
 
     # Unauthenticated user should be able to see ratings for a property
-    if request.method == 'GET':
-        try:
-            average_value = Rating.objects.filter(property=Property.objects.get(
-                id=property_id)).aggregate(Avg('stars'))['stars__avg']
-            rating = [rating.serialize(-1) for rating in Rating.objects.filter(
-                property=Property.objects.get(id=property_id))]
-            return JsonResponse({'average_value': average_value,
-                                 'ratings': rating})
-        except ValueError:
-            return JsonResponse({'error': 'Invalid propertyID'}, status=400)
-
     try:
         access_token = request.headers['Authorization']
         token_data = jwt.decode(
@@ -214,7 +203,17 @@ def ratings(request, property_id):
         user_id = token_data['user_id']
     except:
         user_id = -1
-        return JsonResponse({'error': 'Issue with retriving User'}, status=400)
+
+    if request.method == 'GET':
+        try:
+            average_value = Rating.objects.filter(property=Property.objects.get(
+                id=property_id)).aggregate(Avg('stars'))['stars__avg']
+            rating = [rating.serialize(user_id) for rating in Rating.objects.filter(
+                property=Property.objects.get(id=property_id))]
+            return JsonResponse({'average_value': average_value,
+                                 'ratings': rating})
+        except ValueError:
+            return JsonResponse({'error': 'Invalid propertyID'}, status=400)
 
     if request.method == 'POST':
         try:
