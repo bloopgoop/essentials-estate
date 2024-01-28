@@ -6,6 +6,7 @@ import "./Navbar.css";
 function Navbar() {
   let { user, logoutUser } = useContext(AuthContext);
   const navbar = useRef();
+  console.log(user)
 
   return (
     <nav id="navbar" ref={navbar}>

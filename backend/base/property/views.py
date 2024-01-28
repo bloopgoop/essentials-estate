@@ -269,23 +269,6 @@ def ratings(request, property_id):
             return JsonResponse({'error': 'Error deleting rating'}, status=404)
 
 
-@api_view(['GET'])
-# @allowed_users(allowed_roles=['admin'])
-def checkGroup(request, group_name):
-    try:
-        access_token = request.headers['Authorization']
-    except KeyError:
-        return JsonResponse({'message': 'No Token'}, status=401)
-    
-    token_data = jwt.decode(
-        access_token, settings.SECRET_KEY, algorithms=['HS256'])
-    user_id = token_data['user_id']
-    try:
-        return JsonResponse({'isSuper': User.objects.get(id=user_id).is_superuser})
-    except:
-        return JsonResponse({'message': 'Error'}, status=400)
-
-
 @api_view(['GET', 'POST'])
 def reviewProperty(request, admin):
     try:
