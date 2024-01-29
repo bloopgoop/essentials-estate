@@ -1,15 +1,17 @@
 import { useState, useEffect, useRef } from "react";
 import imageNotFound from "assets/image-not-found.jpg";
-import "./styles.css";
+import "./Gallery.css";
+import { PropertyPhoto } from "types/propertyPhoto"
 
-export default function Gallery({ photos }) {
-  const [mainImage, setMainImage] = useState(null);
-  const [mainDescription, setMainDescription] = useState(null);
-  const mainImageRef = useRef(null);
+export default function Gallery({ photos }: { photos: PropertyPhoto[] }) {
+  const [mainImage, setMainImage] = useState("");
+  const [mainDescription, setMainDescription] = useState("");
+  const mainImageRef = useRef<HTMLImageElement>(null);
 
-  const switchMainImage = (event) => {
-    setMainImage(event.target.src);
-    setMainDescription(event.target.title);
+  const switchMainImage = (event: React.MouseEvent) => {
+    const img = event.target as HTMLImageElement;
+    setMainImage(img.src);
+    setMainDescription(img.title);
   };
 
   useEffect(() => {

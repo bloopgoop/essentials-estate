@@ -1,5 +1,5 @@
 import { render, fireEvent, screen } from "@testing-library/react";
-import Gallery from "../";
+import Gallery from "../Gallery";
 
 const mockPhotos = [
   { photo: "photo1.jpg", description: "Photo 1" },

@@ -1,58 +1,84 @@
-import React, { useEffect, useRef, useState, useContext } from "react";
-import "./Dropbox.css";
 import AuthContext from "context/AuthContext";
-import propertyService from "services/property/propertyAPI";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import propertyService from "services/property/propertyAPI";
+import "./Dropbox.css";
 
-function Dropbox({ id }) {
+function Dropbox({ id }: { id: number }) {
+  const MAX_FILES = 20;
   const auth = useContext(AuthContext);
   const navigate = useNavigate();
-
-  const MAX_FILES = 20;
-
   const [index, setIndex] = useState(0);
-  const [files, setFiles] = useState([]);
-  const [image, setImage] = useState(null);
-  const [imageName, setImageName] = useState(null);
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const [image, setImage] = useState<string | null>(null);
+  const [imageName, setImageName] = useState("");
   const [descriptions, setDescriptions] = useState(Array(MAX_FILES).fill(""));
-  const dropboxRef = useRef();
-  const fileInputRef = useRef();
-  const descriptionInputRef = useRef();
+  const dropboxRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const descriptionInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     // set the image state to the url of file to display preview
-    if (files.length > 0) {
+    if (imageFiles.length > 0) {
       const reader = new FileReader();
       reader.onload = () => {
-        if (reader.readyState === 2) {
-          setImage(reader.result);
-          setImageName(files[index].name);
+        if (reader.readyState === FileReader.DONE) {
+          setImage(reader.result as string);
+          setImageName(imageFiles[index].name);
         }
       };
-      reader.readAsDataURL(files[index]);
+      reader.readAsDataURL(imageFiles[index]);
     }
-  }, [files, index]);
+  }, [imageFiles, index]);
 
-  const handleFileChange = (e) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
+    const target = e.target as HTMLInputElement;
+    if (!target.files) {
+      console.log("No files selected");
+      return;
+    }
+    // check file type
+    for (let i = 0; i < target.files.length; i++) {
+      const fileType = target.files[i].type;
+      if (fileType !== "image/png" && fileType !== "image/jpeg") {
+        alert("Only .png and .jpg files are allowed");
+        return;
+      }
+    }
     // combine existing files and new files
-    if (files.length + e.target.files.length > MAX_FILES) {
+    if (imageFiles.length + target.files.length > MAX_FILES) {
       console.log(`You can only upload ${MAX_FILES} files at a time`);
       return;
     }
-    setFiles([...files, ...e.target.files]); // asynchronous
+    setImageFiles((prevImageFiles) => [
+      ...prevImageFiles,
+      ...(target.files ? Array.from(target.files) : []),
+    ]); // asynchronous
   };
 
-  const handleDrop = (e) => {
+  const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
-    if (files.length + e.dataTransfer.files.length > MAX_FILES) {
+    if (!e.dataTransfer.files) {
+      console.log("No files selected");
+      return;
+    }
+    // check file type
+    for (let i = 0; i < e.dataTransfer.files.length; i++) {
+      const fileType = e.dataTransfer.files[i].type;
+      if (fileType !== "image/png" && fileType !== "image/jpeg") {
+        alert("Only .png and .jpg files are allowed");
+        return;
+      }
+    }
+    if (imageFiles.length + e.dataTransfer.files.length > MAX_FILES) {
       console.log(`You can only upload ${MAX_FILES} files at a time`);
       return;
     }
-    setFiles([...files, ...e.dataTransfer.files]); // asynchronous
+    setImageFiles([...imageFiles, ...e.dataTransfer.files]); // asynchronous
   };
 
-  const handleDescriptionChange = (e) => {
+  const handleDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     // shallow copy of descriptions
     let newDescriptions = [...descriptions];
@@ -66,18 +92,18 @@ function Dropbox({ id }) {
     setDescriptions(newDescriptions);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // use auth context to send auth token to backend
     const formData = new FormData();
-    for (let i = 0; i < files.length; i++) {
+    for (let i = 0; i < imageFiles.length; i++) {
       // append files to formData files
-      formData.append(`file${i}`, files[i]);
+      formData.append(`file${i}`, imageFiles[i]);
     }
     // append descriptions to formData data
     formData.append("descriptions", JSON.stringify(descriptions));
     formData.append("token", auth.authTokens.access); // JWT token
-    formData.append("propertyID", id); // property id
+    formData.append("propertyID", id.toString()); // property id
 
     // send formData to backend
     propertyService
@@ -91,22 +117,26 @@ function Dropbox({ id }) {
       });
   };
 
-  const handleDragOver = (e) => {
+  const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
-    dropboxRef.current.style.backgroundColor = "white";
-    dropboxRef.current.style.boxShadow =
-      "inset 0px 0px 10px 5px rgba(0, 0, 0, 0.2)";
+    if (dropboxRef.current) {
+      dropboxRef.current.style.backgroundColor = "lightgray";
+      dropboxRef.current.style.boxShadow =
+        "inset 0px 0px 10px 5px rgba(0, 0, 0, 0.2)";
+    }
   };
 
-  const handleDragLeave = (e) => {
+  const handleDragLeave = (e: React.DragEvent) => {
     e.preventDefault();
-    dropboxRef.current.style.backgroundColor = "lightgray";
-    dropboxRef.current.style.boxShadow = "none";
+    if (dropboxRef.current) {
+      dropboxRef.current.style.backgroundColor = "white";
+      dropboxRef.current.style.boxShadow = "none";
+    }
   };
 
   return (
     <>
-      {files.length > 0 ? <h1>{imageName}</h1> : null}
+      {imageFiles.length > 0 ? <h1>{imageName}</h1> : null}
 
       <div id="dropbox">
         <div
@@ -118,7 +148,7 @@ function Dropbox({ id }) {
           data-testid="dropzone"
         >
           {!image ? (
-            `Drop files here`
+            `Drop images here`
           ) : (
             <img className="dropbox-image" src={image} alt="upload-preview" />
           )}
@@ -135,11 +165,11 @@ function Dropbox({ id }) {
           onChange={handleFileChange}
           data-testid="file-input"
         />
-        <div>{files.length} images selected</div>
+        <div>{imageFiles.length} images selected</div>
       </label>
 
       <div id="description-container">
-        {files.length > 0 ? (
+        {imageFiles.length > 0 ? (
           <div id="description-input-box">
             <label htmlFor="description-input" className="description">
               Description:
@@ -162,14 +192,14 @@ function Dropbox({ id }) {
           ) : (
             <div></div>
           )}
-          {index < files.length - 1 ? (
+          {index < imageFiles.length - 1 ? (
             <button type="button" onClick={() => setIndex(index + 1)}>
               Next
             </button>
           ) : null}
         </div>
       </div>
-      {files.length > 0 ? (
+      {imageFiles.length > 0 ? (
         <button type="button" onClick={handleSubmit} id="add-photos-btn">
           Finish
         </button>

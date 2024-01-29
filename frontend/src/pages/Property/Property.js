@@ -3,7 +3,7 @@ import ReactPaginate from "react-paginate";
 import propertyService from "services/property/propertyAPI";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "components/Navbar/Navbar";
-import Gallery from "components/Gallery";
+import Gallery from "components/Gallery/Gallery";
 import "./Property.css";
 import axios from "services/axiosConfigs";
 import AuthContext from "context/AuthContext";

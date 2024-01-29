@@ -79,7 +79,7 @@ export default function Assets() {
               .slice(itemOffset, itemOffset + itemsPerPage)
               .map((property, key) => (
                 <div key={key}>
-                  <AssetCard props={property} />
+                  <AssetCard property={property} />
                 </div>
               ))
           ) : (

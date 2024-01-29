@@ -1,14 +1,22 @@
-import React from "react";
-import "./Comment.css";
 import Person from "assets/person.jpg";
 import star from "assets/star.svg";
+import "./Comment.css";
+import { Rating } from "types/rating";
 
-function Comment({ props, handlePut, handleDelete }) {
-  if (!props) return <h1>Loading</h1>;
+function Comment({
+  rating,
+  handlePut,
+  handleDelete,
+} : {
+  rating: Rating;
+  handlePut: Function;
+  handleDelete: Function;
+}) {
+  if (!rating) return <h1>Loading</h1>;
 
-  const renderStars = () => {
-    const starImages = [];
-    for (let i = 0; i < props.stars; i++) {
+  const renderStars = (): JSX.Element[] => {
+    const starImages: JSX.Element[] = [];
+    for (let i = 0; i < rating.stars; i++) {
       starImages.push(
         <img height="15px" width="17px" key={i} src={star} alt="star" />
       );
@@ -16,7 +24,7 @@ function Comment({ props, handlePut, handleDelete }) {
     return starImages;
   };
 
-  const originalDate = new Date(props.date);
+  const originalDate = new Date(rating.date);
   const formattedDate = new Intl.DateTimeFormat("en-US", {
     year: "numeric",
     month: "long",
@@ -25,26 +33,26 @@ function Comment({ props, handlePut, handleDelete }) {
 
   return (
     <>
-      {props.same_user ? (
+      {rating.same_user ? (
         <div id="comment--wrapper">
           <div id="comment--heading">
             <img src={Person} alt="person" />
             <div>
-              <div id="comment--user">{props.user}</div>
+              <div id="comment--user">{rating.user}</div>
               <div id="comment--date">{formattedDate}</div>
             </div>
           </div>
           <div id="comment--rating">{renderStars()}</div>
           <div id="comment--post--wrapper">
-            <div id="comment--post">{props.comment}</div>
+            <div id="comment--post">{rating.comment}</div>
             <div id="comment--buttons">
               <button
-                onClick={(event) => handlePut(event, props.id, props.userID)}
+                onClick={(event) => handlePut(event, rating.id, rating.userID)}
               >
                 Update
               </button>
               <button
-                onClick={(event) => handleDelete(event, props.id, props.userID)}
+                onClick={(event) => handleDelete(event, rating.id, rating.userID)}
               >
                 Delete
               </button>
@@ -56,12 +64,12 @@ function Comment({ props, handlePut, handleDelete }) {
           <div id="comment--heading">
             <img src={Person} alt="person" />
             <div>
-              <div id="comment--user">{props.user}</div>
+              <div id="comment--user">{rating.user}</div>
               <div id="comment--date">{formattedDate}</div>
             </div>
           </div>
           <div id="comment--rating">{renderStars()}</div>
-          <div id="comment--post">{props.comment}</div>
+          <div id="comment--post">{rating.comment}</div>
         </div>
       )}
     </>

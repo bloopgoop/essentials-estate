@@ -1,12 +1,14 @@
-import { Link, useNavigate } from "react-router-dom";
 import imageNotFound from "assets/image-not-found.jpg";
-import "./AssetCard.css";
 import star from "assets/star.svg";
+import { Link, useNavigate } from "react-router-dom";
+import { Property } from "types/property";
+import "./AssetCard.css";
 
-export default function AssetCard(props) {
-  const renderStars = () => {
-    const starImages = [];
-    for (let i = 0; i < props.props.stars; i++) {
+export default function AssetCard({ property }: { property: Property }) {
+  console.log(property)
+  const renderStars = (): JSX.Element[] => {
+    const starImages: JSX.Element[] = [];
+    for (let i = 0; i < property.stars; i++) {
       starImages.push(
         <img height="15px" width="17px" key={i} src={star} alt="star" />
       );
@@ -17,22 +19,22 @@ export default function AssetCard(props) {
   const navigate = useNavigate();
 
   const dropboxRedirect = () => {
-    navigate("/add-photo", { state: { id: props.props.id } });
+    navigate("/add-photo", { state: { id: property.id } });
   };
 
   return (
     <div id="Assetcard--container">
       <div>
-        {props.props.photos.length === 0 ? (
+        {property.photos.length === 0 ? (
           <img
             src={imageNotFound}
             height={250}
             className="Assetcard--image"
-            alt={props.title}
+            alt={property.title}
           />
         ) : (
           <img
-            src={props.props.photos[0].photo}
+            src={property.photos[0].photo}
             height={250}
             width={250}
             className="Assetcard--image"
@@ -43,17 +45,17 @@ export default function AssetCard(props) {
       </div>
       <div id="Assetcard--info">
         <h2>
-          {`${props.props.address} `}
-          {props.props.city}, {props.props.state}
+          {`${property.address} `}
+          {property.city}, {property.state}
         </h2>
         <h4>Rating: {renderStars()}</h4>
-        <h4>Rent: ${props.props.rent}</h4>
-        <p>{props.props.description} </p>
+        <h4>Rent: ${property.rent}</h4>
+        <p>{property.description} </p>
 
-        <Link to={`/profile/assets/${props.props.id}`}>
+        <Link to={`/profile/assets/${property.id}`}>
           <button id="Assetcard--button">Edit Property</button>
         </Link>
-        <Link to={`/profile/assets/photo/${props.props.id}`}>
+        <Link to={`/profile/assets/photo/${property.id}`}>
           <button id="Assetcard--button" style={{ bottom: "7rem" }}>
             Delete Photo
           </button>
