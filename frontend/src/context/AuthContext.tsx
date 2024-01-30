@@ -28,11 +28,6 @@ interface AccessToken {
   is_staff: boolean;
 }
 
-interface AuthJwtPayload extends JwtPayload {
-  access: string;
-  refresh: string;
-}
-
 const AuthContext = createContext<AuthContextInterface>({
   loginUser: () => {},
   logoutUser: () => {},

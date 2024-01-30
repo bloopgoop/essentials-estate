@@ -11,7 +11,7 @@ function PhotoDelete() {
   const { id } = useParams();
   const [property, setProperty] = useState<Property | null>(null);
   const [avgRating, setAvgRating] = useState(0);
-  const photoDeleteFormRef = useRef(null);
+  const photoDeleteFormRef = useRef<HTMLFormElement | null>(null);
 
   useEffect(() => {
     const request = axios.get(`property/rating/${id}`);
@@ -29,28 +29,29 @@ function PhotoDelete() {
       });
   }, [id]);
 
+  // return back to this, messy function
   const handleSubmit = () => {
-    console.log(photoDeleteFormRef.current?.elements.photo);
-
-    const formData = new FormData();
-    for (let i = 0; i < photoDeleteFormRef.current.elements.photo.length; i++) {
-      if (photoDeleteFormRef.current.elements.photo[i].checked) {
-        axios
-          .delete(
-            `property/photo/delete/${photoDeleteFormRef.current.elements.photo[i].value}`,
-            formData
-          )
-          .then((response) => {
-            console.log(response.data);
-          })
-          .catch((error) => {
-            alert(`Error deleting photos: ${error}`);
-          });
+    const photoElement =
+      photoDeleteFormRef.current?.elements.namedItem("photo");
+    if (!photoElement) {
+      return;
+    }
+    if (photoElement instanceof RadioNodeList) {
+      for (let i = 0; i < photoElement.length; i++) {
+        const item = photoElement[i];
+        if (item instanceof HTMLInputElement && item.checked) {
+          axios
+            .delete(`property/photo/delete/${item.value}`)
+            .then((response) => {
+              console.log(response.data);
+              alert("Photo(s) deleted successfully");
+            })
+            .catch((error) => {
+              alert(`Error deleting photos: ${error}`);
+            });
+        }
       }
     }
-
-    alert("Photo(s) deleted successfully");
-    window.location.reload();
   };
 
   return (
