@@ -94,7 +94,7 @@ def properties(request):
             description=data['description'],
             bedrooms=data['bedrooms'],
             bathrooms=data['bathrooms'],
-            garage=data['garages'],
+            garage=data['garage'],
             sqft=data['sqft'],
             lotsize=data['lotsize'],
             stars=0,

@@ -1,7 +1,8 @@
-import PreviewCard from "components/PreviewCard";
-import "./styles.css";
+import PreviewCard from "components/PreviewCard/PreviewCard";
+import { Property } from "types/property";
+import "./SimilarItemsSection.css";
 
-export default function SimilarItems({ properties }) {
+export default function SimilarItems({ properties }: { properties: Property[] }) { 
   const firstFour = properties.slice(0, 4);
 
   if (!properties) return <h1>Loading...</h1>;

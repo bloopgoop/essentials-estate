@@ -1,12 +1,11 @@
-import React, { useContext, useRef} from "react";
-import { Link } from "react-router-dom";
 import AuthContext from "context/AuthContext";
+import { useContext, useRef } from "react";
+import { Link } from "react-router-dom";
 import "./Navbar.css";
 
 function Navbar() {
   let { user, logoutUser } = useContext(AuthContext);
-  const navbar = useRef();
-  console.log(user)
+  const navbar = useRef<HTMLDivElement>(null);
 
   return (
     <nav id="navbar" ref={navbar}>

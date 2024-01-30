@@ -1,4 +1,8 @@
-export default function ErrorPage({ props }) {
+export default function ErrorPage({
+  props,
+}: {
+  props?: { code: number; error: string };
+}) {
   console.log(props);
 
   return (

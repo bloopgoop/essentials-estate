@@ -1,19 +1,19 @@
-import React from "react";
-import "./StatusCard.css";
-import { Link } from "react-router-dom";
 import imageNotFound from "assets/image-not-found.jpg";
+import { Link } from "react-router-dom";
+import { Property } from "types/property";
+import "./StatusCard.css";
 
-function StatusCard({ props, page }) {
-  console.log(props);
-  if (!props) return <h1>Loading...</h1>;
+function StatusCard({ property, page }: { property: Property; page: string }) {
+  console.log(property);
+  if (!property) return <h1>Loading...</h1>;
   const status = ["Submiting", "In Review", "Listing"];
   const accepted = ["Submitted", "Approved", "Listed"];
   let check = ["", "", ""];
-  let step = props.status + 1;
+  let step = property.status + 1;
   let currentStatus;
   check[step] = "active";
 
-  if (props.status === 2) {
+  if (property.status === 2) {
     check = ["rejected", "rejected", "last-rejected"];
     currentStatus = ["Submitted", "Rejected", "Not Listed"];
   } else {
@@ -30,7 +30,7 @@ function StatusCard({ props, page }) {
         <div>
           <img
             src={
-              props.photos.length > 0 ? props.photos[0].photo : imageNotFound
+              property.photos.length > 0 ? property.photos[0].photo : imageNotFound
             }
             height={250}
             width={250}
@@ -41,13 +41,13 @@ function StatusCard({ props, page }) {
         </div>
         <div id="Status--info">
           <h2>
-            {`${props.address} `}
-            {props.city}, {props.state}
+            {`${property.address} `}
+            {property.city}, {property.state}
           </h2>
-          <h4>Rent: ${props.rent}</h4>
-          <p>{props.description} </p>
+          <h4>Rent: ${property.rent}</h4>
+          <p>{property.description} </p>
           <div className="stepper-wrapper">
-            {props.status === 2
+            {property.status === 2
               ? currentStatus.map((stat, index) => (
                   <div key={index} className={`stepper-item ${check[index]}`}>
                     <div className="step-counter"></div>
@@ -61,7 +61,7 @@ function StatusCard({ props, page }) {
                   </div>
                 ))}
           </div>
-          <Link to={`/${page}/${props.id}`}>
+          <Link to={`/${page}/${property.id}`}>
             <button id="Status--info--button">View Property</button>
           </Link>
         </div>

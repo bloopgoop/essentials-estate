@@ -1,9 +1,14 @@
-import "./styles.css";
-import "components/PreviewCard/styles.css";
 import lock from "assets/lock.svg";
-import PreviewCard from "components/PreviewCard";
+import PreviewCard from "components/PreviewCard/PreviewCard";
+import "components/PreviewCard/styles.css";
+import { Property } from "types/property";
+import "./LikedSection.css";
 
-export default function LikedSection({ properties }) {
+export default function LikedSection({
+  properties,
+}: {
+  properties: Property[];
+}) {
   const first = properties[0];
   const rest = properties.slice(1);
 

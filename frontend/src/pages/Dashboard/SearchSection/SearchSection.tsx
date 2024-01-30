@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import "./styles.css";
+import "./SearchSection.css";
 
 export default function SearchSection() {
   return (

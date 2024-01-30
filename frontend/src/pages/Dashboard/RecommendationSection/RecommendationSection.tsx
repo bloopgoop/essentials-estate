@@ -1,10 +1,15 @@
-import "./styles.css";
+import "./RecommendationSection.css";
+import { Property } from "types/property";
 
-export default function RecommendationCard({ property }) {
+export default function RecommendationCard({
+  property,
+}: {
+  property: Property;
+}) {
   // Working buttons to get the next property?
   // Animations when scrolling through properties?
 
-  const capitalize = (str) => {
+  const capitalize = (str: string) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
 

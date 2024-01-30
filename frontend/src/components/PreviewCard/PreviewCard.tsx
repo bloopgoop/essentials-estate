@@ -1,10 +1,21 @@
-import "./styles.css";
-import star from "assets/star.svg";
 import imageNotFound from "assets/image-not-found.jpg";
-import { Link } from "react-router-dom";
+import star from "assets/star.svg";
 import { useEffect, useReducer } from "react";
+import { Link } from "react-router-dom";
+import { Property } from "types/property";
+import "./PreviewCard.css";
 
-function switchImage(state, action) {
+interface imageQueue {
+  index: number;
+  images: Property["photos"];
+}
+
+interface imageQueueAction {
+  type: "previous" | "next" | "reset";
+  images: Property["photos"] | [];
+}
+
+function switchImage(state: imageQueue, action: imageQueueAction) {
   switch (action.type) {
     case "previous":
       const prevIndex = state.index - 1;
@@ -19,11 +30,15 @@ function switchImage(state, action) {
   }
 }
 
-export default function PreviewCard({ property }) {
-  const [state, dispatch] = useReducer(switchImage, {
+export default function PreviewCard({ property }: { property: Property }) {
+  const initialState: imageQueue = {
     index: 0,
     images: property.photos,
-  });
+  };
+
+  const [state, dispatch] = useReducer<
+    React.Reducer<imageQueue, imageQueueAction>
+  >(switchImage, initialState);
 
   useEffect(() => {
     dispatch({ type: "reset", images: property.photos });
@@ -38,7 +53,7 @@ export default function PreviewCard({ property }) {
           <div className="preview-image-container">
             {state.index > 0 ? (
               <button
-                onClick={() => dispatch({ type: "previous" })}
+                onClick={() => dispatch({ type: "previous", images: []})}
                 className="preview-image-button button-left"
               >
                 &lt;
@@ -48,7 +63,7 @@ export default function PreviewCard({ property }) {
             )}
             {state.index < property.photos.length - 1 ? (
               <button
-                onClick={() => dispatch({ type: "next" })}
+                onClick={() => dispatch({ type: "next", images: [] })}
                 className="preview-image-button button-right"
               >
                 &gt;

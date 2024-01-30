@@ -1,10 +1,20 @@
 import "./Profilemain.css";
-import Loading from "components/Loading";
+import Loading from "components/Loading/Loading";
 import axios from "services/axiosConfigs";
 import { useEffect, useState } from "react";
 
+interface UserData {
+  first_name: string;
+  last_name: string;
+  date_joined: string;
+}
+
 export default function Profilemain() {
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState<UserData | null>({
+    first_name: "",
+    last_name: "",
+    date_joined: "",
+  });
   const [loading, setLoading] = useState(true);
   const [date, setDate] = useState("");
 
@@ -35,7 +45,7 @@ export default function Profilemain() {
         <div id="profile-box">
           <img src={""} height={200} width={200} alt="profile" />
           <div className="profile-items">
-            <h1>{`${userData.first_name} ${userData.last_name}`}</h1>
+            {userData ? <h1>{`${userData.first_name} ${userData.last_name}`}</h1> : null}
             <p>Joined On: {date}</p>
             {/* <p>Lives In New York</p> */}
           </div>

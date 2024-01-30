@@ -1,14 +1,15 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
-import "./PhotoDelete.css";
 import Error from "pages/Error/Error";
-import propertyService from "services/property/propertyAPI";
+import { useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
 import axios from "services/axiosConfigs";
+import propertyService from "services/property/propertyAPI";
+import "./PhotoDelete.css";
+import { Property } from "types/property";
 
 function PhotoDelete() {
   // useLocation gets the data passed from the previous page
   const { id } = useParams();
-  const [property, setProperty] = useState(null);
+  const [property, setProperty] = useState<Property | null>(null);
   const [avgRating, setAvgRating] = useState(0);
   const photoDeleteFormRef = useRef(null);
 
@@ -28,8 +29,8 @@ function PhotoDelete() {
       });
   }, [id]);
 
-  const handleSubmit = (event) => {
-    console.log(photoDeleteFormRef.current.elements.photo);
+  const handleSubmit = () => {
+    console.log(photoDeleteFormRef.current?.elements.photo);
 
     const formData = new FormData();
     for (let i = 0; i < photoDeleteFormRef.current.elements.photo.length; i++) {
@@ -78,7 +79,7 @@ function PhotoDelete() {
                   ))}
                 </div>
                 <input
-                  type="button"
+                  type="submit"
                   value="Delete"
                   onClick={handleSubmit}
                   id="delete-button"

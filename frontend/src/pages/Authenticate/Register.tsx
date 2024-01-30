@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import "./Authenticate.css";
 import registerBackground from "assets/register-background.jpg";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "services/axiosConfigs.js";
+import "./Authenticate.css";
 /*
 not finished
 change <form> to router dom's form.
@@ -11,12 +11,20 @@ also style error messages
 add check box saying 'agree to terms and conditions'
 add icons to the input bars to the right
 */
+interface RegisterForm {
+  first_name: string;
+  last_name: string;
+  email: string;
+  username: string;
+  password: string;
+  verify_password: string;
+}
 
-const Register = () => {
+export default function Register() {
   const navigate = useNavigate();
 
   const [errorMessage, setErrorMessage] = useState("");
-  const [formData, setFormData] = useState({
+  const [registerForm, setRegisterForm] = useState<RegisterForm>({
     first_name: "",
     last_name: "",
     email: "",
@@ -25,19 +33,17 @@ const Register = () => {
     verify_password: "",
   });
 
-  const { name, email, password, verify_password, username } = formData;
+  const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setRegisterForm({ ...registerForm, [event.target.name]: event.target.value });
 
-  const onChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    if (password !== verify_password) {
+  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (registerForm.password !== registerForm.verify_password) {
       setErrorMessage("Passwords do not match");
     } else {
-      console.log(formData);
+      console.log(registerForm);
     }
-    axios.post("/api/register/", formData).then((res) => {
+    axios.post("/api/register/", registerForm).then((res) => {
       if (res.status === 201) {
         alert("Registered successfully");
         navigate("/login");
@@ -58,7 +64,7 @@ const Register = () => {
         <h1>Sign Up</h1>
         <p>Create Your Account</p>
         <form
-          onSubmit={(e) => onSubmit(e)}
+          onSubmit={handleFormSubmit}
           name="register-form"
           id="register-form"
           className="auth-form"
@@ -69,8 +75,8 @@ const Register = () => {
             placeholder="First Name"
             name="first_name"
             id="first_name"
-            value={name}
-            onChange={(e) => onChange(e)}
+            value={registerForm.first_name}
+            onChange={handleFormChange}
             required
           />
 
@@ -80,8 +86,8 @@ const Register = () => {
             placeholder="Last Name"
             name="last_name"
             id="last_name"
-            value={name}
-            onChange={(e) => onChange(e)}
+            value={registerForm.first_name}
+            onChange={handleFormChange}
             required
           />
 
@@ -91,9 +97,9 @@ const Register = () => {
             placeholder="Username"
             name="username"
             id="username"
-            value={username}
-            onChange={(e) => onChange(e)}
-            minLength="6"
+            value={registerForm.username}
+            onChange={handleFormChange}
+            minLength={6}
             required
           />
 
@@ -103,8 +109,8 @@ const Register = () => {
             placeholder="Email Address"
             name="email"
             id="email"
-            value={email}
-            onChange={(e) => onChange(e)}
+            value={registerForm.email}
+            onChange={handleFormChange}
             required
           />
 
@@ -114,9 +120,9 @@ const Register = () => {
             placeholder="Password"
             name="password"
             id="password"
-            value={password}
-            onChange={(e) => onChange(e)}
-            minLength="6"
+            value={registerForm.password}
+            onChange={handleFormChange}
+            minLength={6}
             required
           />
 
@@ -126,9 +132,9 @@ const Register = () => {
             placeholder="Confirm Password"
             name="verify_password"
             id="verify_password"
-            value={verify_password}
-            onChange={(e) => onChange(e)}
-            minLength="6"
+            value={registerForm.verify_password}
+            onChange={handleFormChange}
+            minLength={6}
             required
           />
           <input type="submit" value="Register" />
@@ -148,4 +154,3 @@ const Register = () => {
   );
 };
 
-export default Register;

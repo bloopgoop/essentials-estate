@@ -9,7 +9,7 @@ import axios from "services/axiosConfigs";
 import AuthContext from "context/AuthContext";
 import RentalButton from "./RentalButton";
 import Footer from "components/Footer/Footer";
-import Loading from "components/Loading";
+import Loading from "components/Loading/Loading";
 import Comment from "components/Comment/Comment";
 import star from "assets/star.svg";
 

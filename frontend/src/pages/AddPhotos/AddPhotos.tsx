@@ -1,10 +1,9 @@
-import React from "react";
-import Navbar from "components/Navbar/Navbar";
 import Dropbox from "components/Dropbox/Dropbox";
 import Footer from "components/Footer/Footer";
-import "./AddPhotos.css";
-import { useLocation } from "react-router-dom";
+import Navbar from "components/Navbar/Navbar";
 import Error from "pages/Error/Error";
+import { useLocation } from "react-router-dom";
+import "./AddPhotos.css";
 
 function AddPhotos() {
   // useLocation gets the data passed from the previous page

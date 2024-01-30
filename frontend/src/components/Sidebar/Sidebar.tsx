@@ -1,7 +1,6 @@
-import React from "react";
 import { Link } from "react-router-dom";
-import "./Sidebar.css";
 import gear from "../../assets/gear.svg";
+import "./Sidebar.css";
 
 function Sidebar() {
   return (

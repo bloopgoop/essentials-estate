@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import propertyService from "services/property/propertyAPI";
 import axios from "services/axiosConfigs";
 import "./PropertyReview.css";
-import Loading from "components/Loading";
+import Loading from "components/Loading/Loading";
 
 function PropertyReview() {
   const [property, setProperty] = useState(null);

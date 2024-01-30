@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom";
-import React, { useContext } from "react";
-import AuthContext from "context/AuthContext";
-import "./Authenticate.css";
 import loginBackground from "assets/login-background.jpg";
+import AuthContext from "context/AuthContext";
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import "./Authenticate.css";
 
 const Login = () => {
   let { loginUser } = useContext(AuthContext);
@@ -28,7 +28,7 @@ const Login = () => {
             placeholder="Username"
             name="username"
             id="flex"
-            minLength="5"
+            minLength={5}
             required
           />
 
@@ -38,7 +38,7 @@ const Login = () => {
             placeholder="Password"
             name="password"
             id="password"
-            minLength="6"
+            minLength={6}
             required
           />
 

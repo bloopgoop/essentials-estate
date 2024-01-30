@@ -1,6 +1,5 @@
-import React from "react";
-import "./styles.css";
 import loading from "assets/loading.gif";
+import "./Loading.css";
 
 const Loading = () => {
   return (
