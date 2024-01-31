@@ -5,6 +5,17 @@ import axios from "services/axiosConfigs";
 import propertyService from "services/property/propertyAPI";
 import "./PhotoDelete.css";
 import { Property } from "types/property";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "components/ui/alert-dialog";
 
 function PhotoDelete() {
   // useLocation gets the data passed from the previous page
@@ -29,29 +40,47 @@ function PhotoDelete() {
       });
   }, [id]);
 
+  const deletePhoto = async (photoID: string[]) => {
+    try {
+      let params = "?";
+      for (let i = 0; i < photoID.length; i++) {
+        params += `photoIDs=${photoID[i]}`;
+        if (i !== photoID.length - 1) {
+          params += "&";
+        }
+      }
+      const response = await axios.delete(`property/photo/delete/${params}`);
+      console.log(response.data);
+      alert("Photo(s) deleted successfully");
+    } catch (error) {
+      alert(`Error deleting photos: ${error}`);
+    }
+  };
+
   // return back to this, messy function
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const photoElement =
       photoDeleteFormRef.current?.elements.namedItem("photo");
     if (!photoElement) {
+      console.log("Error deleting photos: no photos selected");
       return;
     }
+
+    const photoID = [];
+    // More than one photo
     if (photoElement instanceof RadioNodeList) {
       for (let i = 0; i < photoElement.length; i++) {
         const item = photoElement[i];
         if (item instanceof HTMLInputElement && item.checked) {
-          axios
-            .delete(`property/photo/delete/${item.value}`)
-            .then((response) => {
-              console.log(response.data);
-              alert("Photo(s) deleted successfully");
-            })
-            .catch((error) => {
-              alert(`Error deleting photos: ${error}`);
-            });
+          photoID.push(item.value);
         }
       }
+    } else {
+      // Only one photo
+      photoID.push((photoElement as HTMLInputElement).value);
     }
+    await deletePhoto(photoID);
+    window.location.reload();
   };
 
   return (
@@ -79,12 +108,32 @@ function PhotoDelete() {
                     </div>
                   ))}
                 </div>
-                <input
-                  type="submit"
-                  value="Delete"
-                  onClick={handleSubmit}
-                  id="delete-button"
-                />
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <button className="Button red">Delete</button>
+                  </AlertDialogTrigger>
+
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Are you absolutely sure?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action cannot be undone. This will permanently
+                        delete your photo(s) and remove your data from our
+                        servers.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction asChild>
+                        <button className="Button red" onClick={handleSubmit}>
+                          Delete
+                        </button>
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </form>
               <table>
                 <tbody>

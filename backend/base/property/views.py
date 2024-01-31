@@ -43,24 +43,27 @@ def photo(request):
 
 @api_view(['DELETE'])
 @allowed_users(allowed_roles=['common_user', 'admin'])
-def deletePhoto(request, photo_id):
+def deletePhoto(request):
 
     if request.method != "DELETE":
         return JsonResponse({"error": "Invalid  request method."}, status=400)
 
-    photo = PropertyPhoto.objects.get(id=photo_id)
-
-    # Check if user is owner of property
-    property = Property.objects.get(id=photo.property.id)
-    if request.user != property.owner:
-        return JsonResponse({'message': 'Unauthorized'}, status=403)
-
+    # Get photoIDs from request and put it into array
+    photos = request.query_params.getlist('photoIDs', [])
+    if not photos:
+        return JsonResponse({"message": "No photoID provided"}, status=400)
     try:
-        photo.delete()
+        for photoID in photos:
+            # Check if user is owner of property
+            photo = PropertyPhoto.objects.get(id=photoID)
+            property = Property.objects.get(id=photo.property.id)
+            if request.user != property.owner:
+                return JsonResponse({'message': 'Unauthorized'}, status=403)
+            photo.delete()
+            
         return JsonResponse({'message': 'Photo(s) deleted successfully'}, status=200)
     except:
         return JsonResponse({'message': 'Error deleting photo'}, status=400)
-
 
 @api_view(['GET', 'POST'])
 def properties(request):

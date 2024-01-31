@@ -1,6 +1,6 @@
-import { createContext, useState, useEffect, useCallback } from "react";
 import axios from "axios";
-import { JwtPayload, jwtDecode } from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
+import { createContext, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface AuthContextInterface {
