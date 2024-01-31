@@ -5,9 +5,7 @@ import Navbar from "components/Navbar/Navbar";
 import Footer from "components/Footer/Footer";
 import PreviewCard from "components/PreviewCard/PreviewCard";
 import Loading from "components/Loading/Loading";
-
 import propertyService from "services/property/propertyAPI";
-
 import "./Search.css";
 
 const searchTerms = [

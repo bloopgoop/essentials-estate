@@ -29,6 +29,7 @@ import PropertyReview from "pages/Review/PropertyReview/PropertyReview";
 function App() {
   return (
     <div className="App">
+      
       <Router>
         <AuthProvider>
           <Routes>

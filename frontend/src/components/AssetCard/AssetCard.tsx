@@ -3,6 +3,8 @@ import star from "assets/star.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { Property } from "types/property";
 import "./AssetCard.css";
+import { Button } from "components/ui/button"
+
 
 export default function AssetCard({ property }: { property: Property }) {
   console.log(property)
@@ -53,20 +55,14 @@ export default function AssetCard({ property }: { property: Property }) {
         <p>{property.description} </p>
 
         <Link to={`/profile/assets/${property.id}`}>
-          <button id="Assetcard--button">Edit Property</button>
+          <Button className="Assetcard--button">Edit Property</Button>
         </Link>
         <Link to={`/profile/assets/photo/${property.id}`}>
-          <button id="Assetcard--button" style={{ bottom: "7rem" }}>
-            Delete Photo
-          </button>
+        <Button className="Assetcard--button" style={{ bottom: "7rem" }}>Delete Photo</Button>
         </Link>
-        <button
-          id="Assetcard--button"
-          style={{ bottom: "4rem" }}
-          onClick={dropboxRedirect}
-        >
-          Add Photos
-        </button>
+        <Button className="Assetcard--button" style={{ bottom: "4rem" }} asChild> 
+          <button onClick={dropboxRedirect}> Add Photos</button>
+        </Button>
       </div>
     </div>
   );

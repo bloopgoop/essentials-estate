@@ -2,6 +2,7 @@ import "./Profilemain.css";
 import Loading from "components/Loading/Loading";
 import axios from "services/axiosConfigs";
 import { useEffect, useState } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "components/ui/avatar";
 
 interface UserData {
   first_name: string;
@@ -43,9 +44,15 @@ export default function Profilemain() {
         <Loading />
       ) : (
         <div id="profile-box">
-          <img src={""} height={200} width={200} alt="profile" />
+          <Avatar>
+            <AvatarImage src="https://github.com/shadcn.png" />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
+
           <div className="profile-items">
-            {userData ? <h1>{`${userData.first_name} ${userData.last_name}`}</h1> : null}
+            {userData ? (
+              <h1>{`${userData.first_name} ${userData.last_name}`}</h1>
+            ) : null}
             <p>Joined On: {date}</p>
             {/* <p>Lives In New York</p> */}
           </div>
