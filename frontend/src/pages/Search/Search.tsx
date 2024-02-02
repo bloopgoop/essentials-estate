@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-
-import Navbar from "components/Navbar/Navbar";
 import Footer from "components/Footer/Footer";
-import PreviewCard from "components/PreviewCard/PreviewCard";
 import Loading from "components/Loading/Loading";
+import Navbar from "components/Navbar/Navbar";
+import PreviewCard from "components/PreviewCard/PreviewCard";
 import propertyService from "services/property/propertyAPI";
 import "./Search.css";
+import { Property } from "types/property";
 
 const searchTerms = [
   "address",
@@ -19,14 +19,16 @@ const searchTerms = [
   "type",
 ];
 
+const MAX_PROPERTIES = 100;
+
 function Search() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [properties, setProperties] = useState([]);
-  const [shownProperties, setShownProperties] = useState([]); // properties that are shown on the page
+  const [properties, setProperties] = useState<Property[]>([]);
+  const [shownProperties, setShownProperties] = useState<Property[]>([]); // properties that are shown on the page
   const [hasMore, setHasMore] = useState(true);
 
   const fetchData = () => {
-    if (properties.length >= 500) {
+    if (properties.length >= MAX_PROPERTIES) {
       setHasMore(false);
       return;
     }
@@ -46,7 +48,7 @@ function Search() {
       });
   };
 
-  const useMountEffect = (fun) => useEffect(fun, []); // eslint-disable-line react-hooks/exhaustive-deps
+  const useMountEffect = (fun: () => void) => useEffect(fun, []); // eslint-disable-line react-hooks/exhaustive-deps
   useMountEffect(fetchData); // fetch data on mount
 
   // show matched properties first, then unmatched after
@@ -63,7 +65,7 @@ function Search() {
           return false;
         }
 
-        if (typeof properties[i][key] === "number") {
+        if (typeof properties[i].key === "number") {
           return properties[i][key]
             .toString()
             .toLowerCase()
@@ -89,6 +91,7 @@ function Search() {
       <Navbar />
       <div id="search">
         <div id="filter">
+          <h1 className="text-2xl font-bold mb-5">Search for properties</h1>
           <input
             id="searchTerm"
             type="text"

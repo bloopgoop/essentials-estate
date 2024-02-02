@@ -18,11 +18,11 @@
   align-items: center;
   width: inherit;
   text-decoration: none;
-  color: var(--primary-color);
+  color: var(--primary);
 }
 #footer a:hover {
   border-radius: 10px;
-  background: var(--accent-color);
+  background: var(--accent-foreground);
 }
 
 .footer-container {

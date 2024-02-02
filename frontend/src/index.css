@@ -17,7 +17,7 @@
     --secondary-foreground: 24 9.8% 10%;
     --muted: 60 4.8% 95.9%;
     --muted-foreground: 25 5.3% 44.7%;
-    --accent: rgb(222,202,170);
+    --accent: 37 44.1% 76.9%;
     --accent-foreground: rgb(202,182,150);
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 60 9.1% 97.8%;
@@ -57,14 +57,6 @@
   body {
     @apply bg-background text-foreground;
   }
-}
-
-:root {
-  --primary-color: #845444;
-  --secondary-color: #f0f0f0;
-  --accent-color: #f2d4cd;
-  --text-color: #191919;
-  --secondary-text-color: #96969a;
 }
 
 * {

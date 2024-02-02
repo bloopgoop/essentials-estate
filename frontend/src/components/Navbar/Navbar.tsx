@@ -1,30 +1,18 @@
-import AuthContext from "context/AuthContext";
-import { useContext, useRef, forwardRef } from "react";
-import { Link } from "react-router-dom";
-import { cn } from "lib/utils";
-import "./Navbar.css";
+import Logo from "components/Logo";
+import { Avatar, AvatarFallback, AvatarImage } from "components/ui/avatar";
 import {
   NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuIndicator,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
-  NavigationMenuViewport,
 } from "components/ui/navigation-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "components/ui/avatar";
-import { Switch } from "components/ui/switch";
 import { Popover, PopoverContent, PopoverTrigger } from "components/ui/popover";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet"
-
+import AuthContext from "context/AuthContext";
+import { cn } from "lib/utils";
+import { forwardRef, useContext } from "react";
+import { Link } from "react-router-dom";
+import "./Navbar.css";
+import ThemeToggle from "components/ThemeToggle";
 
 const ListItem = forwardRef<
   React.ElementRef<"a">,
@@ -54,17 +42,17 @@ ListItem.displayName = "ListItem";
 
 function Navbar() {
   let { user, logoutUser } = useContext(AuthContext);
-  const navbar = useRef<HTMLDivElement>(null);
 
   return (
     <NavigationMenu className="NavigationMenuRoot">
-      <NavigationMenuList className="NavigationMenuList flex justify-between px-12 py-2 w-screen shadow-sm">
+      <NavigationMenuList className="NavigationMenuList flex justify-between px-12 py-2 w-screen bg-background shadow">
+        <NavigationMenuItem>
+          <NavigationMenuLink href="/" className="NavigationMenuLink">
+            <Logo />
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+
         <div id="nav-left" className="flex">
-          <NavigationMenuItem>
-            <NavigationMenuLink href="/" className="NavigationMenuLink">
-              Home
-            </NavigationMenuLink>
-          </NavigationMenuItem>
           <NavigationMenuItem>
             <NavigationMenuLink
               href="/add-property"
@@ -86,83 +74,52 @@ function Navbar() {
 
         <div id="nav-right" className="flex">
           <NavigationMenuItem className="justify-center">
-            <Switch className="leading-none" />
+            <div className="px-3 h-10 flex items-center">
+              <ThemeToggle />
+            </div>
           </NavigationMenuItem>
 
           <NavigationMenuItem>
-            <Popover>
-              <PopoverTrigger>
-                
+            <div className="px-3 h-10">
+              <Popover>
+                <PopoverTrigger className="AvatarBox">
                   <Avatar className="AvatarRoot">
                     <AvatarImage
                       src="https://github.com/shadcn.png"
-                      className="AvatarImage"
+                      className="AvatarImage object-contain test"
                     />
-                    
+
                     <AvatarFallback className="AvatarFallback">
                       CN
                     </AvatarFallback>
-                    
                   </Avatar>
-              </PopoverTrigger>
-              <PopoverContent>
-                <div className="px-3 py-2">
-                  <ul className="space-y-2">
-                    <ListItem href="/profile/assets" title="Profile">
-                      View and manage your assets
-                    </ListItem>
-                    <li>
-                      <Link
-                        to={"/login"}
-                        onClick={logoutUser}
-                        className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                      >
-                        <div className="text-sm font-medium leading-none">
-                          Logout
-                        </div>
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-              </PopoverContent>
-            </Popover>
+                </PopoverTrigger>
+                <PopoverContent className="my-3">
+                  <div className="px-3 py-2">
+                    <ul className="space-y-2">
+                      <ListItem href="/profile/assets" title="Profile">
+                        View and manage your assets
+                      </ListItem>
+                      <li>
+                        <Link
+                          to={"/login"}
+                          onClick={logoutUser}
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                        >
+                          <div className="text-sm font-medium leading-none">
+                            {user ? "Logout" : "Login"}
+                          </div>
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+                </PopoverContent>
+              </Popover>
+            </div>
           </NavigationMenuItem>
         </div>
       </NavigationMenuList>
     </NavigationMenu>
-
-    // <nav id="navbar" ref={navbar}>
-    //   <div id="nav-left">
-    //     <Link to="/" className="nav-btn">
-    //       <h3 id="nav-logo">Essentials Estate</h3>
-    //     </Link>
-    //     <Link to="/add-property" className="nav-btn">
-    //       List your property!
-    //     </Link>
-    //     {(user && user.is_staff) ? (
-    //       <Link to="/review" className="nav-btn">
-    //         Review
-    //       </Link>
-    //     ) : (
-    //       <></>
-    //     )}
-    //   </div>
-
-    //   <div id="nav-right">
-    //     <Link to="/profile/assets" className="nav-btn">
-    //       Profile
-    //     </Link>
-    //     {user ? (
-    //       <Link to={"/login"} onClick={logoutUser} className="nav-btn">
-    //         Logout
-    //       </Link>
-    //     ) : (
-    //       <Link to={"/login"} className="nav-btn">
-    //         Login
-    //       </Link>
-    //     )}
-    //   </div>
-    // </nav>
   );
 }
 

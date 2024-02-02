@@ -99,7 +99,7 @@ export default function PreviewCard({ property }: { property: Property }) {
           >
             <div className="preview-card-description">
               <div className="description-header">
-                <h3>
+                <h3 className="text-xl font-bold">
                   {property.title
                     ? property.title
                     : property.address +
@@ -111,11 +111,11 @@ export default function PreviewCard({ property }: { property: Property }) {
 
                 <img src={star} alt="star"></img>
 
-                <div>{property.stars}</div>
+                <div className="text-lg">{property.stars}</div>
               </div>
 
-              <p>{property.description}</p>
-              <i>Monthly rent: {property.rent}</i>
+              <p className="text-lg">{property.description}</p>
+              <i className="text-lg">Monthly rent: {property.rent}</i>
             </div>
           </Link>
         </div>

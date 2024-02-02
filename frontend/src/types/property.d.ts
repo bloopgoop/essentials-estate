@@ -4,6 +4,7 @@ status: 0 = pending, 1 = approved, 2 = denied
 */
 
 export interface Property {
+  [x: string]: any;
   id: number;
   owner: string;
   ownerID: number;
