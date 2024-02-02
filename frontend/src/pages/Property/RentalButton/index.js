@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import propertyService from "services/property/propertyAPI";
 import "./styles.css";
+import { Button } from "components/ui/button"
+import { cn } from "lib/utils";
 
-const RentalButton = ({ propertyID }) => {
+const RentalButton = ({ propertyID, className }) => {
   // status = ["pending", "accepted", "none", "owner"]
   const [rentalStatus, setRentalStatus] = useState("none");
 
@@ -32,11 +34,11 @@ const RentalButton = ({ propertyID }) => {
   return (
     <>
       {rentalStatus === "none" ? (
-        <button onClick={requestRental}>Request Rental</button>
+        <Button className={className} onClick={requestRental}>Request Rental</Button>
       ) : (
-        <button disabled className="disabled">
+        <Button disabled className={cn("disabled", className)}>
           {rentalStatus.charAt(0).toUpperCase() + rentalStatus.slice(1)}
-        </button>
+        </Button>
       )}
     </>
   );

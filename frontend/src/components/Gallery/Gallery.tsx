@@ -1,60 +1,69 @@
 import { useState, useEffect, useRef } from "react";
 import imageNotFound from "assets/image-not-found.jpg";
 import "./Gallery.css";
-import { PropertyPhoto } from "types/propertyPhoto"
+import { PropertyPhoto } from "types/propertyPhoto";
+import { cn } from "lib/utils";
 
 export default function Gallery({ photos }: { photos: PropertyPhoto[] }) {
-  const [mainImage, setMainImage] = useState("");
-  const [mainDescription, setMainDescription] = useState("");
+  const [galleryIndex, setGalleryIndex] = useState(0);
   const mainImageRef = useRef<HTMLImageElement>(null);
 
-  const switchMainImage = (event: React.MouseEvent) => {
-    const img = event.target as HTMLImageElement;
-    setMainImage(img.src);
-    setMainDescription(img.title);
+  const switchMainImage = (index: number) => {
+    setGalleryIndex(index);
   };
 
+  // Fade in effect
   useEffect(() => {
     if (photos.length === 0) return;
-    if (!mainImage) {
-      setMainImage(photos[0].photo);
-      setMainDescription(photos[0].description);
-    }
+
     if (mainImageRef.current) {
       mainImageRef.current.classList.remove("fade-in");
       void mainImageRef.current.offsetWidth; // Trigger reflow
       mainImageRef.current.classList.add("fade-in");
     }
-  }, [mainImage, photos]);
+  }, [galleryIndex, photos]);
+
+  if (photos.length === 0) {
+    return (
+      <div className="gallery-card bg-accent">
+        <div className="gallery">
+          <ul>
+            <li>
+              <img src={imageNotFound} alt="no-images" />
+            </li>
+          </ul>
+        </div>
+        <div className="main-image">
+          <img src={imageNotFound} alt="no-images" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
-      {photos.length === 0 ? (
-        <div className="gallery-card">
+        <div className="gallery-card bg-accent">
           <div className="gallery">
-            <ul>
-              <li>
-                <img src={imageNotFound} alt="no-images" />
-              </li>
-            </ul>
-          </div>
-          <div className="main-image">
-            <img src={imageNotFound} alt="no-images" />
-          </div>
-        </div>
-      ) : (
-        <div className="gallery-card">
-          <div className="gallery">
-            <ul>
+            <ul className="overflow-x-hidden">
               {photos &&
                 photos.map((photo, index) => (
-                  <li key={index} className="clickable">
+                  <li
+                    key={index}
+                    className={cn(
+                      "hover:cursor-pointer",
+                      index === galleryIndex ? "ring-4" : ""
+                    )}
+                  >
                     <img
                       src={photo.photo}
-                      alt={`img${index}`}
-                      onClick={switchMainImage}
+                      alt={
+                        photo.description
+                          ? photo.description
+                          : `Gallery image ${index + 1}`
+                      }
                       className="fade-in"
-                      title={photo.description}
+                      title={`Gallery image ${index + 1}`}
+                      onClick={() => switchMainImage(index)}
                     />
                   </li>
                 ))}
@@ -63,15 +72,14 @@ export default function Gallery({ photos }: { photos: PropertyPhoto[] }) {
 
           <div className="main-image">
             <img
-              src={mainImage}
-              alt="main-img"
+              src={photos[galleryIndex].photo}
+              alt={photos[galleryIndex].description}
               ref={mainImageRef}
               className="fade-in"
-              title={mainDescription}
+              title="main-image"
             />
           </div>
         </div>
-      )}
     </>
   );
 }

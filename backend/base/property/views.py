@@ -222,7 +222,7 @@ def ratings(request, property_id):
         try:
             data = request.POST
             payload = jwt.decode(
-                data['token'], settings.SECRET_KEY, algorithms=['HS256'])
+                access_token, settings.SECRET_KEY, algorithms=['HS256'])
             property = Property.objects.get(id=property_id)
             rating = Rating.objects.create(
                 property=property,
@@ -236,8 +236,9 @@ def ratings(request, property_id):
                 id=property_id)).aggregate(Avg('stars'))['stars__avg']
             property.save()
             id = rating.id
-            return JsonResponse({'id': id, 'message': 'Rating has been posted'}, status=200)
-        except:
+            return JsonResponse({'data': rating.serialize(), 'message': 'Rating has been posted'}, status=200)
+        except Exception as e:
+            print(e)
             return JsonResponse({'message': 'Error adding property'}, status=400)
 
     elif request.method == 'PUT':

@@ -11,12 +11,13 @@ export default function ThemeToggle() {
 
   return (
     <>
-      <Moon></Moon>
       <Switch
         aria-label="Toggle theme"
         checked={theme === "dark"}
         onCheckedChange={switchTheme}
+        className="mr-2"
       ></Switch>
+      {theme === "dark" ? <Moon /> : <Sun />}
     </>
   );
 }

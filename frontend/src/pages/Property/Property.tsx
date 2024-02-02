@@ -12,6 +12,7 @@ import Footer from "components/Footer/Footer";
 import Loading from "components/Loading/Loading";
 import Comment from "components/Comment/Comment";
 import star from "assets/star.svg";
+import OwnerInfo from "./OwnerInfo/OwnerInfo";
 import {
   Table,
   TableBody,
@@ -21,6 +22,8 @@ import {
   TableHeader,
   TableRow,
 } from "components/ui/table";
+import RatingForm from "./RatingForm";
+import { Rating } from "types/rating";
 
 const Property = () => {
   const navigate = useNavigate();
@@ -31,7 +34,7 @@ const Property = () => {
   const [stars, setStars] = useState(0);
   const [comment, setComment] = useState("");
   const [avgRating, setAvgRating] = useState(0);
-  const [ratings, setRatings] = useState([]);
+  const [ratings, setRatings] = useState<Rating[]>([]);
   const [isOwner, setIsOwner] = useState(false);
 
   const [itemOffset, setItemOffset] = useState(0);
@@ -166,7 +169,7 @@ const Property = () => {
       <Navbar />
       {property ? (
         <div>
-          <main id="main-content">
+          <main className="max-w-7xl m-auto">
             {property.title ? (
               <h1>{property.title}</h1>
             ) : (
@@ -193,11 +196,11 @@ const Property = () => {
             </div>
             <Gallery photos={property.photos} />
 
-            <div className="split-container">
-              <p>Owner: {property.owner}</p>
-              {auth.user && !isOwner ? <RentalButton propertyID={id} /> : null}
-            </div>
-            <p>{property.description}</p>
+            <RentalButton propertyID={id} className="mt-4 r-0" />
+
+            {auth.user && !isOwner ? <RentalButton propertyID={id} /> : null}
+
+            <OwnerInfo ownerID={property.ownerID} />
 
             <Table>
               <TableCaption>A list of your recent invoices.</TableCaption>
@@ -210,9 +213,39 @@ const Property = () => {
               </TableHeader>
               <TableBody>
                 <TableRow>
-                  <TableCell className="font-medium">INV001</TableCell>
-                  <TableCell>Paid</TableCell>
-                  <TableCell className="text-right">$250.00</TableCell>
+                  <TableCell className="font-medium">Owner</TableCell>
+                  <TableCell>{property.owner}</TableCell>
+                  <TableCell className="text-right"></TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell className="font-medium">Address</TableCell>
+                  <TableCell>123 Main st</TableCell>
+                  <TableCell className="text-right"></TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell className="font-medium">City</TableCell>
+                  <TableCell>Brooklyn</TableCell>
+                  <TableCell className="text-right"></TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell className="font-medium">State</TableCell>
+                  <TableCell>New York</TableCell>
+                  <TableCell className="text-right"></TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell className="font-medium">Rent</TableCell>
+                  <TableCell>1000</TableCell>
+                  <TableCell className="text-right">$ per month</TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell className="font-medium">Bedrooms</TableCell>
+                  <TableCell>1</TableCell>
+                  <TableCell className="text-right"></TableCell>
                 </TableRow>
               </TableBody>
             </Table>
@@ -265,33 +298,14 @@ const Property = () => {
               </tbody>
             </table>
 
-            {/* REMOVE LATER, FOR TESTING checkGroup */}
-            {/* <button onClick={checkGroup}>Are You An Admin?</button> */}
-            <div className="post--box">
-              <div className="post--rating">
-                <h1>Overall Rating:</h1>
-                <input
-                  className="post--input"
-                  type="number"
-                  min={0}
-                  max={5}
-                  onChange={(e) => setStars(e.target.value)}
-                ></input>
-              </div>
-              <textarea
-                maxLength="255"
-                onChange={(e) => setComment(e.target.value)}
-              ></textarea>
-              <button onClick={handlePost}>Post</button>
-            </div>
-
+            <RatingForm ratings={ratings} setRatings={setRatings}></RatingForm>
             {ratings
               .slice(itemOffset, itemOffset + itemsPerPage)
               .map((rating, key) => (
                 <div key={key}>
                   {console.log(rating)}
                   <Comment
-                    props={rating}
+                    rating={rating}
                     handlePut={handlePut}
                     handleDelete={handleDelete}
                   />

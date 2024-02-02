@@ -97,7 +97,7 @@ export default function PreviewCard({ property }: { property: Property }) {
             to={`/property/${property.id}`}
             style={{ textDecoration: "none", color: "black" }}
           >
-            <div className="preview-card-description">
+            <div className="preview-card-description text-foreground">
               <div className="description-header">
                 <h3 className="text-xl font-bold">
                   {property.title
@@ -111,7 +111,7 @@ export default function PreviewCard({ property }: { property: Property }) {
 
                 <img src={star} alt="star"></img>
 
-                <div className="text-lg">{property.stars}</div>
+                <div className="text-lg ">{property.stars}</div>
               </div>
 
               <p className="text-lg">{property.description}</p>

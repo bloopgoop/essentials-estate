@@ -6,12 +6,6 @@
   z-index: 1;
 }
 
-.NavigationMenuList {
-  background-color: var(--background);
-  list-style: none;
-  box-shadow: 0 0 0 5px var(--foreground);
-}
-
 .NavigationMenuTrigger,
 .NavigationMenuLink {
   padding: 8px 12px;
@@ -48,8 +42,7 @@
 
 .AvatarBox:focus,
 .AvatarBox:hover {
-  border-radius: 100px;
-  box-shadow: 0 0 0 3px var(--accent-foreground);
+  box-shadow: 0 0 0 3px hsl(37 44.1% 76.9%);
 }
 .AvatarRoot {
   display: inline-flex;

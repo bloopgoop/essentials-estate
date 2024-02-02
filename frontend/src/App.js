@@ -29,7 +29,7 @@ import { ThemeProvider } from "context/ThemeContext";
 
 function App() {
   return (
-    <div className="App">
+    <div className="App w-screen">
       <ThemeProvider defaultTheme="dark" storageKey="ui-theme">
         <Router>
           <AuthProvider>

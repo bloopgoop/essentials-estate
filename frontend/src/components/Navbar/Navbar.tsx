@@ -45,25 +45,25 @@ function Navbar() {
 
   return (
     <NavigationMenu className="NavigationMenuRoot">
-      <NavigationMenuList className="NavigationMenuList flex justify-between px-12 py-2 w-screen bg-background shadow">
+      <NavigationMenuList className="flex justify-between px-12 py-2 w-screen bg-background shadow-sm shadow-border">
         <NavigationMenuItem>
-          <NavigationMenuLink href="/" className="NavigationMenuLink">
+          <NavigationMenuLink href="/" className="NavigationMenuLink hover:bg-accent">
             <Logo />
           </NavigationMenuLink>
         </NavigationMenuItem>
 
-        <div id="nav-left" className="flex">
+        <div className="flex">
           <NavigationMenuItem>
             <NavigationMenuLink
               href="/add-property"
-              className="NavigationMenuLink"
+              className="NavigationMenuLink hover:bg-accent"
             >
               List property
             </NavigationMenuLink>
           </NavigationMenuItem>
           {user && user.is_staff ? (
             <NavigationMenuItem>
-              <NavigationMenuLink href="/review" className="NavigationMenuLink">
+              <NavigationMenuLink href="/review" className="NavigationMenuLink hover:bg-accent">
                 Review
               </NavigationMenuLink>
             </NavigationMenuItem>
@@ -72,7 +72,7 @@ function Navbar() {
           )}
         </div>
 
-        <div id="nav-right" className="flex">
+        <div className="flex">
           <NavigationMenuItem className="justify-center">
             <div className="px-3 h-10 flex items-center">
               <ThemeToggle />
@@ -80,13 +80,13 @@ function Navbar() {
           </NavigationMenuItem>
 
           <NavigationMenuItem>
-            <div className="px-3 h-10">
+            <div className="px-3 h-10 ">
               <Popover>
-                <PopoverTrigger className="AvatarBox">
+                <PopoverTrigger className="AvatarBox rounded-full">
                   <Avatar className="AvatarRoot">
                     <AvatarImage
                       src="https://github.com/shadcn.png"
-                      className="AvatarImage object-contain test"
+                      className="AvatarImage"
                     />
 
                     <AvatarFallback className="AvatarFallback">

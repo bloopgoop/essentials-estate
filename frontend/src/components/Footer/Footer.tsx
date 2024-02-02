@@ -23,7 +23,7 @@ const Footer = () => {
           <h4>Kevin Zhu</h4>
           <ul>
             <li>
-              <a href="https://github.com/bloopgoop">
+              <a href="https://github.com/bloopgoop" className="hover:bg-accent">
                 <img src={githubIcon} alt="github icon" />
                 GitHub
               </a>
