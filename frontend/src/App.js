@@ -29,7 +29,7 @@ import { ThemeProvider } from "context/ThemeContext";
 
 function App() {
   return (
-    <div className="App w-screen">
+    <div className="App overflow-x-hidden">
       <ThemeProvider defaultTheme="dark" storageKey="ui-theme">
         <Router>
           <AuthProvider>

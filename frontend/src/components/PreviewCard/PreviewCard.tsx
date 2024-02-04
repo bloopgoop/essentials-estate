@@ -72,7 +72,7 @@ export default function PreviewCard({ property }: { property: Property }) {
               <div></div>
             )}
             {state.images.length > 1 && (
-              <p className="preview-image-counter">
+              <p className="preview-image-counter text-black">
                 {state.index + 1}/{property.photos.length}
               </p>
             )}

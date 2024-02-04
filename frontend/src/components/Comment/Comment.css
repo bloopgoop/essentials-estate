@@ -1,22 +1,18 @@
 #comment--wrapper {
-  margin: auto;
-  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  padding: 12px;
   width: 100%;
   overflow: hidden;
-  border-top: 2px solid #ccc;
-  min-height: 7rem;
+  min-height: 12rem;
 }
 
 #comment--heading {
   display: flex;
   align-items: center;
-}
-
-#comment--heading > img {
-  height: 50px;
-  width: 50px;
-  border-radius: 100%;
-  margin-right: 2rem;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-right: 1rem;
 }
 
 #comment--user {
@@ -26,19 +22,6 @@
 
 #comment--date {
   font-size: 12px;
-}
-
-#comment--buttons {
-  margin-right: 1rem;
-}
-
-#comment--buttons > button {
-  width: 5rem;
-}
-
-#comment--post--wrapper {
-  display: flex;
-  justify-content: space-between;
 }
 
 #comment--post {

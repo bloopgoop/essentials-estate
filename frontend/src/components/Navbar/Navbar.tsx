@@ -13,6 +13,8 @@ import { forwardRef, useContext } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
 import ThemeToggle from "components/ThemeToggle";
+import logoLight from "assets/logo-light.svg";
+import logoDark from "assets/logo-dark.svg";
 
 const ListItem = forwardRef<
   React.ElementRef<"a">,
@@ -45,10 +47,10 @@ function Navbar() {
 
   return (
     <NavigationMenu className="NavigationMenuRoot">
-      <NavigationMenuList className="flex justify-between px-12 py-2 w-screen bg-background shadow-sm shadow-border">
+      <NavigationMenuList className="w-screen max-w-full px-12 py-2 justify-between bg-background shadow-sm shadow-border">
         <NavigationMenuItem>
           <NavigationMenuLink href="/" className="NavigationMenuLink hover:bg-accent">
-            <Logo />
+            <Logo className="h-10 w-10" light={logoLight} dark={logoDark}/>
           </NavigationMenuLink>
         </NavigationMenuItem>
 

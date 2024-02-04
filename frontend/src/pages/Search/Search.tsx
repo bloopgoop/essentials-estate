@@ -123,8 +123,8 @@ function Search() {
             ))}
           </div>
         </InfiniteScroll>
-      </div>
       <Footer />
+      </div>
     </>
   );
 }

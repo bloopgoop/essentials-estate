@@ -1,15 +1,13 @@
-import logoLight from "assets/logo-light.svg";
-import logoDark from "assets/logo-dark.svg";
 import { useTheme } from "context/ThemeContext";
+import { cn } from "lib/utils";
 
-export default function Logo() {
+export default function Logo({ className, light, dark }: { className?: string, light?: string, dark?: string }) {
   const { theme } = useTheme();
   return (
     <img
-      src={theme === "light" ? logoLight : logoDark}
+      src={theme === "light" ? light : dark}
       alt="logo"
-      height="40px"
-      width="40px"
+      className={cn(className)}
     />
   );
 }

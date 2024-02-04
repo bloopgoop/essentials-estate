@@ -169,19 +169,16 @@ const Property = () => {
       <Navbar />
       {property ? (
         <div>
-          <main className="max-w-7xl m-auto">
-            {property.title ? (
-              <h1>{property.title}</h1>
-            ) : (
-              <h1>{property.address + " " + property.zip}</h1>
-            )}
-            <div className="split-container">
-              <p>
-                Property type: {capitalize(property.type)} &nbsp;
-                <strong>{`City: ${property.city}`}</strong>
-              </p>
+          <main className="max-w-7xl m-auto w-11/12 mt-10">
+            <h1 className="text-4xl font-bold">
+              {property.title
+                ? property.title
+                : property.address + " " + property.zip}
+            </h1>
+            <div className="split-container my-4">
+              <p>{`City: ${property.city}`}</p>
 
-              <i>
+              <i className="flex items-center">
                 <img
                   src={star}
                   alt="star"
@@ -196,14 +193,15 @@ const Property = () => {
             </div>
             <Gallery photos={property.photos} />
 
-            <RentalButton propertyID={id} className="mt-4 r-0" />
-
-            {auth.user && !isOwner ? <RentalButton propertyID={id} /> : null}
+            {auth.user && !isOwner ? (
+              <RentalButton propertyID={id} className="mt-4 float-right" />
+            ) : null}
 
             <OwnerInfo ownerID={property.ownerID} />
 
+            <h2 className="text-2xl font-bold mt-20">Property Information</h2>
             <Table>
-              <TableCaption>A list of your recent invoices.</TableCaption>
+              <TableCaption>A list of property information</TableCaption>
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-[100px]"></TableHead>
@@ -247,57 +245,40 @@ const Property = () => {
                   <TableCell>1</TableCell>
                   <TableCell className="text-right"></TableCell>
                 </TableRow>
+
+                <TableRow>
+                  <TableCell className="font-medium">Bathrooms</TableCell>
+                  <TableCell>{property.bathrooms}</TableCell>
+                  <TableCell className="text-right"></TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell className="font-medium">Garage</TableCell>
+                  <TableCell>{property.garage}</TableCell>
+                  <TableCell className="text-right"></TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell className="font-medium">Area</TableCell>
+                  <TableCell>{property.sqft}</TableCell>
+                  <TableCell className="text-right">sqft</TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell className="font-medium">Lot Size:</TableCell>
+                  <TableCell>{property.lotsize}</TableCell>
+                  <TableCell className="text-right">acres</TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell className="font-medium">Type</TableCell>
+                  <TableCell>{property.type}</TableCell>
+                  <TableCell className="text-right"></TableCell>
+                </TableRow>
               </TableBody>
             </Table>
 
-            <table>
-              <tbody>
-                <tr>
-                  <td>Owner:</td>
-                  <td>{property.owner}</td>
-                </tr>
-                <tr>
-                  <td>Address:</td>
-                  <td>
-                    {property.address}, {property.city}, {property.state}{" "}
-                    {property.zip}
-                  </td>
-                </tr>
-                <tr>
-                  <td>Rent:</td>
-                  <td>${property.rent}/month</td>
-                </tr>
-                <tr>
-                  <td>Bedrooms:</td>
-                  <td>{property.bedrooms}</td>
-                </tr>
-                <tr>
-                  <td>Bathrooms:</td>
-                  <td>{property.bathrooms}</td>
-                </tr>
-                <tr>
-                  <td>Garage:</td>
-                  <td>{property.garage} car(s)</td>
-                </tr>
-                <tr>
-                  <td>Square Footage:</td>
-                  <td>{property.sqft} sqft</td>
-                </tr>
-                <tr>
-                  <td>Lot Size:</td>
-                  <td>{property.lotsize} acres</td>
-                </tr>
-                <tr>
-                  <td>Type:</td>
-                  <td>{property.type}</td>
-                </tr>
-                <tr>
-                  <td>Stars:</td>
-                  <td>{Math.round(avgRating * 10) / 10}</td>
-                </tr>
-              </tbody>
-            </table>
-
+            <h2 className="text-2xl font-bold mt-20">Ratings</h2>
             <RatingForm ratings={ratings} setRatings={setRatings}></RatingForm>
             {ratings
               .slice(itemOffset, itemOffset + itemsPerPage)
@@ -328,8 +309,8 @@ const Property = () => {
             {/* <img src={property.photos[0]} alt="Property" /> */}
             {/* <label htmlFor="rating">Avg rating:</label>
             <div id="rating">{avgRating}</div> */}
-          </main>
           <Footer />
+          </main>
         </div>
       ) : (
         <Loading />
