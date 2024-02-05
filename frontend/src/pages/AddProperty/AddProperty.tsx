@@ -70,7 +70,7 @@ const AddProperty = () => {
             let keyAsString = formKey.toString();
             return (
               <>
-                <label htmlFor={keyAsString}>
+                <label htmlFor={keyAsString} >
                   {keyAsString.charAt(0).toUpperCase() + keyAsString.slice(1)}:
                 </label>
                 {typeof formValue === "number" ? (
@@ -97,7 +97,6 @@ const AddProperty = () => {
           <button type="submit" id="add-property-btn">Add Property</button>
         </form>
       </div>
-      <Footer />
     </div>
   );
 };

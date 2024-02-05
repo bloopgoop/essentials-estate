@@ -4,9 +4,7 @@ import { createContext, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface AuthContextInterface {
-  loginUser:
-    | ((event: React.FormEvent<HTMLFormElement>) => Promise<void>)
-    | (() => void);
+  loginUser: ((username: string, password: string) => void)
   logoutUser: () => void;
   user: AccessToken | null;
   authTokens: Tokens | null;
@@ -59,12 +57,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   let navigate = useNavigate();
 
   // Log in function. Takes in event from form submission
-  const loginUser = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.target as HTMLFormElement);
+  const loginUser = async (username:string, password:string) => {
     let body = {
-      username: formData.get("username"),
-      password: formData.get("password"),
+      username: username,
+      password: password,
     };
     axios
       .post("http://localhost:8000/api/token/", body)
@@ -79,7 +75,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       })
       .catch((error) => {
         console.log(error);
-        alert(error);
+        alert(error.response.data.detail);
       });
   };
 
