@@ -1,53 +1,72 @@
-import { createContext, useCallback, useEffect, useState } from "react";
+import { createContext, useCallback, useState } from "react";
 import { Property } from "types/property";
 
-interface PropertyForm {
+type PropertyForm = {
   basicInformation: {
-    username: string;
-    password: string;
-  };
-  methodOfPayment: {
-    cardNumber: string;
-    expirationDate: string;
-    cvv: string;
+    first_name: string;
+    last_name: string;
+    dob: string;
+    email: string;
+    phone: string;
   };
   loading: boolean;
   properties: Property[];
 }
 
-type ThemeProviderProps = {
+const defaultPropertyForm: PropertyForm = {
+  basicInformation: {
+    first_name: "",
+    last_name: "",
+    dob: "",
+    email: "",
+    phone: "",
+  },
+  loading: true,
+  properties: [],
+}
+
+type PropertyFormState = {
+  propertyForm: PropertyForm
+  setPropertyForm: (propertyForm: PropertyForm) => void
+}
+
+const initialState: PropertyFormState = {
+  propertyForm: defaultPropertyForm,
+  setPropertyForm: () => null,
+}
+
+type PropertyFormProps = {
   children: React.ReactNode
-  defaultTheme?: Theme
+  defaultPropertyForm?: PropertyForm
   storageKey?: string
 }
 
-type ThemeProviderState = {
-  theme: Theme
-  setTheme: (theme: Theme) => void
-}
-
-const initialState: ThemeProviderState = {
-  theme: "light",
-  setTheme: () => null,
-}
-
-const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
-
-export default PropertyFormContext;
+const PropertyFormContext = createContext<PropertyFormState>(initialState)
 
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [basicInformation, setBasicInformation] = useState({
-    username: "",
-    password: "",
-  });
-  const [methodOfPayment, setMethodOfPayment] = useState({
-    cardNumber: "",
-    expirationDate: "",
-    cvv: "",
-  });
-  const [loading, setLoading] = useState(true);
-  const [properties, setProperties] = useState<Property[]>([]);
+export function PropertyFormProvider({ children, storageKey="propertyForm", ...props }: PropertyFormProps) {
+  const [basicInformation, setBasicInformation] = useState<PropertyForm["basicInformation"]>(defaultPropertyForm.basicInformation)
+  const [properties, setProperties] = useState<Property[]>(defaultPropertyForm.properties)
+  const [loading, setLoading] = useState(false)
+
+  const submitForm = useCallback((propertyForm: PropertyForm) => {
+    // Submit form to server
+  }, [])
+
+
+  const contextData = {
+    propertyForm: {
+      basicInformation,
+      properties,
+      loading,
+      submitForm,
+    },
+    setPropertyForm: (propertyForm: PropertyForm) => {
+      setBasicInformation(propertyForm.basicInformation)
+      setProperties(propertyForm.properties)
+      setLoading(propertyForm.loading)
+    }
+  }
 
 
   return (

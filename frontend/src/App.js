@@ -25,6 +25,7 @@ import Review from "pages/Review/Review";
 import AdminRoutes from "./utils/AdminRoutes";
 import PropertyReview from "pages/Review/PropertyReview/PropertyReview";
 import { ThemeProvider } from "context/ThemeContext";
+import PropertyFormContext, { PropertyFormProvider } from "context/PropertyFormContext";
 // import Profilemain from "pages/Profile/Main/Profilemain";
 
 function App() {
@@ -44,9 +45,11 @@ function App() {
                   <Route element={<Status />} path="status" />
                 </Route>
 
-                <Route element={<Payment />} path="/payment" />
-                <Route element={<AddProperty />} path="/add-property" />
-                <Route element={<AddPhotos />} path="/add-photo" />
+                <Route element={<PropertyFormProvider />} path="/property-form/">
+                  <Route element={<Payment />} path="/payment" />
+                  <Route element={<AddProperty />} path="/add-property" />
+                  <Route element={<AddPhotos />} path="/add-photo" />
+                </Route>
               </Route>
 
               <Route element={<AdminRoutes />}>
