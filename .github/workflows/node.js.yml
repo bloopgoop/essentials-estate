@@ -29,7 +29,9 @@ jobs:
 
     - name: Install dependencies
       run: |
+        ls
         cd frontend
+        ls
         npm ci
         
     - name: Build
