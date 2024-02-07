@@ -30,6 +30,7 @@ jobs:
     - name: Install dependencies
       run: |
         cd frontend
+        ls
         npm ci
         
     - name: Build
