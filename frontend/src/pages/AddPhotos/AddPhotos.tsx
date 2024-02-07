@@ -1,5 +1,4 @@
 import Dropbox from "components/Dropbox/Dropbox";
-import Footer from "components/Footer/Footer";
 import Navbar from "components/Navbar/Navbar";
 import Error from "pages/Error/Error";
 import { useLocation } from "react-router-dom";
@@ -20,7 +19,6 @@ function AddPhotos() {
         <h1>Add Photos</h1>
         <Dropbox id={property_id} />
       </div>
-      <Footer />
     </>
   );
 }

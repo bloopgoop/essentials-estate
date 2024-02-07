@@ -6,15 +6,12 @@ import {
 } from "react-router-dom";
 import { AuthProvider } from "context/AuthContext";
 import LoggedInRoutes from "./utils/LoggedInRoutes";
-
 import ErrorPage from "./pages/Error/Error";
 import Login from "./pages/Authenticate/Login";
 import Register from "./pages/Authenticate/Register";
 import Search from "./pages/Search/Search";
 import Property from "./pages/Property/Property";
 import Profile from "./pages/Profile/Profile";
-import Payment from "./pages/Payment/Payment";
-import AddProperty from "./pages/AddProperty/AddProperty";
 import AddPhotos from "pages/AddPhotos/AddPhotos";
 import Assets from "./pages/Profile/ProfileAssets/Assets";
 import AssetEdit from "./pages/Profile/ProfileAssets/AssetEdit/AssetEdit";
@@ -25,7 +22,11 @@ import Review from "pages/Review/Review";
 import AdminRoutes from "./utils/AdminRoutes";
 import PropertyReview from "pages/Review/PropertyReview/PropertyReview";
 import { ThemeProvider } from "context/ThemeContext";
-import PropertyFormContext, { PropertyFormProvider } from "context/PropertyFormContext";
+import PropertyForm from "pages/PropertyForm/PropertyForm";
+import BasicInfo from "pages/PropertyForm/BasicInfo/BasicInfo";
+import PaymentInfo from "./pages/PropertyForm/PaymentInfo/PaymentInfo";
+import PropertyInfo from "./pages/PropertyForm/PropertyInfo/PropertyInfo";
+import ConfirmInfo from "./pages/PropertyForm/ConfirmInfo/ConfirmInfo";
 // import Profilemain from "pages/Profile/Main/Profilemain";
 
 function App() {
@@ -45,10 +46,13 @@ function App() {
                   <Route element={<Status />} path="status" />
                 </Route>
 
-                <Route element={<PropertyFormProvider />} path="/property-form/">
-                  <Route element={<Payment />} path="/payment" />
-                  <Route element={<AddProperty />} path="/add-property" />
-                  <Route element={<AddPhotos />} path="/add-photo" />
+                <Route element={<AddPhotos />} path="add-photo" />
+
+                <Route element={<PropertyForm />} path="/property-form/">
+                  <Route element={<BasicInfo />} path="basic-info" />
+                  <Route element={<PaymentInfo />} path="payment-info" />
+                  <Route element={<PropertyInfo />} path="property-info" />
+                  <Route element={<ConfirmInfo />} path="confirm-info" />
                 </Route>
               </Route>
 

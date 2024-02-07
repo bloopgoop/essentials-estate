@@ -57,7 +57,7 @@ function Navbar() {
         <div className="flex">
           <NavigationMenuItem>
             <NavigationMenuLink
-              href="/add-property"
+              href="/property-form/basic-info"
               className="NavigationMenuLink hover:bg-accent"
             >
               List property

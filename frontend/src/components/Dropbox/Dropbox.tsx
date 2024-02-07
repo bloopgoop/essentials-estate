@@ -140,7 +140,7 @@ function Dropbox({ id }: { id: number }) {
 
       <div id="dropbox">
         <div
-          className="bin"
+          className="bin bg-accent"
           ref={dropboxRef}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
