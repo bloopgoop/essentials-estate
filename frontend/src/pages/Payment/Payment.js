@@ -1,8 +1,10 @@
-import React, { useState } from "react";
-import paymentService from "services/payment/paymentAPI";
-import { useNavigate } from "react-router-dom";
-import Navbar from "components/Navbar/Navbar";
+//DEPRECATED
+
 import Footer from "components/Footer/Footer";
+import Navbar from "components/Navbar/Navbar";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import paymentService from "services/payment/paymentAPI";
 import "./Payment.css";
 
 // Method of payment view. User can enter method of payment, it will be save to their account.
@@ -14,13 +16,13 @@ function PaymentForm() {
   const [expiryDate, setExpiryDate] = useState("");
   const [cvv, setCvv] = useState("");
 
-  const skipFunction = (e) => {
+  const skipFunction = (event) => {
     console.log("Skipping payment");
     navigate("/add-property");
   };
 
   // not implemented client sided checking
-  const handleSubmit = (e) => {
+  const handleSubmit = (event) => {
     "use server";
     console.log("Submitting form");
     paymentService
@@ -35,8 +37,8 @@ function PaymentForm() {
         alert(error);
       });
 
-    console.log(e);
-    e.preventDefault();
+    console.log(event);
+    event.preventDefault();
   };
 
   return (

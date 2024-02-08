@@ -6,7 +6,7 @@ urlpatterns = [
     path('<int:pk>/', views.getProperty, name='property'),
     path('userProperty/', views.getUserProperty, name='userProperty'),
     path('photo/', views.photo, name='photo'),
-    path('photo/delete/<int:photo_id>/', views.deletePhoto, name='deletePhoto'),
+    path('photo/delete/', views.deletePhoto, name='deletePhoto'),
 
     path('rating/<int:property_id>', views.ratings, name='rating'),
     path('reviewProperty/<int:admin>', views.reviewProperty, name='review'),

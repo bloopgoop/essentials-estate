@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import AssetCard from "../../../components/AssetCard/AssetCard";
 import "./Assets.css";
-import Loading from "components/Loading";
+import Loading from "components/Loading/Loading";
 import ReactPaginate from "react-paginate";
 import axios from "services/axiosConfigs";
 import Profilemain from "../Main/Profilemain";
@@ -79,7 +79,7 @@ export default function Assets() {
               .slice(itemOffset, itemOffset + itemsPerPage)
               .map((property, key) => (
                 <div key={key}>
-                  <AssetCard props={property} />
+                  <AssetCard property={property} />
                 </div>
               ))
           ) : (

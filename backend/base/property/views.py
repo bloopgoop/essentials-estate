@@ -43,24 +43,27 @@ def photo(request):
 
 @api_view(['DELETE'])
 @allowed_users(allowed_roles=['common_user', 'admin'])
-def deletePhoto(request, photo_id):
+def deletePhoto(request):
 
     if request.method != "DELETE":
         return JsonResponse({"error": "Invalid  request method."}, status=400)
 
-    photo = PropertyPhoto.objects.get(id=photo_id)
-
-    # Check if user is owner of property
-    property = Property.objects.get(id=photo.property.id)
-    if request.user != property.owner:
-        return JsonResponse({'message': 'Unauthorized'}, status=403)
-
+    # Get photoIDs from request and put it into array
+    photos = request.query_params.getlist('photoIDs', [])
+    if not photos:
+        return JsonResponse({"message": "No photoID provided"}, status=400)
     try:
-        photo.delete()
+        for photoID in photos:
+            # Check if user is owner of property
+            photo = PropertyPhoto.objects.get(id=photoID)
+            property = Property.objects.get(id=photo.property.id)
+            if request.user != property.owner:
+                return JsonResponse({'message': 'Unauthorized'}, status=403)
+            photo.delete()
+            
         return JsonResponse({'message': 'Photo(s) deleted successfully'}, status=200)
     except:
         return JsonResponse({'message': 'Error deleting photo'}, status=400)
-
 
 @api_view(['GET', 'POST'])
 def properties(request):
@@ -94,7 +97,7 @@ def properties(request):
             description=data['description'],
             bedrooms=data['bedrooms'],
             bathrooms=data['bathrooms'],
-            garage=data['garages'],
+            garage=data['garage'],
             sqft=data['sqft'],
             lotsize=data['lotsize'],
             stars=0,
@@ -219,7 +222,7 @@ def ratings(request, property_id):
         try:
             data = request.POST
             payload = jwt.decode(
-                data['token'], settings.SECRET_KEY, algorithms=['HS256'])
+                access_token, settings.SECRET_KEY, algorithms=['HS256'])
             property = Property.objects.get(id=property_id)
             rating = Rating.objects.create(
                 property=property,
@@ -233,8 +236,9 @@ def ratings(request, property_id):
                 id=property_id)).aggregate(Avg('stars'))['stars__avg']
             property.save()
             id = rating.id
-            return JsonResponse({'id': id, 'message': 'Rating has been posted'}, status=200)
-        except:
+            return JsonResponse({'data': rating.serialize(), 'message': 'Rating has been posted'}, status=200)
+        except Exception as e:
+            print(e)
             return JsonResponse({'message': 'Error adding property'}, status=400)
 
     elif request.method == 'PUT':

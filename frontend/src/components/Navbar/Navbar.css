@@ -1,49 +1,78 @@
-#navbar {
-  background-color: white;
+.NavigationMenuRoot {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100vw;
   z-index: 1;
-  top: 0;
-  height: 4rem;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  overflow: hidden;
-  border-bottom: 1px solid var(--primary-color);
-  border-radius: 5px;
-  transition: 0.3s all;
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2); /* Add this line */
-}
-#navbar a {
-  min-width: 15%;
-  padding: 0 1rem;
-  margin: 0 1rem;
-  text-align: center;
-  line-height: 3rem;
-}
-#nav-left {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-left: 1rem;
-}
-#nav-right {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-right: 1rem;
-}
-#nav-logo {
-  line-height: 1rem;
 }
 
-.nav-btn {
-  text-decoration: none;
-  color: var(--primary-color);
+.NavigationMenuTrigger,
+.NavigationMenuLink {
+  padding: 8px 12px;
+  outline: none;
+  user-select: none;
+  font-weight: 500;
+  line-height: 1;
+  border-radius: 4px;
+  font-size: 15px;
+  color: var(--primary);
 }
-.nav-btn:hover {
-  background-color: var(--accent-color);
-  border-radius: 100px;
-  cursor: pointer;
-  transform: translateY(1px);
+.NavigationMenuTrigger:focus,
+.NavigationMenuLink:focus {
+  box-shadow: 0 0 0 2px var(--accent-foreground);
+}
+.NavigationMenuTrigger:hover,
+.NavigationMenuLink:hover {
+  background-color: var(--accent);
+}
+
+.NavigationMenuTrigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2px;
+}
+
+.NavigationMenuLink {
+  display: block;
+  text-decoration: none;
+  font-size: 15px;
+  line-height: 1;
+}
+
+.AvatarBox:focus,
+.AvatarBox:hover {
+  box-shadow: 0 0 0 3px hsl(37 44.1% 76.9%);
+}
+.AvatarRoot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  overflow: hidden;
+  user-select: none;
+  width: 45px;
+  height: 45px;
+  border-radius: 100%;
+  background-color: var(--black-a3);
+  align-items: center;
+}
+.AvatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+.AvatarFallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  color: var(--violet-11);
+  font-size: 15px;
+  line-height: 1;
+  font-weight: 500;
 }

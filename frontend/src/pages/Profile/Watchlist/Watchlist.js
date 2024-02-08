@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import WatchlistCard from "../../../components/WatchlistCard/WatchlistCard";
-import "./Watchlist.css";
-import Loading from "components/Loading";
+import Loading from "components/Loading/Loading";
+import { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import axios from "services/axiosConfigs";
+import WatchlistCard from "../../../components/WatchlistCard/WatchlistCard";
 import Profilemain from "../Main/Profilemain";
+import "./Watchlist.css";
 
 export default function Watchlist() {
   const [properties, setProperties] = useState([]);
@@ -76,7 +76,7 @@ export default function Watchlist() {
           .slice(itemOffset, itemOffset + itemsPerPage)
           .map((property, key) => (
             <div key={key}>
-              <WatchlistCard props={property} />
+              <WatchlistCard property={property} />
             </div>
           ))
       ) : (

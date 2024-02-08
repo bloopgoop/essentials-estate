@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
-import PreviewCard from "../";
+import PreviewCard from "../PreviewCard";
 
 const mockPropertyTitle = {
   id: 1,

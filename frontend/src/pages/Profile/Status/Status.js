@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Status.css";
 import StatusCard from "../../../components/StatusCard/StatusCard";
 import axios from "services/axiosConfigs";
-import Loading from "components/Loading";
+import Loading from "components/Loading/Loading";
 import ReactPaginate from "react-paginate";
 import Profilemain from "../Main/Profilemain";
 

@@ -3,7 +3,7 @@ import "./Review.css";
 import axios from "services/axiosConfigs";
 import StatusCard from "../../components/StatusCard/StatusCard";
 import Navbar from "components/Navbar/Navbar";
-import Loading from "components/Loading";
+import Loading from "components/Loading/Loading";
 
 function Review() {
   const [properties, setProperties] = useState([]);
@@ -26,7 +26,7 @@ function Review() {
         ) : properties.length > 0 ? (
           properties.map((property, key) => (
             <div key={key}>
-              <StatusCard props={property} page="review" />
+              <StatusCard property={property} page="review" />
             </div>
           ))
         ) : (

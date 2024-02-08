@@ -104,7 +104,7 @@ class Rating(models.Model):
             'id': self.id,
             'user': self.user.username,
             'userID': self.user.id,
-            'property': self.property.id,
+            'propertyID': self.property.id,
             'stars': self.stars,
             'comment': self.comment,
             'date': self.date,
@@ -128,8 +128,9 @@ class RentalRequest(models.Model):
     def serialize(self):
         return {
             'id': self.id,
-            'property': self.property.id,
+            'propertyID': self.property.id,
             'user': self.user.username,
+            'userID': self.user.id,
             'date': self.date,
             'approved': self.approved,
             'is_active': self.is_active,

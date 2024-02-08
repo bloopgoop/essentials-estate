@@ -41,15 +41,9 @@
   margin: 0.5rem 0;
 }
 
-#Assetcard--button {
+.Assetcard--button {
   position: absolute;
   right: 1rem;
   bottom: 1rem;
-  width: 10rem;
-}
-#Assetcard--photo-button {
-  position: absolute;
-  right: 1rem;
-  top: 1rem;
   width: 10rem;
 }

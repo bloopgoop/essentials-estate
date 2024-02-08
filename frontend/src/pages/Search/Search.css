@@ -29,6 +29,7 @@
   flex-flow: column wrap;
 }
 #searchTerm {
+  border: 2px solid #ccc;
   padding: 1rem;
   width: 50%;
   margin-left: 1rem;
