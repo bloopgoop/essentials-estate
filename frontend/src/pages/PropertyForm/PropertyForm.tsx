@@ -1,7 +1,6 @@
 import Navbar from "components/Navbar/Navbar";
 import { useState } from "react";
 import { Outlet, useOutletContext } from "react-router-dom";
-import { Property } from "types/property";
 
 type PropertyFormType = {
   basicInformation: {

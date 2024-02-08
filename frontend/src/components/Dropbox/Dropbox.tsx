@@ -67,7 +67,7 @@ function Dropbox({ id }: { id: number }) {
     for (let i = 0; i < e.dataTransfer.files.length; i++) {
       const fileType = e.dataTransfer.files[i].type;
       if (fileType !== "image/png" && fileType !== "image/jpeg") {
-        alert("Only .png and .jpg files are allowed");
+        console.log("Only .png and .jpg files are allowed");
         return;
       }
     }

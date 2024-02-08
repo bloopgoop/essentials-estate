@@ -64,6 +64,7 @@ export default function Gallery({ photos }: { photos: PropertyPhoto[] }) {
                       className="fade-in"
                       title={`Gallery image ${index + 1}`}
                       onClick={() => switchMainImage(index)}
+                      data-testid={`img`+index.toString()}
                     />
                   </li>
                 ))}
@@ -76,7 +77,8 @@ export default function Gallery({ photos }: { photos: PropertyPhoto[] }) {
               alt={photos[galleryIndex].description}
               ref={mainImageRef}
               className="fade-in"
-              title="main-image"
+              title="main-img"
+              data-testid="main-img"
             />
           </div>
         </div>

@@ -115,14 +115,14 @@ test("dropbox only holds 20 items", async () => {
   // Create 20 mock files
   const files = [];
   for (let i = 0; i < 20; i++) {
-    const file = new File([`File ${i + 1}`], `file${i + 1}.txt`, {
-      type: "text/plain",
+    const file = new File([`File ${i + 1}`], `file${i + 1}.png`, {
+      type: "image/png",
     });
     files.push(file);
   }
 
   // Create extra mock file
-  const extraFile = new File([`File 21`], `file21.txt`, { type: "text/plain" });
+  const extraFile = new File([`File 21`], `file21.png`, { type: "image/png" });
 
   const dropzone = screen.getByTestId("dropzone");
   fireEvent.dragEnter(dropzone, {

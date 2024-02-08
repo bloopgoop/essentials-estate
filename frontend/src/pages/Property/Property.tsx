@@ -31,9 +31,9 @@ const Property = () => {
   const auth = useContext(AuthContext);
 
   const [property, setProperty] = useState(null);
-  const [stars, setStars] = useState(0);
-  const [comment, setComment] = useState("");
-  const [avgRating, setAvgRating] = useState(0);
+  // const [stars, setStars] = useState(0);
+  // const [comment, setComment] = useState("");
+  // const [avgRating, setAvgRating] = useState(0);
   const [ratings, setRatings] = useState<Rating[]>([]);
   const [isOwner, setIsOwner] = useState(false);
 
@@ -42,15 +42,11 @@ const Property = () => {
 
   // let { user, logoutUser } = useContext(AuthContext);
 
-  const capitalize = (str) => {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  };
-
   useEffect(() => {
     // Get ratings and average rating
     // catch any errors and redirect to error page
     const request = axios.get(`property/rating/${id}`);
-    request.then((response) => setAvgRating(response.data.average_value));
+    // request.then((response) => setAvgRating(response.data.average_value));
     request.then((response) => setRatings(response.data.ratings.reverse()));
 
     // Get property info on load, changes after every update to property id or auth.user
@@ -73,7 +69,7 @@ const Property = () => {
     const request = axios.get(`property/rating/${id}`);
     request
       .then((response) => {
-        setAvgRating(response.data.average_value);
+        // setAvgRating(response.data.average_value);
         setRatings(response.data.ratings.reverse());
       })
       .catch((error) => {
@@ -81,24 +77,24 @@ const Property = () => {
       });
   };
 
-  const handlePost = (event) => {
-    event.preventDefault();
-    const formData = new FormData();
-    formData.append("stars", stars);
-    formData.append("propertyID", id);
-    formData.append("comment", comment);
-    formData.append("token", auth.authTokens.access);
-    const request = axios.post(`property/rating/${id}`, formData);
-    request
-      .then((response) => {
-        console.log("Success:", response.data);
-        // Updates comments and rating every post
-        handleGet(event);
-      })
-      .catch((error) => {
-        console.error("Error making POST request:", error);
-      });
-  };
+  // const handlePost = (event) => {
+  //   event.preventDefault();
+  //   const formData = new FormData();
+  //   formData.append("stars", stars);
+  //   formData.append("propertyID", id);
+  //   formData.append("comment", comment);
+  //   formData.append("token", auth.authTokens.access);
+  //   const request = axios.post(`property/rating/${id}`, formData);
+  //   request
+  //     .then((response) => {
+  //       console.log("Success:", response.data);
+  //       // Updates comments and rating every post
+  //       handleGet(event);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error making POST request:", error);
+  //     });
+  // };
 
   const handlePut = (event, ratingId, userID) => {
     event.preventDefault();

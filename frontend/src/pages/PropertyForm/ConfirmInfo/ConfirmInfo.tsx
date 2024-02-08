@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import propertyService from "services/property/propertyAPI";
 
 export default function ConfirmInfo() {
-  const { propertyForm, setPropertyForm } = usePropertyFormContext();
+  const { propertyForm } = usePropertyFormContext();
   const navigate = useNavigate();
   const auth = useContext(AuthContext);
 
