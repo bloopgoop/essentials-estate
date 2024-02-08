@@ -27,6 +27,10 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
 
+    - name: List files in the repository
+      run: |
+          ls ${{ github.workspace }}
+          
     - name: Install dependencies
       run: |
         cd frontend
