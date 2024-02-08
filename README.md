@@ -20,13 +20,13 @@
 </details>
 
 
-
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 This is a web application designed to streamline tenant and owner rental interactions. It is built keeping in mind certain requirements and restrictions given by a Systems Analysis and Design class. 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+![demo-estate](https://github.com/bloopgoop/property-management/assets/104113781/5b0fe21f-a4dd-4696-9a3b-def43e4d13b9)
 
 
 ### Built With
